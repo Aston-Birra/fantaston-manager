@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#0b0a09">
   <meta name="description" content="Fantaston Manager — il fantacalcio di Aston Birra.">
   <title>Fantaston Manager | Aston Birra</title>
+  <link rel="stylesheet" href="./css/formazione-match.css">
   <link rel="stylesheet" href="./css/formazione-capitano.css">
   <link rel="stylesheet" href="./css/formazione-dragdrop.css">
   <link rel="stylesheet" href="./css/formazione.css">
@@ -293,8 +294,93 @@
           </div>
         </div>
       </div>
+
     </section>
         </section>
+        
+<!-- GESTIONE PARTITE -->
+<section id="adminMatchesSection"
+         class="admin-section"
+         aria-label="Gestione partite Aston Birra">
+
+  <div class="admin-heading">
+    <div>
+      <div class="panel-kicker">PANNELLO AMMINISTRATORE</div>
+      <h2>Gestione partite</h2>
+      <p>
+        Organizza le partite di Aston Birra e gestisci
+        l'apertura delle formazioni.
+      </p>
+    </div>
+    <span class="admin-step-pill">CALENDARIO</span>
+  </div>
+
+  <div class="admin-layout">
+
+    <form id="matchForm"
+          class="admin-card admin-form"
+          autocomplete="off">
+
+      <h3>Nuova partita</h3>
+      <p>Inserisci i dati del prossimo incontro.</p>
+
+      <label for="matchOpponent">AVVERSARIO</label>
+      <input id="matchOpponent"
+             type="text"
+             required
+             maxlength="100"
+             placeholder="Es. Real Birretta">
+
+      <label for="matchKickoff">DATA E ORA PARTITA</label>
+      <input id="matchKickoff"
+             type="datetime-local"
+             required>
+
+      <div class="admin-form-actions">
+        <button id="matchSaveButton"
+                type="submit"
+                class="action action-primary">
+          Crea partita
+        </button>
+      </div>
+
+      <p id="matchFormMessage"
+         class="admin-feedback"
+         role="status"
+         aria-live="polite"
+         hidden></p>
+    </form>
+
+    <div class="admin-card admin-list-card">
+
+      <div class="admin-list-header">
+        <div>
+          <h3>Calendario partite</h3>
+          <p>
+            Apri le formazioni quando vengono
+            pubblicate le convocazioni ufficiali.
+          </p>
+        </div>
+
+        <button id="refreshMatches"
+                type="button"
+                class="admin-refresh"
+                aria-label="Aggiorna partite">↻</button>
+      </div>
+
+      <div id="adminMatchList"
+           class="admin-players"
+           aria-live="polite">
+        <p class="admin-empty">
+          Caricamento partite…
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
       </main>
     </div>
     <nav class="bottom-nav" aria-label="Menu principale mobile"><button class="nav-item is-active" type="button" data-nav="home" aria-current="page"><svg class="nav-icon" aria-hidden="true"><use href="#i-home"></use></svg><span>Home</span></button>
@@ -304,5 +390,6 @@
 <button class="nav-item" type="button" data-nav="profilo" ><svg class="nav-icon" aria-hidden="true"><use href="#i-user"></use></svg><span>Profilo</span></button></nav>
   </div>
   <p id="message" class="global-message" role="alert" hidden></p>
+  <script src="./js/admin-matches.js"></script>
 </body>
 </html>

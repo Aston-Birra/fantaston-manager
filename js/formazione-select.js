@@ -6,7 +6,9 @@
 
 
 
-  const MATCH_ID = 1; // Partita TEST: sostituire in futuro con la partita attiva da matches.
+  let activeMatch = null;
+  let activeUserId = null;
+  let matchCheckFailed = false;
   const SLOTS = ['POR', 'DIF', 'CC', 'ATT', 'JOLLY'];
 
   const LABEL = { POR: 'PORTIERE', DIF: 'DIFENSORE', CC: 'CENTROCAMPISTA', ATT: 'ATTACCANTE', JOLLY: 'JOLLY' };
@@ -252,9 +254,11 @@
     if (saveButton) {
       const ready = SLOTS.every(slot => !!picks[slot]) &&
         !!captainSlot && !!picks[captainSlot] && spent <= 90;
-      saveButton.disabled = saving || !ready;
+      saveButton.disabled = saving || !ready || !activeMatch || matchCheckFailed;
       saveButton.textContent = saving ? 'Salvataggio...' : 'Salva formazione';
     }
+
+    renderMatchInfo(root);
 
     const summary = $('.fm-bottom-actions > div > span', root);
 
@@ -560,10 +564,49 @@
       SLOTS.every(slot => fits(picks[slot], slot));
   }
 
+  // Legge solo incontri programmati, aperti e con scadenza non ancora raggiunta.
+  // La funzione SQL save_lineup resta l'autorità finale sulle scadenze.
+  async function findActiveMatch() {
+    const now = new Date();
+    const earliestKickoff = new Date(now.getTime() + 2 * 60 * 60 * 1000).toISOString();
+    const { data, error } = await api.from('matches')
+      .select('id, opponent, kickoff_at, lineup_opened_at, status')
+      .eq('status', 'scheduled')
+      .not('lineup_opened_at', 'is', null)
+      .lte('lineup_opened_at', now.toISOString())
+      .gt('kickoff_at', earliestKickoff)
+      .order('kickoff_at', { ascending: true })
+      .limit(1);
+    if (error) throw error;
+    return data?.[0] || null;
+  }
+
+  function renderMatchInfo(root) {
+    let info = $('#fmActiveMatchInfo', root);
+    if (!info) {
+      info = el('div', 'fm-match-info');
+      info.id = 'fmActiveMatchInfo';
+      info.setAttribute('role', 'status');
+      const budget = $('.fm-budget-panel', root);
+      if (budget) budget.before(info);
+      else root.prepend(info);
+    }
+    if (matchCheckFailed) {
+      info.textContent = 'Impossibile verificare la partita. Riprova entrando in Formazione.';
+    } else if (!activeMatch) {
+      info.textContent = 'Nessuna partita con formazioni aperte. Attendi le convocazioni ufficiali.';
+    } else {
+      const date = new Date(activeMatch.kickoff_at).toLocaleString('it-IT', {
+        dateStyle: 'medium', timeStyle: 'short'
+      });
+      info.textContent = `Prossima partita: Aston Birra vs ${activeMatch.opponent} · ${date}`;
+    }
+  }
+
   async function loadSavedLineup(userId) {
     // Legge solo la formazione dell'utente autenticato (policy RLS SELECT).
     const { data: lineup, error: lineupError } = await api.from('lineups')
-      .select('id, status').eq('match_id', MATCH_ID).eq('user_id', userId).maybeSingle();
+      .select('id, status').eq('match_id', activeMatch.id).eq('user_id', userId).maybeSingle();
     if (lineupError) throw lineupError;
     if (!lineup) return;
 
@@ -612,7 +655,7 @@
         is_captain: slot === captainSlot
       }));
       const { data, error } = await api.rpc('save_lineup', {
-        p_match_id: MATCH_ID,
+        p_match_id: activeMatch.id,
         p_picks: payload
       });
       if (error) throw error;
@@ -654,9 +697,21 @@
 
       if (error) throw error;
 
+      const nextMatch = await findActiveMatch();
+      const matchChanged = String(activeMatch?.id ?? '') !== String(nextMatch?.id ?? '');
+      const userChanged = activeUserId !== user.id;
+      activeUserId = user.id;
+      if (matchChanged || userChanged) {
+        picks = Object.fromEntries(SLOTS.map(slot => [slot, null]));
+        captainSlot = null;
+        isSaved = false;
+        savedLoaded = false;
+      }
+      activeMatch = nextMatch;
+      matchCheckFailed = false;
       players = data || [];
       render();
-      if (!savedLoaded) {
+      if (activeMatch && !savedLoaded) {
         savedLoaded = true;
         try {
           await loadSavedLineup(user.id);
@@ -669,10 +724,10 @@
 
     } catch (error) {
 
-      const bench = $('#benchPlayers');
-
-      if (bench) bench.textContent = `Impossibile caricare i giocatori: ${error.message}`;
-
+      matchCheckFailed = true;
+      activeMatch = null;
+      render();
+      notify('Impossibile caricare la partita: ' + error.message);
       console.error('[Fantaston formazione]', error);
 
     } finally {

@@ -1,0 +1,12 @@
+/* Indicatore della partita attiva nella pagina Formazione */
+#formazionePage .fm-match-info {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border: 1px solid rgba(205, 160, 80, .36);
+  border-radius: 12px;
+  background: rgba(205, 160, 80, .07);
+  color: #e7c78d;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+}
