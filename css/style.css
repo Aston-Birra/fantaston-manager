@@ -94,7 +94,8 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round
 .social-link:not([href]) { cursor: default; }
 .social-link img { width: 29px; height: 29px; object-fit: contain; display: block; }
 .sponsors-showcase {
-  margin-top: 16px;
+  
+  margin-bottom: 10px;
   width: min(395px, 100%);
   border: 1px solid #6f563b;
   border-radius: 19px;
