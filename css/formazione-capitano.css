@@ -1,0 +1,31 @@
+/* FANTASTON — selezione del capitano: solo UI, nessun salvataggio */
+#formazionePage .fm-captain-button {
+  display: block;
+  width: 60%;
+  margin: 4px auto 0;
+  padding: 5px 3px;
+  border: 1px solid rgba(216,175,92,.55);
+  border-radius: 20px;
+  background: rgba(22,18,12,.90);
+  color: #d8af5c;
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: .02em;
+  cursor: pointer;
+}
+#formazionePage .fm-captain-button[hidden] { display: none !important; }
+#formazionePage .fm-captain-button.fm-captain-selected {
+  background: #d8af5c;
+  color: #20170b;
+  border-color: #f6d78b;
+}
+#formazionePage .fm-slot.fm-is-captain .fm-card-frame {
+  outline: 2px solid #edc76b;
+  outline-offset: 2px;
+  box-shadow: 0 0 12px rgba(237,199,107,.35);
+}
+#formazionePage .fm-captain-button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}

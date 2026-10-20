@@ -61,7 +61,13 @@
     if (!currentUserId || !pages.has(name)) return;
     if (name === "admin" && !isAdmin) return;
     currentPage = name;
-    for (const [key, page] of pages) page.hidden = key !== name;
+    for (const [key, page] of pages) {
+    if (page) {
+        page.hidden = key !== name;
+    } else {
+        console.warn(`Pagina HTML non trovata: ${key}`);
+    }
+}
     document.querySelectorAll("[data-nav]").forEach((button) => {
       const active = button.dataset.nav === name;
       button.classList.toggle("is-active", active);
@@ -110,11 +116,23 @@
     $("userName").textContent = name;
     $("userEmail").textContent = user.email || "";
     $("avatar").textContent = name.trim().charAt(0).toUpperCase() || "A";
+    // Nome completo dell'allenatore
+if ($("coachName")) {
+    $("coachName").textContent = name;
+}
     $("helloName").textContent = name.trim().split(/\s+/)[0] || "Fantallenatore";
     $("setupPanel").hidden = true;
     $("readyPanel").hidden = true;
     $("adminBadge").hidden = true;
+// Posizione nella classifica generale
+document.getElementById("homeRanking").textContent = "—";
+if ($("homeRanking")) {
+    $("homeRanking").textContent = "—";
+}
 
+if ($("homeAverage")) {
+    $("homeAverage").textContent = "—";
+}
     const { data: profile, error } = await client.from("profiles")
       .select("team_name, role").eq("id", user.id).maybeSingle();
     if (thisRender !== renderVersion) return;
@@ -205,6 +223,85 @@
     return row;
   }
 
+async function loadBenchPlayers() {
+    if (!client || !currentUserId) return;
+
+    const container = $("benchPlayers");
+    if (!container) return;
+
+    container.textContent = "Caricamento giocatori...";
+
+    const { data: players, error } = await client
+        .from("players")
+        .select("id, name, role, price, photo_url")
+        .eq("active", true)
+        .order("name");
+
+    if (error) {
+        container.textContent =
+            "Errore caricamento: " + error.message;
+        return;
+    }
+
+    // Escludiamo gli eventuali giocatori già scelti
+    // nei cinque slot della formazione.
+    const chosenIds = new Set(
+        [...document.querySelectorAll(
+            "#formazionePage .fm-slot[data-player-id]"
+        )].map(el => String(el.dataset.playerId))
+    );
+
+    container.replaceChildren();
+
+    for (const player of players || []) {
+        if (chosenIds.has(String(player.id))) continue;
+
+        const card = document.createElement("div");
+        card.className = "fm-bench-player";
+        card.dataset.playerId = player.id;
+        card.dataset.role = player.role;
+        card.draggable = true;
+
+        const visual = document.createElement("div");
+        visual.className = "fm-bench-image";
+
+        if (player.photo_url) {
+            const img = document.createElement("img");
+            img.src = player.photo_url;
+            img.alt = player.name;
+            img.loading = "lazy";
+
+            img.onerror = () => {
+                img.remove();
+                const fallback = document.createElement("span");
+                fallback.className = "fm-bench-avatar";
+                fallback.textContent =
+                    player.name.charAt(0).toUpperCase();
+                visual.append(fallback);
+            };
+
+            visual.append(img);
+        } else {
+            const fallback = document.createElement("span");
+            fallback.className = "fm-bench-avatar";
+            fallback.textContent =
+                player.name.charAt(0).toUpperCase();
+            visual.append(fallback);
+        }
+
+        const name = document.createElement("span");
+        name.className = "fm-bench-name";
+        name.textContent = player.name;
+
+        const price = document.createElement("span");
+        price.className = "fm-bench-price";
+        price.textContent = player.price + " CR";
+
+        card.append(visual, name, price);
+        container.append(card);
+    }
+}
+
   async function loadPublicPlayers() {
     if (!client || !currentUserId) return;
     const requestedBy = currentUserId;
@@ -244,12 +341,17 @@
         clearError();
         loginButton.disabled = true;
         try {
-          const { error } = await client.auth.signInWithOAuth({ provider: "google", options: { redirectTo: c.appUrl } });
+          const { error } = await client.auth.signInWithOAuth({ provider: "google", options: { redirectTo: window.location.origin + window.location.pathname } });
           if (error) throw error;
-        } catch (error) {
-          reportError("Impossibile avviare l'accesso con Google: " + error.message);
-          loginButton.disabled = false;
-        }
+        }  catch (error) {
+    console.error("Errore inizializzazione Fantaston:", error);
+
+    showView("landing");
+
+    loginButton.disabled = !client;
+
+    reportError(error.message);
+}
       });
       logoutButton.addEventListener("click", async () => {
         clearError();

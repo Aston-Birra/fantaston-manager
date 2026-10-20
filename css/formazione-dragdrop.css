@@ -1,0 +1,10 @@
+/* Aggiungere DOPO formazione-select.css */
+#formazionePage .fm-bench-player { touch-action: pan-x; user-select: none; -webkit-user-select: none; }
+#formazionePage .fm-bench-player img { pointer-events: none; -webkit-user-drag: none; }
+#formazionePage .fm-is-dragging { opacity: .35; }
+#formazionePage .fm-slot { transition: outline-color .15s, box-shadow .15s; }
+#formazionePage .fm-slot.fm-drop-valid { outline: 2px solid #e6b45f; outline-offset: 2px; box-shadow: 0 0 18px rgba(230,180,95,.42); border-radius: 12px; }
+#formazionePage .fm-slot.fm-drop-invalid { outline: 2px solid #bc4444; outline-offset: 2px; border-radius: 12px; }
+.fm-drag-ghost { position: fixed !important; z-index: 99999; pointer-events: none; transform: translate(-50%, -75%); width: 85px !important; opacity: .92; box-shadow: 0 12px 30px rgba(0,0,0,.45); }
+#formazionePage .fm-drag-toast { position: fixed; left: 50%; bottom: 90px; transform: translate(-50%,8px); z-index: 99998; max-width: min(340px,90vw); padding: 10px 14px; border-radius: 12px; background: #1d1911; border: 1px solid #c89d55; color: #f9e3b9; font-size: 12px; text-align: center; opacity: 0; pointer-events: none; transition: opacity .18s, transform .18s; }
+#formazionePage .fm-drag-toast-visible { opacity: 1; transform: translate(-50%,0); }

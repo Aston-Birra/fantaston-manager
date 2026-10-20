@@ -1,0 +1,258 @@
+/* Fantaston Manager — Formazione: SOLO layout statico. Non modifica altre pagine. */
+#formazionePage .fm-formazione { --fm-gold:#edc777; --fm-cream:#f4e6c6; --fm-line:#634d2c; color:#f7f2e9; max-width:780px; margin:0 auto; padding:4px 0 28px; font-family:var(--font-body,Arial,sans-serif); }
+#formazionePage .fm-topline,#formazionePage .fm-section-heading {display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:10px;font-weight:800;letter-spacing:.15em;color:var(--fm-gold);}
+#formazionePage .fm-state {font-size:9px;letter-spacing:.07em;border:1px solid #675134;padding:7px 10px;border-radius:99px;color:#cbb58d;}
+#formazionePage .fm-heading {font:900 clamp(36px,8vw,58px)/1 var(--font-title,Impact,sans-serif);margin:15px 0 8px;letter-spacing:-.025em;}
+#formazionePage .fm-heading em{font-style:normal;color:var(--fm-gold)}
+#formazionePage .fm-subheading{color:#ad9f89;font-size:13px;margin:0 0 20px}
+#formazionePage .fm-budget-panel{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;border:1px solid #755832;background:linear-gradient(125deg,#261d13,#141210);border-radius:20px;padding:17px 20px;margin-bottom:23px}
+#formazionePage .fm-label{display:block;font-size:9px;letter-spacing:.13em;font-weight:800;color:#bea579}
+#formazionePage .fm-budget-panel strong{display:block;font-size:33px;line-height:1.2;color:var(--fm-gold)}
+#formazionePage .fm-budget-panel strong small{font-size:15px;color:#9b8a6c}
+#formazionePage .fm-budget-right{text-align:right}
+#formazionePage .fm-track{height:6px;grid-column:1/-1;background:#3b3023;border-radius:10px;overflow:hidden}
+#formazionePage .fm-track span{display:block;height:100%;background:linear-gradient(90deg,#af782e,#f8d58a);border-radius:10px}
+#formazionePage .fm-section-heading{margin:0 1px 11px}
+#formazionePage .fm-section-heading span:last-child{font-size:9px;color:#a99a81}
+#formazionePage .fm-pitch{position:relative;overflow:hidden;padding:20px 8px 24px;border-radius:22px;border:1px solid #47614c;background:radial-gradient(ellipse at 50% 45%,#214a30,#102719 72%,#0c1912);margin-bottom:25px}
+#formazionePage .fm-pitch-markings{position:absolute;inset:12px;border:1px solid #ffffff28;border-radius:7px;pointer-events:none;background:linear-gradient(to bottom,transparent 49.8%,#ffffff28 49.8%,#ffffff28 50.2%,transparent 50.2%)}
+#formazionePage .fm-pitch-markings:before{content:"";position:absolute;left:50%;top:50%;width:116px;height:116px;transform:translate(-50%,-50%);border:1px solid #ffffff23;border-radius:50%}
+#formazionePage .fm-pitch-markings:after{content:"";position:absolute;top:0;left:30%;width:40%;height:38px;border:1px solid #ffffff28;border-top:none}
+#formazionePage .fm-positions{position:relative;display:grid;grid-template-columns:1fr 1fr;grid-template-areas:"att att" "cc jolly" "dif dif" "por por";gap:20px 14px;justify-items:center}
+#formazionePage .fm-slot-att{grid-area:att} #formazionePage .fm-slot-cc{grid-area:cc} #formazionePage .fm-slot-jolly{grid-area:jolly} #formazionePage .fm-slot-dif{grid-area:dif} #formazionePage .fm-slot-por{grid-area:por}
+#formazionePage .fm-slot{min-width:0;width:100%;display:flex;align-items:center;flex-direction:column;gap:7px}
+#formazionePage .fm-slot-name{font-size:9px;letter-spacing:.1em;font-weight:800;color:#f8e0a2;text-shadow:0 2px 5px #000}
+#formazionePage .fm-card-frame{width:clamp(112px,35vw,163px);aspect-ratio:3/4;border-radius:12px;overflow:hidden;box-shadow:0 12px 30px #000a,0 0 0 1px #edc77766}
+#formazionePage .fm-card-frame img{width:100%;height:100%;object-fit:cover;display:block}
+#formazionePage .fm-player-hint{font-size:10px;letter-spacing:.05em;font-weight:900;text-shadow:0 1px 4px #000}
+#formazionePage .fm-player-hint b{color:var(--fm-gold)}
+#formazionePage .fm-captain-hint{font-size:8px;color:#f7d888;letter-spacing:.04em}
+#formazionePage .fm-empty{width:clamp(105px,32vw,148px);aspect-ratio:3/4;border:1.5px dashed #cba968aa;border-radius:14px;background:#08160f99;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;box-shadow:inset 0 0 22px #0006}
+#formazionePage .fm-empty>span{width:45px;height:45px;border:1px solid #d4ad60;border-radius:50%;display:grid;place-items:center;color:#f3ce78;font-size:34px;line-height:1}
+#formazionePage .fm-empty small{font-size:9px;font-weight:800;letter-spacing:.05em;color:#d2c5a8}
+#formazionePage .fm-bench{display:flex;align-items:center;gap:15px;padding:15px;border:1px solid #58452c;border-radius:20px;background:#191510;margin-bottom:20px}
+#formazionePage .fm-bench-card{flex:0 0 60px;height:80px;display:grid;place-items:center;border:1px dashed #a78a58;border-radius:10px;font-size:28px;color:#c9a765}
+#formazionePage .fm-bench strong{font-size:14px} #formazionePage .fm-bench p{font-size:11px;line-height:1.5;color:#b1a38d;margin:5px 0 0}
+#formazionePage .fm-bottom-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid #423525;padding-top:18px}
+#formazionePage .fm-bottom-actions strong{font-size:19px;color:var(--fm-gold)}
+#formazionePage .fm-bottom-actions strong small{font-size:9px}
+#formazionePage .fm-bottom-actions span{display:block;color:#988c79;font-size:10px;margin-top:3px}
+#formazionePage .fm-save{border:0;border-radius:20px;padding:15px 17px;background:linear-gradient(110deg,#f7d88b,#d8a955);font-weight:850;color:#22170a;opacity:.55;cursor:not-allowed;white-space:nowrap}
+@media(max-width:370px){#formazionePage .fm-budget-panel{padding:13px}#formazionePage .fm-positions{gap:15px 6px}#formazionePage .fm-slot-name{font-size:8px}#formazionePage .fm-bench{padding:10px}}
+
+
+/* VERSIONE MOBILE COMPATTA — tutti e 5 gli slot su tre righe */
+#formazionePage .fm-formazione {padding-top:0;padding-bottom:12px}
+#formazionePage .fm-topline {font-size:9px}
+#formazionePage .fm-heading {font-size:clamp(27px,7vw,38px);margin:9px 0 3px;line-height:1.08}
+#formazionePage .fm-subheading {font-size:11px;margin-bottom:10px}
+#formazionePage .fm-budget-panel {padding:10px 13px;border-radius:17px;margin-bottom:12px;gap:4px 12px}
+#formazionePage .fm-budget-panel strong {font-size:24px}
+#formazionePage .fm-budget-panel strong small {font-size:12px}
+#formazionePage .fm-track {height:4px}
+#formazionePage .fm-section-heading {margin-bottom:6px}
+#formazionePage .fm-pitch {padding:10px 8px 12px;border-radius:18px;margin-bottom:12px}
+#formazionePage .fm-pitch-markings {inset:6px}
+#formazionePage .fm-positions {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-areas:"att att" "cc jolly" "dif por";
+    gap:9px 9px;
+}
+#formazionePage .fm-slot {gap:3px}
+#formazionePage .fm-slot-name {font-size:8px}
+#formazionePage .fm-card-frame {width:80px;aspect-ratio:3/4;border-radius:8px}
+#formazionePage .fm-empty {width:80px;aspect-ratio:3/4;border-radius:9px;gap:5px}
+#formazionePage .fm-empty>span {width:29px;height:29px;font-size:24px}
+#formazionePage .fm-empty small {font-size:7px}
+#formazionePage .fm-player-hint {font-size:8px}
+#formazionePage .fm-captain-hint {font-size:7px}
+#formazionePage .fm-bench {padding:9px 11px;margin-bottom:10px;gap:10px;border-radius:15px}
+#formazionePage .fm-bench-card {flex-basis:44px;height:58px}
+#formazionePage .fm-bench strong {font-size:12px}
+#formazionePage .fm-bench p {font-size:10px;margin-top:3px;line-height:1.25}
+#formazionePage .fm-bottom-actions {padding-top:10px}
+#formazionePage .fm-save {padding:11px 13px;border-radius:20px}
+@media(min-width:600px) {
+  #formazionePage .fm-card-frame {width:100px}
+  #formazionePage .fm-empty {width:100px}
+}
+/* COMPATTAZIONE FINALE */
+#formazionePage .fm-topline {
+    display: none !important;
+}
+
+#formazionePage .fm-formazione {
+    padding-top: 0;
+    padding-bottom: 8px;
+}
+
+#formazionePage .fm-heading {
+    margin: 0 0 2px;
+    line-height: 1.02;
+}
+
+#formazionePage .fm-subheading {
+    margin: 0 0 8px;
+}
+
+#formazionePage .fm-budget-panel {
+    margin-bottom: 10px;
+}
+
+#formazionePage .fm-section-heading {
+    margin: 0 1px 5px;
+}
+
+#formazionePage .fm-pitch {
+    padding-top: 8px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+#formazionePage .fm-bench {
+    margin-bottom: 8px;
+}
+
+#formazionePage .fm-bottom-actions {
+    padding-top: 8px;
+}
+/* FANTASTON - FORMAZIONE INTEGRATA */
+
+#formazionePage .fm-topline {
+    display: none;
+}
+
+#formazionePage .fm-formazione {
+    padding-top: 0;
+    padding-bottom: 8px;
+}
+
+#formazionePage .fm-heading {
+    margin: 0 0 3px;
+    line-height: 1.05;
+}
+
+#formazionePage .fm-subheading {
+    margin-bottom: 8px;
+}
+
+#formazionePage .fm-budget-panel {
+    margin-bottom: 10px;
+}
+
+#formazionePage .fm-section-heading {
+    margin-bottom: 5px;
+}
+
+#formazionePage .fm-pitch {
+    padding-top: 8px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+#formazionePage .fm-bench {
+    margin-bottom: 8px;
+}
+
+/* SPAZIATURE SUPERIORI */
+
+#formazionePage .fm-heading {
+    margin-bottom: 14px;
+}
+
+#formazionePage .fm-budget-panel {
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    row-gap: 9px;
+}
+
+#formazionePage .fm-section-heading {
+    margin-bottom: 8px;
+}
+
+#formazionePage .fm-budget-panel strong {
+    line-height: 1.15;
+}
+
+/* PANCHINA ORIZZONTALE */
+
+#formazionePage .fm-bench {
+    display: block;
+    padding: 12px 8px;
+    border-radius: 16px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+#formazionePage .fm-bench-scroll {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 12px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    padding: 6px 8px 12px;
+    scroll-snap-type: x proximity;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+#formazionePage .fm-bench-player {
+    flex: 0 0 85px;
+    width: 85px;
+    text-align: center;
+    scroll-snap-align: start;
+    cursor: grab;
+}
+
+#formazionePage .fm-bench-player:active {
+    cursor: grabbing;
+}
+
+#formazionePage .fm-bench-image {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 10px;
+    border: 1px solid #9d7738;
+    background: #21180e;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+}
+
+#formazionePage .fm-bench-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#formazionePage .fm-bench-avatar {
+    font-size: 28px;
+    color: #e9bd70;
+    font-weight: 900;
+}
+
+#formazionePage .fm-bench-name {
+    display: block;
+    margin-top: 6px;
+    font-size: 9px;
+    color: #f5e5c8;
+    font-weight: 800;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+}
+
+#formazionePage .fm-bench-price {
+    display: block;
+    margin-top: 3px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #e9bd70;
+}
+
+#formazionePage .fm-bench-loading {
+    font-size: 12px;
+    color: #baa582;
+}
