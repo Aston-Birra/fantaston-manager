@@ -8,8 +8,10 @@
   <title>Fantaston Manager — Aston Birra</title>
   <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/step4.css">
+  <link rel="stylesheet" href="./css/step5.css">
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script defer src="./js/config.js"></script>
+  <script defer src="./js/admin.js"></script>
   <script defer src="./js/app.js"></script>
 </head>
 <body>
@@ -101,6 +103,65 @@
         <p id="message" class="message" role="alert" hidden></p>
       </section>
     </main>
+
+
+    <!-- STEP 5: visibile solo a chi possiede il ruolo admin nel database. -->
+    <section id="adminSection" class="admin-section" aria-label="Gestione giocatori Aston Birra" hidden>
+      <div class="admin-heading">
+        <div>
+          <div class="panel-kicker">PANNELLO AMMINISTRATORE</div>
+          <h2>Calciatori Aston Birra</h2>
+          <p>Gestisci anagrafica, ruolo e quotazione iniziale. I prezzi non variano automaticamente.</p>
+        </div>
+        <span class="admin-step-pill">GESTIONE ROSA</span>
+      </div>
+
+      <div class="admin-layout">
+        <form id="playerForm" class="admin-card admin-form" autocomplete="off">
+          <h3 id="playerFormTitle">Nuovo calciatore</h3>
+          <p>Inserisci i dati di un calciatore della rosa ufficiale.</p>
+          <input type="hidden" id="playerId" value="">
+          <label for="playerName">NOME E COGNOME</label>
+          <input id="playerName" name="playerName" type="text" minlength="2" maxlength="70" required placeholder="Es. Mario Rossi">
+          <div class="admin-field-pair">
+            <div>
+              <label for="playerRole">RUOLO</label>
+              <select id="playerRole" name="playerRole" required>
+                <option value="POR">Portiere</option>
+                <option value="DIF">Difensore</option>
+                <option value="CC">Centrocampista</option>
+                <option value="ATT">Attaccante</option>
+              </select>
+            </div>
+            <div>
+              <label for="playerPrice">QUOTAZIONE</label>
+              <input id="playerPrice" name="playerPrice" type="number" inputmode="numeric" min="1" max="90" step="1" required placeholder="Es. 18">
+            </div>
+          </div>
+          <label for="playerPhoto">FOTO (URL HTTPS) · FACOLTATIVA</label>
+          <input id="playerPhoto" name="playerPhoto" type="url" inputmode="url" maxlength="500" placeholder="https://...">
+          <small class="admin-helper">Per ora usa il link pubblico a una foto. L'upload diretto arriverà in un aggiornamento.</small>
+          <div class="admin-form-actions">
+            <button id="playerSaveButton" type="submit" class="action action-primary">Aggiungi giocatore</button>
+            <button id="playerCancelButton" type="button" class="action action-secondary admin-cancel" hidden>Annulla</button>
+          </div>
+          <p id="playerFormMessage" class="admin-feedback" role="status" aria-live="polite" hidden></p>
+        </form>
+
+        <div class="admin-card admin-list-card">
+          <div class="admin-list-header">
+            <div>
+              <h3>Rosa giocatori <span id="playerCount" class="admin-count">0</span></h3>
+              <p>Puoi modificare i dati o disattivare un calciatore senza cancellarne lo storico.</p>
+            </div>
+            <button id="refreshPlayers" type="button" class="admin-refresh" aria-label="Aggiorna elenco">↻</button>
+          </div>
+          <div id="playerList" class="admin-players" aria-live="polite">
+            <p class="admin-empty">Caricamento giocatori…</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <footer class="footer"><span>© ASTON BIRRA</span><span>FINO ALL'ULTIMO SORSO 🍺</span></footer>
   </div>
