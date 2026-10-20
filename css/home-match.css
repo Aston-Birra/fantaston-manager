@@ -1,0 +1,44 @@
+/* Tutte le regole sono limitate alla sezione Prossima partita della Home. */
+#homePage .hm-card {margin-top:10px;padding:18px;border:1px solid rgba(211,168,88,.28);border-radius:20px;background:linear-gradient(140deg,rgba(73,51,20,.38),rgba(20,18,16,.96));color:#f7f0e6;}
+#homePage .hm-top {display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;}
+#homePage .hm-eyebrow {font-size:10px;letter-spacing:.13em;font-weight:800;color:#c6a570;}
+#homePage .hm-status {font-size:10px;font-weight:800;border-radius:16px;padding:6px 9px;background:rgba(255,255,255,.08);color:#e0d2bd;text-align:right;}
+#homePage .hm-status[data-status="saved"] {background:rgba(79,159,110,.18);color:#8fe1ad;}
+#homePage .hm-status[data-status="pending"] {background:rgba(204,158,53,.20);color:#ffdb86;}
+#homePage .hm-status[data-status="closed"] {background:rgba(180,75,65,.16);color:#ffaaa2;}
+#homePage .hm-versus {display:flex;align-items:center;gap:10px;margin-bottom:14px;min-width:0;}
+#homePage .hm-team {font-family:'Barlow Condensed',sans-serif;font-size:clamp(20px,5vw,27px);font-weight:900;line-height:1;min-width:0;}
+#homePage .hm-vs {flex:none;color:#bc9660;font-size:11px;font-weight:800;}
+#homePage #homeMatchOpponent {overflow-wrap:anywhere;}
+#homePage .hm-detail {display:grid;gap:12px;grid-template-columns:1fr 1fr;border-top:1px solid rgba(211,168,88,.19);padding-top:13px;}
+#homePage .hm-detail-label {display:block;margin-bottom:5px;font-size:9px;letter-spacing:.06em;color:#bda986;font-weight:800;}
+#homePage .hm-detail-value {display:block;font-size:12px;line-height:1.45;font-weight:700;text-transform:capitalize;}
+#homePage .hm-action {margin-top:16px;width:100%;min-height:42px;padding:10px 14px;border:0;border-radius:20px;background:#e5b85e;color:#17120b;font:800 13px 'Manrope',sans-serif;cursor:pointer;}
+#homePage .hm-action:disabled {opacity:.52;cursor:not-allowed;}
+@media(max-width:370px){#homePage .hm-detail{grid-template-columns:1fr;}#homePage .hm-card{padding:14px}}
+/* Versione evento: loghi, texture avversario e timer. */
+#homePage .hm-card {position:relative;isolation:isolate;overflow:hidden;}
+#homePage .hm-theme {position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.19;pointer-events:none;z-index:-2;}
+#homePage .hm-card:after {content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,10,8,.82),rgba(12,10,8,.35));z-index:-1;pointer-events:none;}
+#homePage .hm-theme[hidden],#homePage .hm-crest img[hidden] {display:none!important;}
+#homePage .hm-versus {justify-content:space-between;gap:8px;}
+#homePage .hm-team-identity {display:flex;flex:1 1 0;min-width:0;flex-direction:column;align-items:center;gap:9px;text-align:center;}
+#homePage .hm-crest {width:66px;height:66px;display:flex;justify-content:center;align-items:center;}
+#homePage .hm-crest img {max-width:100%;max-height:100%;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.4));}
+#homePage .hm-logo-fallback {display:grid;place-items:center;width:66px;height:66px;border:1px dashed rgba(230,180,90,.45);border-radius:15px;color:#c9a96b;font-weight:900;font-size:24px;}
+#homePage .hm-crest:has(img:not([hidden])) .hm-logo-fallback {display:none;}
+#homePage .hm-vs {font-size:15px;align-self:center;margin-top:-12px;}
+#homePage .hm-team {font-size:clamp(15px,4vw,22px);line-height:1.15;}
+#homePage .hm-detail {display:block;}
+#homePage .hm-countdown {margin-top:14px;padding-top:13px;border-top:1px solid rgba(211,168,88,.25);}
+#homePage .hm-countdown-label {font-size:10px;color:#cfb688;letter-spacing:.11em;font-weight:800;display:block;margin-bottom:9px;}
+#homePage .hm-countdown-grid {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;}
+#homePage .hm-time-unit {background:rgba(5,5,5,.45);border:1px solid rgba(213,169,89,.18);border-radius:12px;text-align:center;padding:9px 3px;}
+#homePage .hm-time-number {display:block;font:900 clamp(21px,6vw,30px)/1 'Barlow Condensed',sans-serif;color:#f5d392;font-variant-numeric:tabular-nums;}
+#homePage .hm-time-unit small {display:block;margin-top:5px;font-size:9px;font-weight:800;color:#d5c3a8;letter-spacing:.04em;}
+#adminPage .am-media-form {margin-top:11px;padding:11px;border:1px solid rgba(211,168,88,.2);border-radius:12px;display:grid;gap:7px;}
+#adminPage .am-media-form label {font-size:10px;font-weight:800;color:#d6b673;}
+#adminPage .am-media-form input {width:100%;min-width:0;box-sizing:border-box;}
+#adminPage .am-media-preview {display:flex;gap:10px;align-items:center;margin:9px 0;}
+#adminPage .am-media-preview img {width:60px;height:55px;object-fit:contain;}
+#adminPage .am-media-preview .am-kit-preview {width:95px;object-fit:cover;border-radius:6px;}

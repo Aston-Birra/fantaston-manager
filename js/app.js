@@ -75,6 +75,7 @@
       else button.removeAttribute("aria-current");
     });
     if (name === "giocatori") void loadPublicPlayers();
+    if (name === "home") window.FANTASTON_HOME?.refresh(client);
     if (scroll) window.scrollTo({ top: 0, behavior: "instant" });
   }
 
