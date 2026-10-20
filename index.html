@@ -7,6 +7,7 @@
   <meta name="description" content="Fantaston Manager — il fantasy game ufficiale Aston Birra.">
   <title>Fantaston Manager — Aston Birra</title>
   <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/step4.css">
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script defer src="./js/config.js"></script>
   <script defer src="./js/app.js"></script>
@@ -64,11 +65,37 @@
               <span id="userEmail"></span>
             </div>
           </div>
-          <div class="team-box">
-            <small>LA TUA FANTASQUADRA</small>
-            <strong id="teamName">Da configurare</strong>
-            <p id="teamHint">Nel prossimo passaggio potrai scegliere il nome definitivo della tua squadra.</p>
+          <div id="setupPanel" class="team-box" hidden>
+            <small>PRIMO ACCESSO</small>
+            <strong>Come si chiamerà la tua squadra?</strong>
+            <p>Scegli il nome che comparirà nelle classifiche. Il regolamento non permette di modificarlo durante la stagione.</p>
+            <form id="teamSetupForm" class="setup-form">
+              <label for="teamNameInput">NOME FANTASQUADRA</label>
+              <input
+                id="teamNameInput"
+                name="team_name"
+                type="text"
+                minlength="3"
+                maxlength="32"
+                required
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="Es. I Birravigliosi"
+              >
+              <small class="setup-hint">Da 3 a 32 caratteri, nome unico.</small>
+              <label class="confirm-line" for="confirmTeamName">
+                <input id="confirmTeamName" type="checkbox" required>
+                <span>Confermo che questo è il nome definitivo della mia fantasquadra.</span>
+              </label>
+              <button id="saveTeamButton" class="action action-primary" type="submit">Conferma la mia squadra</button>
+            </form>
           </div>
+          <div id="readyPanel" class="team-box" hidden>
+            <small>LA TUA FANTASQUADRA</small>
+            <strong id="teamName">—</strong>
+            <p>Nome registrato! La scelta della formazione sarà disponibile in uno dei prossimi aggiornamenti.</p>
+          </div>
+          <div id="adminBadge" class="admin-badge" hidden>✓ Account amministratore abilitato</div>
           <button id="logoutButton" class="action action-secondary" type="button">Esci dall'account</button>
         </div>
         <p id="message" class="message" role="alert" hidden></p>

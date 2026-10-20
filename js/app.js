@@ -8,7 +8,11 @@
   const message = $("message");
   const loginButton = $("googleLogin");
   const logoutButton = $("logoutButton");
+  const teamSetupForm = $("teamSetupForm");
+  const saveTeamButton = $("saveTeamButton");
   let client;
+  let currentUserId = null;
+  let renderVersion = 0;
 
   function setView(view) {
     loadingPanel.hidden = view !== "loading";
@@ -31,41 +35,118 @@
     if (!c || !/^https:\/\/[^\s]+\.supabase\.co$/.test(c.supabaseUrl)
       || c.supabaseUrl.includes("SOSTITUISCI")
       || !c.supabasePublishableKey || c.supabasePublishableKey.includes("SOSTITUISCI")) {
-      throw new Error("Configura prima js/config.js con Project URL e Publishable key di Supabase.");
+      throw new Error("Configura js/config.js con Project URL e Publishable key di Supabase.");
     }
     if (!window.supabase?.createClient) {
-      throw new Error("Impossibile caricare la libreria Supabase dal CDN. Controlla la connessione.");
+      throw new Error("Impossibile caricare Supabase dal CDN. Controlla la connessione.");
     }
     return c;
   }
 
+  function displayTeamSetup(hasTeam) {
+    $("setupPanel").hidden = hasTeam;
+    $("readyPanel").hidden = !hasTeam;
+    $("teamNameInput").disabled = hasTeam;
+    $("confirmTeamName").disabled = hasTeam;
+    saveTeamButton.disabled = hasTeam;
+  }
+
   async function renderUser(user) {
+    const thisRender = ++renderVersion;
     clearError();
+    currentUserId = user?.id || null;
+
     if (!user) {
+      teamSetupForm.reset();
       setView("login");
       return;
     }
 
-    const name = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split("@")[0] || "Fantallenatore";
+    const name = user.user_metadata?.full_name
+      || user.user_metadata?.name
+      || user.email?.split("@")[0]
+      || "Fantallenatore";
     $("userName").textContent = name;
     $("userEmail").textContent = user.email || "";
     $("avatar").textContent = name.charAt(0).toUpperCase();
-    $("teamName").textContent = "Da configurare";
-    $("teamHint").textContent = "Nel prossimo passaggio potrai scegliere il nome definitivo della tua squadra.";
-
+    $("setupPanel").hidden = true;
+    $("readyPanel").hidden = true;
+    $("adminBadge").hidden = true;
     setView("account");
-    const { data, error } = await client.from("profiles").select("team_name").eq("id", user.id).maybeSingle();
+
+    const { data: profile, error } = await client
+      .from("profiles")
+      .select("team_name, role")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    // Evita che una risposta vecchia riappaia dopo un logout.
+    if (thisRender !== renderVersion) return;
+
     if (error) {
-      reportError("Accesso Google riuscito, ma non riesco a leggere il profilo: " + error.message);
+      reportError("Login riuscito, ma non riesco a leggere il profilo: " + error.message);
       return;
     }
-    if (!data) {
-      reportError("Accesso Google riuscito, ma il profilo non esiste ancora in public.profiles. Controlla il trigger handle_new_user.");
+    if (!profile) {
+      reportError("Il profilo non esiste in public.profiles. Controlla il trigger handle_new_user.");
       return;
     }
-    if (data.team_name) {
-      $("teamName").textContent = data.team_name;
-      $("teamHint").textContent = "La tua squadra è associata al tuo account.";
+
+    $("adminBadge").hidden = profile.role !== "admin";
+    if (profile.team_name) {
+      $("teamName").textContent = profile.team_name;
+      displayTeamSetup(true);
+    } else {
+      displayTeamSetup(false);
+    }
+  }
+
+  function friendlySaveError(error) {
+    if (error?.code === "23505") return "Questo nome è già utilizzato. Scegline un altro.";
+    if (error?.code === "42883") return "La funzione di registrazione non esiste: esegui prima lo SQL dello STEP 4.";
+    if (error?.code === "42501") return "Permesso negato: verifica lo SQL dello STEP 4 e la sessione Google.";
+    if (/nome già impostato/i.test(error?.message || "")) return "Hai già registrato una squadra. Aggiorna la pagina.";
+    return "Non riesco a salvare il nome: " + (error?.message || "errore sconosciuto");
+  }
+
+  async function saveTeam(event) {
+    event.preventDefault();
+    clearError();
+    if (!currentUserId) {
+      reportError("Sessione scaduta: esegui nuovamente l'accesso.");
+      return;
+    }
+
+    const value = $("teamNameInput").value.trim().replace(/\s+/g, " ");
+    if (value.length < 3 || value.length > 32) {
+      reportError("Il nome della fantasquadra deve contenere da 3 a 32 caratteri.");
+      return;
+    }
+    if (!$("confirmTeamName").checked) {
+      reportError("Conferma che il nome scelto sarà definitivo.");
+      return;
+    }
+
+    saveTeamButton.disabled = true;
+    saveTeamButton.textContent = "Salvataggio in corso…";
+    const requestedBy = currentUserId;
+
+    try {
+      // Controlli di unicità e immutabilità eseguiti nella funzione SQL.
+      const { data: savedName, error } = await client.rpc("register_team_name", {
+        p_team_name: value
+      });
+      if (error) throw error;
+      if (requestedBy !== currentUserId) return;
+
+      $("teamName").textContent = savedName;
+      displayTeamSetup(true);
+      teamSetupForm.reset();
+    } catch (error) {
+      if (requestedBy === currentUserId) reportError(friendlySaveError(error));
+    } finally {
+      saveTeamButton.textContent = "Conferma la mia squadra";
+      if (!$("setupPanel").hidden) saveTeamButton.disabled = false;
     }
   }
 
@@ -76,6 +157,8 @@
       client = window.supabase.createClient(c.supabaseUrl, c.supabasePublishableKey, {
         auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
       });
+
+      teamSetupForm.addEventListener("submit", saveTeam);
 
       loginButton.addEventListener("click", async () => {
         clearError();
@@ -105,10 +188,8 @@
         }
       });
 
-      // Il client recupera l'eventuale sessione restituita dal redirect OAuth.
       const { data, error } = await client.auth.getUser();
       if (error && !/session missing/i.test(error.message)) {
-        // Nessuna sessione può essere normale al primo accesso.
         console.warn("Supabase Auth:", error.message);
       }
       await renderUser(data?.user || null);

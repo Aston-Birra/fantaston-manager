@@ -1,0 +1,13 @@
+/* STEP 4 - Nome fantasquadra. Il tema esistente rimane invariato. */
+.setup-form{display:flex;flex-direction:column;gap:12px;margin-top:19px}
+.setup-form>label:first-child{font-size:11px;letter-spacing:.13em;font-weight:800;color:var(--accent)}
+.setup-form input[type="text"]{display:block;width:100%;min-height:52px;border-radius:12px;border:1px solid #586658;background:#151d17;color:var(--text);font-family:inherit;font-size:16px;font-weight:600;line-height:1.4;padding:13px 14px;outline:none;transition:border-color .16s,box-shadow .16s}
+.setup-form input[type="text"]::placeholder{color:#829080;font-weight:400}
+.setup-form input[type="text"]:focus{border-color:var(--accent);box-shadow:0 0 0 3px #d5ed6926}
+.setup-form .setup-hint{letter-spacing:0;color:var(--muted);font-size:12px;line-height:1.4;margin-top:-7px}
+.confirm-line{display:flex;align-items:flex-start;gap:10px;padding:11px 0 7px;cursor:pointer}
+.confirm-line input{width:18px;height:18px;accent-color:var(--accent);flex-shrink:0;margin:2px 0 0}
+.confirm-line span{color:#c3cec1;font-size:13px;line-height:1.5}
+.admin-badge{margin:16px 0 0;padding:11px 13px;border:1px solid #526b42;border-radius:10px;color:var(--accent);background:#283523;font-size:12px;font-weight:750}
+#setupPanel[hidden],#readyPanel[hidden],#adminBadge[hidden]{display:none!important}
+#saveTeamButton{margin-top:4px}
