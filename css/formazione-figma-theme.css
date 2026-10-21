@@ -1,0 +1,195 @@
+/* ============================================================================
+   FANTASTON MANAGER - FORMAZIONE | Restyling Nero & Oro (V1)
+   ---------------------------------------------------------------------------
+   SOLO colori, sfondi, bordi, ombre e tipografia esistente.
+   NESSUNA modifica a dimensioni, spaziature, posizioni, layout o comportamenti.
+   Il campo da calcio .fm-pitch e le sue righe NON vengono modificati.
+   Modifica i colori nella sezione "PALETTE" qui sotto.
+   ============================================================================ */
+
+/* PALETTE - Attiva esclusivamente quando è aperta la pagina Formazione. */
+body:has(#formazionePage:not([hidden])) {
+  --fmui-bg:          #0B0A09;  /* Sfondo pagina */
+  --fmui-bg-soft:     #181511;  /* Gradiente di fondo */
+  --fmui-card:        #1f1d1c;  /* Card principali: come la Home attuale */
+  --fmui-card-raised: #302719;  /* Superfici interne */
+  --fmui-card-deep:   #9d6b33;  /* Panchina e riquadri */
+  --fmui-line:        #3d332503;  /* Bordi sottili */
+  --fmui-gold:        #E4BB69;  /* Accento oro FANTASTON */
+  --fmui-gold-bright: #F4D78B;  /* Oro in evidenza */
+  --fmui-text:        #F6F2E9;  /* Testo principale */
+  --fmui-muted:       #AAA398;  /* Testo secondario */
+  --fmui-shadow:      0 12px 32px rgba(0,0,0,.15);
+}
+
+/* 1 - BASE: stesso nero caldo della Home; nessuna modifica alla geometria. */
+body:has(#formazionePage:not([hidden])),
+#appView:has(#formazionePage:not([hidden])),
+#appView:has(#formazionePage:not([hidden])) .app-layout {
+  background-color: var(--fmui-bg);
+  color: var(--fmui-text);
+}
+#appView:has(#formazionePage:not([hidden])) .app-content {
+  background-color: var(--fmui-bg);
+  background-image: radial-gradient(ellipse 85% 380px at 50% 0%, rgba(228,187,105,.085), transparent 80%),
+                    linear-gradient(180deg, var(--fmui-bg-soft), var(--fmui-bg) 460px);
+}
+#appView:has(#formazionePage:not([hidden])) .app-header {
+  background: rgba(11,10,9,.94);
+  border-bottom-color: var(--fmui-line);
+}
+#appView:has(#formazionePage:not([hidden])) .sidebar {
+  background: var(--fmui-bg);
+  border-right-color: var(--fmui-line);
+}
+
+/* 2 - TITOLI E TESTI */
+#formazionePage .fm-formazione {
+  --fm-gold: var(--fmui-gold);
+  --fm-cream: var(--fmui-text);
+  --fm-line: var(--fmui-line);
+  color: var(--fmui-text);
+  font-family: var(--font-body, "Manrope", sans-serif);
+}
+#formazionePage .fm-heading {
+  color: var(--fmui-text);
+  font-family: var(--font-title, "Barlow Condensed", sans-serif);
+}
+#formazionePage .fm-heading em,
+#formazionePage .fm-section-heading {
+  color:#F6F2E9 ;
+}
+#formazionePage .fm-subheading,
+#formazionePage .fm-section-heading span:last-child {
+  color:#F6F2E9 ;
+}
+
+/* 3 - RIEPILOGO CREDITI/GIOCATORI */
+#formazionePage .fm-budget-panel {
+  background: radial-gradient(circle at 95% 0%, rgba(228,187,105,.13), transparent 58%),
+              linear-gradient(125deg, var(--fmui-card-raised), var(--fmui-card));
+  border-color: var(--fmui-line);
+  box-shadow: var(--fmui-shadow);
+}
+#formazionePage .fm-budget-panel .fm-label {
+  color: var(--fmui-muted);
+}
+#formazionePage .fm-budget-panel strong {
+  color: var(--fmui-gold-bright);
+}
+#formazionePage .fm-budget-panel strong small {
+  color: var(--fmui-muted);
+}
+#formazionePage .fm-track {
+  background: var(--fmui-line);
+}
+#formazionePage .fm-track span {
+  background: linear-gradient(90deg, #A87938, var(--fmui-gold-bright));
+}
+#formazionePage .fm-match-info {
+  background: rgba(228,187,105,.07);
+  border-color: rgba(228,187,105,.32);
+  color: var(--fmui-gold-bright);
+}
+
+/* 4 - CAMPO VERDE: NESSUNA REGOLA PER .fm-pitch O .fm-pitch-markings. */
+/* I riquadri degli slot rimangono identici; cambiamo solo gli accenti oro. */
+#formazionePage .fm-slot-name,
+#formazionePage .fm-captain-hint {
+  color: var(--fmui-gold-bright);
+}
+#formazionePage .fm-player-hint b {
+  color: var(--fmui-gold);
+}
+#formazionePage .fm-card-frame {
+  box-shadow: 0 12px 30px rgba(0,0,0,.66), 0 0 0 1px rgba(228,187,105,.37);
+}
+#formazionePage .fm-empty {
+  border-color: rgba(228,187,105,.6);
+  /* Il fondo verde semitrasparente degli slot vuoti rimane invariato. */
+}
+#formazionePage .fm-empty > span {
+  border-color: var(--fmui-gold);
+  color: var(--fmui-gold-bright);
+}
+#formazionePage .fm-empty small {
+  color: var(--fmui-text);
+}
+#formazionePage .fm-captain-button {
+  border-color: rgba(228,187,105,.5);
+  color: var(--fmui-gold);
+}
+#formazionePage .fm-captain-button.fm-captain-selected {
+  background: var(--fmui-gold);
+  color: var(--fmui-bg);
+  border-color: var(--fmui-gold-bright);
+}
+
+/* 5 - PANCHINA ORIZZONTALE */
+#formazionePage .fm-bench {
+  background: var(--fmui-card);
+
+  box-shadow: var(--fmui-shadow);
+}
+#formazionePage .fm-bench-image {
+  background: var(--fmui-card-deep);
+  border-color: var(--fmui-line);
+}
+#formazionePage .fm-bench-name {
+  color: var(--fmui-text);
+}
+#formazionePage .fm-bench-price,
+#formazionePage .fm-bench-avatar {
+  font-size: 17px;
+  color: var(--fmui-gold);
+}
+#formazionePage .fm-bench p,
+#formazionePage .fm-bench-loading {
+  color: var(--fmui-muted);
+}
+
+/* 6 - RIEPILOGO INFERIORE E SALVATAGGIO */
+#formazionePage .fm-bottom-actions {
+  border-top-color: var(--fmui-line);
+}
+#formazionePage .fm-bottom-actions strong {
+  color: var(--fmui-gold-bright);
+}
+#formazionePage .fm-bottom-actions span {
+  color: var(--fmui-muted);
+}
+#formazionePage .fm-save {
+  background: linear-gradient(110deg, var(--fmui-gold-bright), #DCA941);
+  color: var(--fmui-bg);
+}
+/* NON cambiamo opacity, disabled, cursor: dipendono dalla logica esistente. */
+
+/* 7 - SELEZIONE GIOCATORI (dialogo associato alla Formazione) */
+body:has(#formazionePage:not([hidden])) .fm-select-panel {
+  background: var(--fmui-card);
+  border-color: var(--fmui-line);
+  color: var(--fmui-text);
+}
+body:has(#formazionePage:not([hidden])) .fm-select-head h2,
+body:has(#formazionePage:not([hidden])) .fm-option strong {
+  color: var(--fmui-gold);
+}
+body:has(#formazionePage:not([hidden])) .fm-select-head button {
+  background: var(--fmui-card-raised);
+  border-color: var(--fmui-line);
+  color: var(--fmui-text);
+}
+body:has(#formazionePage:not([hidden])) #fmSelectSearch {
+  background: var(--fmui-bg);
+  border-color: var(--fmui-line);
+  color: var(--fmui-text);
+}
+body:has(#formazionePage:not([hidden])) .fm-option {
+  background: var(--fmui-card-deep);
+  border-color: var(--fmui-line);
+  color: var(--fmui-text);
+}
+body:has(#formazionePage:not([hidden])) .fm-option:focus-visible,
+body:has(#formazionePage:not([hidden])) #fmSelectSearch:focus-visible {
+  outline-color: var(--fmui-gold-bright);
+}

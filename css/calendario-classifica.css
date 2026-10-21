@@ -1,0 +1,25 @@
+/* Stili isolati alla pagina Classifica, senza alterare Home/Formazione/Admin. */
+#classificaPage .fc-section { margin-bottom: 24px; }
+#classificaPage .fc-section-header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
+#classificaPage .fc-section-title { margin:0; font-family:'Barlow Condensed',sans-serif; font-size:clamp(24px,4vw,32px); font-weight:800; }
+#classificaPage .fc-subtitle { margin:5px 0 16px; font-size:12px; opacity:.72; line-height:1.6; }
+#classificaPage .fc-ranking-list { display:flex; flex-direction:column; gap:8px; }
+#classificaPage .fc-ranking-row { display:grid; grid-template-columns:44px minmax(0,1fr) auto; align-items:center; gap:10px; padding:13px 14px; border-radius:16px; background:rgba(184,145,71,.09); border:1px solid rgba(191,151,78,.25); }
+#classificaPage .fc-rank { font-size:19px; font-weight:900; color:#d9ae63; }
+#classificaPage .fc-team-name { min-width:0; overflow-wrap:anywhere; font-size:14px; }
+#classificaPage .fc-points { color:#e6bd75; white-space:nowrap; font-size:14px; }
+#classificaPage .fc-status { opacity:.8; font-size:13px; padding:14px; }
+#classificaPage .fc-list-heading { font-size:14px; margin:18px 0 10px; letter-spacing:.04em; text-transform:uppercase; }
+#classificaPage .fc-match-card { padding:14px; margin-bottom:10px; border:1px solid rgba(191,151,78,.28); background:rgba(184,145,71,.075); border-radius:16px; }
+#classificaPage .fc-match-top { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:12px; }
+#classificaPage .fc-match-date { font-size:11px; opacity:.8; text-transform:capitalize; }
+#classificaPage .fc-match-tag { font-size:10px; font-weight:800; color:#eac47f; }
+#classificaPage .fc-match-versus { display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap; font-size:12px; }
+#classificaPage .fc-match-versus strong { overflow-wrap:anywhere; }
+#classificaPage .fc-versus-label { color:#d9ae63; font-weight:900; font-size:15px; margin:0 5px; }
+#classificaPage .fc-match-crest { width:30px; height:30px; object-fit:contain; }
+#classificaPage .fc-opponent-crest { display:inline-flex; width:30px; height:30px; align-items:center; justify-content:center; }
+#classificaPage .fc-logo-fallback { color:#d9ae63; font-size:20px; }
+#classificaPage .fc-match-note { font-size:11px; opacity:.75; margin:10px 0 0; text-align:right; }
+#classificaPage .fc-refresh { border:1px solid rgba(191,151,78,.4); background:transparent; color:inherit; border-radius:20px; padding:8px 14px; cursor:pointer; font:inherit; font-size:12px; }
+@media (max-width:480px) { #classificaPage .fc-match-versus { gap:5px; font-size:11px; } #classificaPage .fc-match-crest { width:25px; height:25px; } }

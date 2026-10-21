@@ -75,7 +75,12 @@
       else button.removeAttribute("aria-current");
     });
     if (name === "giocatori") void loadPublicPlayers();
-    if (name === "home") window.FANTASTON_HOME?.refresh(client);
+    if (name === "profilo") window.FANTASTON_TEAM_LOGO?.refresh(client);
+    if (name === "classifica") window.FANTASTON_PUBLIC?.refresh(client);
+    if (name === "home") {
+      window.FANTASTON_HOME?.refresh(client);
+      window.FANTASTON_FIGMA_HOME?.refresh(client);
+    }
     if (scroll) window.scrollTo({ top: 0, behavior: "instant" });
   }
 
@@ -151,7 +156,10 @@ if ($("homeAverage")) {
     $("adminBadge").hidden = !isAdmin;
     $("sideAdminLink").hidden = !isAdmin;
     $("gotoAdmin").hidden = !isAdmin;
-    if (isAdmin) window.FANTASTON_ADMIN?.show(client);
+    if (isAdmin) {
+      window.FANTASTON_ADMIN?.show(client);
+      window.FANTASTON_FIGMA_HOME?.setupAdmin(client);
+    }
 
     if (profile.team_name) setTeamName(profile.team_name);
     else {
@@ -204,25 +212,53 @@ if ($("homeAverage")) {
     return element;
   }
 
-  function playerRow(player) {
-    const row = make("article", "public-player");
-    const avatar = make("div", "public-player-avatar", player.name.trim().charAt(0).toUpperCase());
-    if (player.photo_url && /^https:\/\//i.test(player.photo_url)) {
-      const img = document.createElement("img");
-      img.src = player.photo_url;
-      img.alt = "";
-      img.loading = "lazy";
-      img.referrerPolicy = "no-referrer";
-      img.addEventListener("error", () => img.remove(), { once: true });
-      avatar.append(img);
-    }
-    const info = make("div", "public-player-info");
-    info.append(make("strong", "", player.name), make("span", "", roleLabels[player.role] || player.role));
-    const price = make("div", "public-player-price", player.price);
-    price.append(make("small", "", "CREDITI"));
-    row.append(avatar, info, price);
-    return row;
+
+function playerRow(player) {
+  const row = make("article", "public-player");
+
+  // FOTO GIOCATORE
+  const avatar = make("div", "public-player-avatar");
+
+  if (player.photo_url && /^https?:\/\//i.test(player.photo_url)) {
+    const img = document.createElement("img");
+    img.src = player.photo_url;
+    img.alt = "";
+    img.loading = "lazy";
+    img.referrerPolicy = "no-referrer";
+    img.addEventListener("error", () => img.remove(), { once: true });
+    avatar.append(img);
   }
+
+  // INFORMAZIONI GIOCATORE
+  const info = make("div", "public-player-info");
+
+  // Nome
+  const name = make(
+    "strong",
+    "public-player-name",
+    player.name || "Senza nome"
+  );
+
+  // Numero maglia e ruolo
+  const number = make("div", "public-player-number");
+
+  number.append(
+    make("span", "public-shirt-number", player.shirt_number ?? "—"),
+    make("span", "public-player-role", roleLabels[player.role] || player.role)
+  );
+
+  info.append(name, number);
+
+  // CREDITI
+  const price = make("div", "public-player-price", player.price);
+  price.append(make("small", "", "CREDITI"));
+
+  // ASSEMBLAGGIO CARD
+  row.append(avatar, info, price);
+
+  return row;
+}
+
 
 async function loadBenchPlayers() {
     if (!client || !currentUserId) return;
@@ -311,7 +347,7 @@ async function loadBenchPlayers() {
     list.replaceChildren(make("p", "inline-status", "Caricamento rosa…"));
     try {
       const { data, error } = await client.from("players")
-        .select("id,name,role,price,photo_url,active")
+        .select("id,name,role,price,photo_url,active,shirt_number")
         .eq("active", true).order("name", { ascending: true });
       if (error) throw error;
       if (requestedBy !== currentUserId || generation !== playersRequestVersion) return;

@@ -1,0 +1,139 @@
+/* ===============================================================
+   FANTASTON - Navbar Figma Minimal V5
+   Cambia solo la navigazione inferiore MOBILE (<=850px).
+   Mantiene i 5 bottoni e tutti i collegamenti data-nav originali.
+   I nomi restano disponibili agli screen reader, ma non sono visibili.
+   =============================================================== */
+
+@media (max-width: 850px) {
+  /* PERSONALIZZA QUI IL MENU ----------------------------------- */
+  #appView .bottom-nav {
+    --fn-bar-bg: #1f1d1c;       /* sfondo barra come screenshot */
+    --fn-icon-off: #777674;    /* icone non selezionate */
+    --fn-icon-on: #f3f3f1;     /* icona selezionata */
+    --fn-icon-size: 27px;      /* misura di ogni icona */
+    --fn-button-height: 58px;  /* area cliccabile */
+  }
+
+  /* Barra rettangolare piena, fissa sul fondo, senza effetto goccia. */
+  #appView .bottom-nav,
+  #appView:has(#homePage:not([hidden])) .bottom-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 80;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: center;
+    gap: 0;
+    padding: 8px max(5px, env(safe-area-inset-right))
+             calc(8px + env(safe-area-inset-bottom))
+             max(5px, env(safe-area-inset-left));
+    background: var(--fn-bar-bg);
+    background-image: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    pointer-events: auto;
+  }
+
+  /* I pulsanti riusano le SVG originali, senza sfondi individuali. */
+  #appView .bottom-nav .nav-item,
+  #appView:has(#homePage:not([hidden])) .bottom-nav .nav-item {
+    position: relative;
+    box-sizing: border-box;
+    min-width: 0;
+    width: 100%;
+    min-height: var(--fn-button-height);
+    height: var(--fn-button-height);
+    margin: 0;
+    padding: 6px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 0;
+    background: transparent;
+    background-image: none;
+    color: var(--fn-icon-off);
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    text-align: center;
+    line-height: 1;
+    pointer-events: auto;
+    transition: color .16s ease;
+  }
+
+  /* Rimuovi vecchi riflessi, indicatori e decorazioni Waterdrop. */
+  #appView .bottom-nav .nav-item::before,
+  #appView .bottom-nav .nav-item::after,
+  #appView:has(#homePage:not([hidden])) .bottom-nav .nav-item::before,
+  #appView:has(#homePage:not([hidden])) .bottom-nav .nav-item::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  /* Etichette nascoste VISIVAMENTE; rimangono leggibili ai lettori schermo. */
+  #appView .bottom-nav .nav-item span {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  #appView .bottom-nav .nav-item .nav-icon,
+  #appView:has(#homePage:not([hidden])) .bottom-nav .nav-item .nav-icon {
+    width: var(--fn-icon-size);
+    height: var(--fn-icon-size);
+    flex: none;
+    transform: none;
+  }
+
+  /* Solo l'icona della pagina attiva diventa chiara. */
+  #appView .bottom-nav .nav-item.is-active,
+  #appView:has(#homePage:not([hidden])) .bottom-nav .nav-item.is-active {
+    color: var(--fn-icon-on);
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+  }
+
+  /* Home attiva piena come nel riferimento; le altre icone sono outline. */
+  #appView .bottom-nav .nav-item.is-active[data-nav="home"] .nav-icon {
+    fill: currentColor;
+    stroke: currentColor;
+  }
+
+  #appView .bottom-nav .nav-item:focus-visible {
+    outline: 2px solid var(--fn-icon-on);
+    outline-offset: -4px;
+    border-radius: 6px;
+  }
+  #appView .bottom-nav .nav-item:active { transform: none; }
+
+  /* La pagina continua a scorrere sotto alla barra fissa. */
+  #appView .app-content,
+  #appView:has(#homePage:not([hidden])) .app-content {
+    padding-bottom: calc(95px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #appView .bottom-nav .nav-item { transition: none; }
+}

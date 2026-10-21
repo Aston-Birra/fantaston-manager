@@ -1,0 +1,97 @@
+/* FANTASTON — Home hero V2.
+   Interviene soltanto quando e' visibile la Home: il resto dell'app resta invariato.
+
+   Per aggiungere in futuro uno sfondo immagine:
+   1) Copia l'immagine in assets/home-background.webp
+   2) Cambia soltanto questa variabile:
+      --fh-hero-image: url('../assets/home-background.webp');
+   Il gradiente rimane come sfondo di riserva.
+*/
+:root, :root[data-fantaston-theme="figma"] {
+  --fh-hero-image: none;
+  --fh-hero-image-opacity: .8;
+  --fh-hero-position: center center;
+  --fh-hero-gradient: radial-gradient(ellipse 72% 58% at 50% 38%, rgba(161, 161, 81, 0.33), transparent 75%),
+      linear-gradient(168deg, #3a3623 0%, #322e1c 48%, #282518 100%);
+  --fh-hero-height: 48svh;
+}
+:root[data-fantaston-theme="ivory"] {
+  --fh-hero-gradient: radial-gradient(ellipse 72% 58% at 50% 38%, rgba(203, 176, 126, 0.19), transparent 75%),
+      linear-gradient(168deg, #fffdf8 0%, #f5f0e7 64%, #f5f0e7 100%);
+}
+
+/* La barra superiore viene nascosta solo in Home; rimane nelle altre pagine. */
+#appView:has(#homePage:not([hidden])) .app-header { display: none !important; }
+#appView:has(#homePage:not([hidden])) .app-layout { min-height: 100svh; }
+#appView:has(#homePage:not([hidden])) .sidebar { top:0; height:100svh; }
+#appView:has(#homePage:not([hidden])) .app-content { padding-top:0; }
+#homePage.fh-home { max-width:none; }
+
+/* Conserva i nodi tecnici necessari al JS senza mostrare nomi, saluti o statistiche duplicate. */
+#homePage .fh-legacy-identity { display:none !important; }
+
+/* Zona logo ampia e silenziosa: «In primo piano» comincia circa a meta' display. */
+#homePage .fh-hero {
+  box-sizing:border-box;
+  width:100%;
+  height:var(--fh-hero-height);
+  min-height:320px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  background-image: var(--fh-hero-gradient);
+  background-size:cover;
+  background-position:center;
+  margin-bottom:20px;
+}
+#homePage .fh-hero::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:var(--fh-hero-image-opacity);
+  background-image:var(--fh-hero-image);
+  background-size:cover;
+  background-position:var(--fh-hero-position);
+  background-repeat:no-repeat;
+}
+#homePage .fh-hero::after {
+  content:"";
+  position:absolute;
+  inset:auto 0 0;
+  height:34%;
+  z-index:-1;
+  pointer-events:none;
+  background:linear-gradient(180deg,transparent,var(--fh-bg));
+}
+#homePage .fh-hero-crest {
+  display:block;
+  width:clamp(125px,42vw,205px);
+  max-height:min(31svh,230px);
+  aspect-ratio:1;
+  object-fit:contain;
+  filter:drop-shadow(0 14px 24px rgba(0,0,0,.27));
+}
+#homePage .fh-section-title-row { margin-top:0; }
+
+/* Mobile: lo sfondo occupa tutta la larghezza, non soltanto la colonna delle card. */
+@media (max-width:850px) {
+  #appView:has(#homePage:not([hidden])) .app-content { padding-top:0; }
+  #homePage .fh-hero {
+    margin-left:-18px;
+    margin-right:-18px;
+    width:calc(100% + 36px);
+    min-height:0;
+  }
+}
+/* Desktop: anche senza l'header la navigazione resta nel menu laterale. */
+@media (min-width:851px) {
+  #homePage .fh-hero {border-radius:0 0 18px 18px;}
+}
+@media (max-height:570px) {
+  #homePage .fh-hero {min-height:240px;}
+}

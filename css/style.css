@@ -5,8 +5,8 @@
   --bg-soft: #12100e;
   --card: #191612;
   --card-light: #211b14;
-  --border: #3d3325;
-  --border-soft: #302a22;
+  --border: #3d332504;
+  --border-soft: #302a2202;
   --gold: #e4bb69;
   --gold-bright: #f4d78b;
   --gold-muted: #a78a59;
@@ -96,8 +96,8 @@ svg {
 
 .small-tag,
 .season-tag {
-  border: 1px solid #66512d;
-  background: #392d1840;
+  border: 0px solid #66512d;
+  background: #392d1800;
   color: var(--gold-bright);
   border-radius: 99px;
   padding: 7px 11px;
@@ -760,7 +760,7 @@ svg {
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  margin: 36px 0 14px;
+  margin: 0px 0 14px;
 }
 
 .section-label-row h2 {
@@ -873,7 +873,7 @@ svg {
   display: flex;
   align-items: center;
   gap: 13px;
-  padding: 13px;
+  padding: 20px;
   background: var(--card);
   border: 1px solid var(--border-soft);
   border-radius: 14px;
@@ -881,15 +881,15 @@ svg {
 }
 
 .public-player-avatar {
-  width: 58px;
-  height: 58px;
+  width:60px;
+  height:80px;
   background: #332618;
-  border: 1px solid #725934;
+  border: none;
   border-radius: 11px;
   display: grid;
   place-items: center;
   overflow: hidden;
-  flex: none;
+  flex: flex-shrink;
   font: 900 25px var(--font-title);
   color: var(--gold-bright);
 }
@@ -916,8 +916,29 @@ svg {
 
 .public-player-info span {
   color: var(--muted);
-  font-size: 11px;
+  font-size: 14px;
 }
+
+/* CONTENITORE NUMERO MAGLIA E RUOLO */
+#giocatoriPage .public-player-number {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* NUMERO DI MAGLIA */
+#giocatoriPage .public-player-number strong {
+  color: #E4BB69;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+/* RUOLO */
+#giocatoriPage .public-player-number span {
+  color: #AAA398;
+  font-size: 12px;
+}
+
 
 .public-player-price {
   color: var(--gold-bright);
@@ -1807,4 +1828,33 @@ svg {
 
 #homePage .stat-placeholder {
     min-height: 120px;
+}
+
+/* NOME GIOCATORE */
+#giocatoriPage .public-player-name {
+  display: block;
+  color: #F6F2E9;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* CONTENITORE NUMERO + RUOLO */
+#giocatoriPage .public-player-number {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* NUMERO MAGLIA */
+#giocatoriPage .public-shirt-number {
+  color: #E4BB69;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+/* RUOLO */
+#giocatoriPage .public-player-role {
+  color: #AAA398;
+  font-size: 12px;
 }
