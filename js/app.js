@@ -352,7 +352,10 @@ async function loadBenchPlayers() {
       if (error) throw error;
       if (requestedBy !== currentUserId || generation !== playersRequestVersion) return;
       list.replaceChildren();
-      $("publicPlayerCount").textContent = `${data?.length || 0} GIOCATORI`;
+const playerCountEl = $("publicPlayerCount");
+if (playerCountEl) {
+  playerCountEl.textContent = `${data?.length || 0} GIOCATORI`;
+}
       if (!data?.length) list.append(make("p", "inline-status", "Nessun giocatore attivo nell'anagrafica."));
       else for (const p of data) list.append(playerRow(p));
     } catch (error) {

@@ -62,12 +62,23 @@
     standings.replaceChildren(make('p', 'fc-status', 'Caricamento fantasquadre…'));
     calendar.replaceChildren(make('p', 'fc-status', 'Caricamento calendario…'));
     try {
-      const [standingsResult, matchesResult] = await Promise.all([
+  const [standingsResult, matchesResult, coachesResult] = await Promise.all([
         client.rpc('get_fantaston_standings_with_logos'),
+        client.rpc('get_fantaston_coaches'),
         client.from('matches')
           .select('id,opponent,kickoff_at,lineup_opened_at,status,opponent_logo_url')
           .order('kickoff_at', {ascending: true})
       ]);
+     const coachesByTeam = new Map(
+  (coachesResult.data || []).map(coach => [
+    coach.team_name,
+    coach.coach_name
+  ])
+);
+
+if (coachesResult.error) {
+  console.warn("Allenatori non disponibili:", coachesResult.error);
+}
       if (request !== generation) return;
       standings.replaceChildren();
       calendar.replaceChildren();
@@ -93,7 +104,27 @@
               img.onerror = () => logoBox.replaceChildren(make('span', '', (team.team_name || '?')[0].toUpperCase()));
               logoBox.append(img);
             } else logoBox.append(make('span', '', (team.team_name || '?')[0].toUpperCase()));
-            row.append(make('span', 'fc-rank', `${rank}°`), logoBox, make('strong', 'fc-team-name', team.team_name), make('strong', 'fc-points', `${new Intl.NumberFormat('it-IT', {maximumFractionDigits: 2}).format(score)} pt`));
+           const teamInfo = make('div', 'fc-team-info');
+
+teamInfo.append(
+  make('strong', 'fc-team-name', team.team_name),
+  make(
+    'span',
+    'fc-team-coach',
+    `Allenatore: ${coachesByTeam.get(team.team_name) || 'Non indicato'}`
+  )
+);
+
+row.append(
+  make('span', 'fc-rank', `${rank}°`),
+  logoBox,
+  teamInfo,
+  make(
+    'strong',
+    'fc-points',
+    `${new Intl.NumberFormat('it-IT', {maximumFractionDigits: 2}).format(score)} pt`
+  )
+);
             standings.append(row);
           });
         }

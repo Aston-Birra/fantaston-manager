@@ -1,0 +1,49 @@
+/* FANTASTON — Titoli uniformi per Formazione, Giocatori e Classifica.
+   Non modifica campo, card, statistiche o logica applicativa. */
+
+/* Le etichette secondarie non spostano più i titoli sulle tre pagine. */
+#formazionePage > .page-overline,
+#formazionePage .fm-scroll-sheet > .page-overline,
+#giocatoriPage > .page-overline,
+#classificaPage > .page-overline {
+  display: none;
+}
+
+/* Stessi carattere, dimensione, altezza, margini e allineamento. */
+#formazionePage .fm-heading,
+#giocatoriPage > .page-title,
+#classificaPage > .page-title {
+  font-family: var(--font-title, 'Barlow Condensed', sans-serif);
+  font-size: clamp(34px, 5vw, 58px);
+  font-style: normal;
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -.013em;
+  text-align: left;
+  margin: 0 0 16px;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Evita che le regole precedenti per Formazione annullino la correzione. */
+#formazionePage .fm-heading {
+  font-size: clamp(34px, 5vw, 58px);
+  line-height: 1.05;
+  margin: 0 0 16px;
+}
+
+/* Conserva il colore oro della parola evidenziata. */
+#formazionePage .fm-heading em {
+  font-style: normal;
+}
+
+/* Il campo rimane nel suo contenitore originale da 780px.
+   Il titolo viene spostato fuori dalla .fm-formazione dall'installer. */
+@media (max-width: 600px) {
+  #formazionePage .fm-heading,
+  #giocatoriPage > .page-title,
+  #classificaPage > .page-title {
+    margin-bottom: 13px;
+  }
+}

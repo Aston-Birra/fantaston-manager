@@ -100,7 +100,7 @@
 /* Stesse dimensioni della card Prossima partita */
 #homePage .fh-calendar .fh-calendar-card {
   box-sizing: border-box;
-  width: min(88%, 450px);
+  width: min(100%, 450px);
   min-height: 282px;
   padding: 17px;
   display: flex;
@@ -137,7 +137,7 @@
 
 @media (min-width: 860px) {
   #homePage .fh-calendar .fh-calendar-card {
-    width: min(77%, 500px);
+    width: min(100%, 500px);
     min-height: 300px;
     padding: 22px;
   }
@@ -556,4 +556,33 @@ body:has(#homePage:not([hidden])),
   color: #F6F2E9;
   font-size: 12px;
   font-weight: 700;
+}
+/* Card calendario: serve per posizionare l'icona decorativa */
+#homePage .fh-calendar .fh-calendar-card {
+  position: relative;
+  overflow: hidden;
+
+}
+
+/* Icona calendario quasi invisibile in basso a destra */
+
+/* Icona decorativa calendario */
+#homePage .fh-calendar .fh-calendar-card {
+  position: relative;
+  overflow: hidden;
+}
+
+#homePage .fh-calendar .fh-calendar-card > .fh-calendar-watermark {
+  position: absolute;
+  right: 20px;
+  bottom: 18px;
+
+  font-size: 105px;
+  line-height: 1;
+
+  color: #D9B264;
+  opacity: 0.18;
+
+  z-index: 0;
+  pointer-events: none;
 }

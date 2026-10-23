@@ -1,0 +1,72 @@
+/* FANTASTON — Admin Dashboard / dettaglio partita, Nero & Oro */
+#adminPage .fam-admin-root [hidden] { display: none !important; }
+#adminPage .fam-admin-root { color:#F6F2E9; font-family:Manrope,sans-serif; }
+#adminPage .fam-home, #adminPage #famWorkspace { max-width:1050px; margin:18px auto 32px; }
+#adminPage .fam-kicker { color:#E4BB69; font-size:10px; font-weight:800; letter-spacing:.12em; }
+#adminPage .fam-home h1, #adminPage .fam-title { font:800 clamp(27px,4vw,36px)/1.1 'Barlow Condensed',sans-serif; color:#F6F2E9; margin:8px 0; }
+#adminPage .fam-muted { color:#AAA398; font-size:12px; line-height:1.6; }
+#adminPage .fam-dashboard-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin:22px 0 16px; }
+#adminPage .fam-tile { display:flex; flex-direction:column; align-items:start; gap:10px; min-width:0; min-height:158px; text-align:left; padding:19px 17px; color:#F6F2E9; background:#211B14; border:1px solid #3D3325; border-radius:16px; cursor:pointer; font-family:inherit; }
+#adminPage .fam-tile:focus-visible, #adminPage .fam-tabs button:focus-visible, #adminPage .fam-back:focus-visible { outline:2px solid #F4D78B; outline-offset:3px; }
+#adminPage .fam-tile-icon { color:#E4BB69; font-size:27px; line-height:1; }
+#adminPage .fam-tile strong { font-size:15px; font-weight:800; }
+#adminPage .fam-tile small { color:#AAA398; line-height:1.5; font-size:11px; }
+#adminPage .fam-tile:hover { border-color:#97723F; background:#292116; }
+#adminPage .fam-hint { color:#AAA398; font-size:11px; }
+#adminPage .fam-back { display:block; margin:0 0 15px; border:0; background:none; padding:8px 0; color:#E4BB69; font:700 13px Manrope,sans-serif; cursor:pointer; text-align:left; }
+#adminPage .fam-detail-head { background:#211B14; border:1px solid #3D3325; border-radius:16px; padding:17px; margin-bottom:15px; }
+#adminPage .fam-detail-head h2 { font:800 27px/1.2 'Barlow Condensed',sans-serif; color:#F6F2E9; margin:7px 0; }
+#adminPage .fam-detail-head p { margin:5px 0 0; }
+#adminPage .fam-vote-status { color:#E4BB69; font-size:11px; font-weight:700; }
+#adminPage .fam-tabs { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:3px; overflow:hidden; border-radius:11px; background:#211B14; padding:3px; margin-bottom:15px; }
+#adminPage .fam-tabs button { min-width:0; padding:11px 2px; background:transparent; border:0; color:#AAA398; cursor:pointer; border-radius:9px; font:700 11px Manrope,sans-serif; }
+#adminPage .fam-tabs button[aria-selected="true"] { background:#E4BB69; color:#211B14; }
+#adminPage .fam-card { background:#211B14; border:1px solid #3D3325; border-radius:15px; padding:16px; margin-bottom:14px; }
+#adminPage .fam-card h3 { margin:0 0 10px; color:#F6F2E9; font:800 21px 'Barlow Condensed',sans-serif; }
+#adminPage .fam-card p { font-size:12px; line-height:1.55; color:#AAA398; }
+#adminPage .fam-data-row { display:flex; justify-content:space-between; align-items:start; gap:18px; padding:11px 0; border-bottom:1px solid #3D3325; font-size:12px; }
+#adminPage .fam-data-row:last-child { border-bottom:0; }
+#adminPage .fam-data-row span { color:#AAA398; flex:1; }
+#adminPage .fam-data-row strong { color:#F6F2E9; flex:1; text-align:right; font-size:12px; overflow-wrap:anywhere; }
+#adminPage .fam-outline { display:block; padding:12px 15px; background:#302719; border:1px solid #725934; border-radius:12px; color:#F4D78B; font:700 12px Manrope,sans-serif; margin:12px 0; cursor:pointer; }
+#adminPage .fam-lineup-row { padding:12px 0; border-top:1px solid #3D3325; }
+#adminPage .fam-lineup-row strong { display:block; font-size:13px; color:#F6F2E9; }
+#adminPage .fam-lineup-row small { display:block; color:#AAA398; margin-top:6px; font-size:10px; }
+#adminPage .fam-error { color:#FFB6A5; font-size:12px; }
+#adminPage .fam-publish-note { color:#F4D78B; background:#302719; border:1px solid #6C5127; border-radius:11px; padding:12px; margin-top:13px; font-size:12px; }
+#adminPage #famPreviewHost .fav-preview { margin-top:12px; }
+#adminPage #famPreviewButtonHost button { margin-bottom:8px; }
+#adminPage #famTabPagelle #adminVotesSection { margin-top:0; }
+#adminPage #famTabPagelle #adminVotesSection .admin-heading { display:none; }
+#adminPage #famTabPagelle #favClose { display:none; }
+#adminPage #famTabPagelle #favPreview { display:none; }
+#adminPage #famEventsView #fhAdminEventSection:not([hidden]) { display:block; }
+@media(max-width:480px) {
+  #adminPage .fam-dashboard-grid { gap:9px; }
+  #adminPage .fam-tile { padding:15px 12px; min-height:143px; }
+  #adminPage .fam-tile strong { font-size:13px; }
+  #adminPage .fam-tile small { font-size:10px; }
+  #adminPage .fam-tabs button { font-size:10px; padding:10px 1px; }
+  #adminPage .fam-detail-head { padding:14px; }
+  #adminPage .fam-data-row { gap:12px; }
+}
+
+/* Schede pagelle compatte, campi meno frequenti espandibili */
+#adminPage #adminVotesSection .fav-stat-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+#adminPage .fam-more-events { margin-top:13px; border-top:1px solid #3D3325; padding-top:11px; }
+#adminPage .fam-more-events summary { color:#E4BB69; cursor:pointer; font-size:11px; font-weight:700; padding:5px 0; }
+#adminPage .fam-more-events[open] summary { margin-bottom:11px; }
+#adminPage .fam-more-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:9px; }
+#adminPage .fam-more-grid .fav-red-label { margin-top:26px; }
+#adminPage #famPreviewHost .fav-preview { background:#302719; border:1px solid #3D3325; border-radius:13px; padding:14px; }
+@media(max-width:600px) {
+  #adminPage .fam-more-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+
+#adminPage #famPreviewHost .fav-preview h4 { color:#F4D78B; margin:0 0 10px; }
+#adminPage #famPreviewHost .fav-preview-item { border-top:1px solid #3D3325; padding:10px 0; color:#F6F2E9; font-size:12px; }
+
+/* Back contestuale: mantiene solo il pulsante originario in cima alla pagina. */
+#adminPage #famBackHome,
+#adminPage #famMatchBack,
+#adminPage #famEventsBack { display: none !important; }
