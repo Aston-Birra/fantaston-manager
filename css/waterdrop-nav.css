@@ -1,0 +1,150 @@
+/* FANTASTON — Waterdrop Navigation V3.
+   Mobile only. Each icon + caption floats on its own liquid-glass droplet;
+   there is NO full-width bar/panel behind the menu.
+   CSS-only: preserve native [data-nav] buttons and JS handlers.
+*/
+@media (max-width: 850px) {
+  /* Base values also work in the existing black/gold areas of the app. */
+  #appView .bottom-nav {
+    --wd-foreground: #e9e7e4;
+    --wd-muted: #bdb5aa;
+    --wd-active: #e5bd7e;
+    --wd-glass: rgba(29, 26, 30, .52);
+    --wd-glass-active: rgba(66, 54, 44, .72);
+    --wd-edge: rgba(255,255,255,.21);
+    --wd-glow: rgba(255,255,255,.18);
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 80;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: clamp(4px, 1.4vw, 10px);
+    padding: 0 max(9px, env(safe-area-inset-left)) calc(12px + env(safe-area-inset-bottom)) max(9px, env(safe-area-inset-right));
+    margin: 0;
+    max-width: none;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    pointer-events: none;
+  }
+
+  /* Home picks up the centralised Figma theme tokens, rather than hardcoded colours. */
+  #appView:has(#homePage:not([hidden])) .bottom-nav {
+    --wd-foreground: var(--fh-text);
+    --wd-muted: var(--fh-muted);
+    --wd-active: var(--fh-accent);
+    --wd-glass: rgba(36, 37, 56, .57);
+    --wd-glass-active: rgba(69, 62, 96, .79);
+    --wd-edge: rgba(239, 238, 255, .23);
+    --wd-glow: rgba(245, 237, 255, .23);
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  /* Ivory mode of the existing theme mechanism: same component, new tokens. */
+  :root[data-fantaston-theme="ivory"] #appView:has(#homePage:not([hidden])) .bottom-nav {
+    --wd-foreground: #302c2b;
+    --wd-muted: #676058;
+    --wd-active: #80591e;
+    --wd-glass: rgba(255, 253, 248, .58);
+    --wd-glass-active: rgba(245, 235, 214, .81);
+    --wd-edge: rgba(255,255,255,.79);
+    --wd-glow: rgba(255,255,255,.79);
+  }
+
+  /* Exactly 5 isolated droplet buttons. No underline or big background strip. */
+  #appView .bottom-nav .nav-item,
+  #appView:has(#homePage:not([hidden])) .bottom-nav .nav-item {
+    position: relative;
+    isolation: isolate;
+    pointer-events: auto;
+    min-width: 0;
+    min-height: 66px;
+    padding: 9px 2px 7px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--wd-edge);
+    border-radius: 24px;
+    background: var(--wd-glass);
+    color: var(--wd-muted);
+    box-shadow: 0 7px 20px rgba(0,0,0,.20), inset 0 1px 0 var(--wd-glow);
+    -webkit-backdrop-filter: blur(20px) saturate(155%);
+    backdrop-filter: blur(20px) saturate(155%);
+    text-align: center;
+    font: 500 clamp(8.5px, 2.4vw, 10.5px)/1.15 'Poppins', sans-serif;
+    white-space: nowrap;
+    transition: background-color .22s ease, color .22s ease, border-color .22s ease, transform .22s ease;
+  }
+  #appView .bottom-nav .nav-item::before,
+  #appView:has(#homePage:not([hidden])) .bottom-nav .nav-item::before {
+    content: none;
+    display: none;
+  }
+  #appView .bottom-nav .nav-item::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: 19%;
+    right: 19%;
+    top: 2px;
+    height: 13px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, var(--wd-glow), transparent);
+    opacity: .48;
+    pointer-events: none;
+  }
+  #appView .bottom-nav .nav-item .nav-icon {
+    width: 22px;
+    height: 22px;
+    flex: none;
+    transition: transform .2s ease;
+  }
+  #appView .bottom-nav .nav-item span { overflow: visible; }
+  #appView .bottom-nav .nav-item.is-active,
+  #appView:has(#homePage:not([hidden])) .bottom-nav .nav-item.is-active {
+    background: var(--wd-glass-active);
+    color: var(--wd-active);
+    border-color: var(--wd-edge);
+    box-shadow: 0 9px 23px rgba(0,0,0,.23), inset 0 1px 0 var(--wd-glow);
+  }
+  #appView .bottom-nav .nav-item:active { transform: scale(.95); }
+  #appView .bottom-nav .nav-item:focus-visible {
+    outline: 2px solid var(--wd-active);
+    outline-offset: 3px;
+  }
+
+  /* Content genuinely scrolls underneath the fixed floating elements.
+     Keep enough space at the end for the final controls to remain tappable. */
+  #appView .app-content,
+  #appView:has(#homePage:not([hidden])) .app-content {
+    padding-bottom: calc(115px + env(safe-area-inset-bottom));
+  }
+  #appView .global-message { bottom: calc(96px + env(safe-area-inset-bottom)); }
+}
+
+@media (max-width: 350px) {
+  #appView .bottom-nav { gap: 3px; padding-left: 5px; padding-right: 5px; }
+  #appView .bottom-nav .nav-item,
+  #appView:has(#homePage:not([hidden])) .bottom-nav .nav-item {
+    min-height: 60px;
+    border-radius: 19px;
+    font-size: 8px;
+    gap: 4px;
+    padding-inline: 1px;
+  }
+  #appView .bottom-nav .nav-item .nav-icon { width: 20px; height: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #appView .bottom-nav .nav-item,
+  #appView .bottom-nav .nav-item .nav-icon { transition: none; }
+}

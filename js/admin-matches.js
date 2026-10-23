@@ -65,6 +65,16 @@
       const details = make('p', '', `#${match.id} · ${formatDate(match.kickoff_at)} · ${match.status || '—'}`);
       details.style.margin = '6px 0';
       card.append(title, details);
+      const votesButton = make('button', 'action action-secondary fav-open-button', 'Gestisci pagelle');
+      votesButton.type = 'button';
+      votesButton.dataset.votesMatchId = String(match.id);
+      votesButton.style.margin = '8px 0 10px';
+      card.append(votesButton);
+      const detailButton = make('button', 'action action-secondary fam-detail-open', 'Apri scheda partita');
+      detailButton.type = 'button';
+      detailButton.dataset.famDetailMatchId = String(match.id);
+      detailButton.style.margin = '8px 0 10px 8px';
+      card.append(detailButton);
       const closedByTime = Date.now() >= new Date(match.kickoff_at).getTime() - 2 * 60 * 60 * 1000;
       if (match.lineup_opened_at) {
         card.append(make('p', 'admin-helper', closedByTime ? 'Formazioni chiuse (scadenza raggiunta)' : 'Formazioni aperte'));
@@ -191,6 +201,20 @@
     $('refreshMatches')?.addEventListener('click', () => { void refresh(); });
     $('adminMatchList').addEventListener('submit', event => { void saveMedia(event); });
     $('adminMatchList').addEventListener('click', event => {
+      const detailButton = event.target.closest('[data-fam-detail-match-id]');
+      if (detailButton) {
+        window.FANTASTON_ADMIN_UI?.openMatch(Number(detailButton.dataset.famDetailMatchId), 'partita');
+        return;
+      }
+      const votesButton = event.target.closest('[data-votes-match-id]');
+      if (votesButton) {
+        if (window.FANTASTON_ADMIN_UI?.openMatch) {
+          window.FANTASTON_ADMIN_UI.openMatch(Number(votesButton.dataset.votesMatchId), 'pagelle');
+        } else {
+          window.FANTASTON_VOTES?.open(Number(votesButton.dataset.votesMatchId));
+        }
+        return;
+      }
       const button = event.target.closest('[data-open-match-id]');
       if (button) void openMatch(button.dataset.openMatchId, button);
     });

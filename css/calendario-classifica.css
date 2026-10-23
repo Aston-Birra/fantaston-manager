@@ -1,0 +1,190 @@
+/* Stili isolati alla pagina Classifica, senza alterare Home/Formazione/Admin. */
+#classificaPage .fc-section { margin-bottom: 24px; }
+#classificaPage .fc-section-header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
+#classificaPage .fc-section-title { margin:0; font-family:'Barlow Condensed',sans-serif; font-size:clamp(24px,4vw,32px); font-weight:800; }
+#classificaPage .fc-subtitle { margin:5px 0 16px; font-size:12px; opacity:.72; line-height:1.6; }
+#classificaPage .fc-ranking-list { display:flex; flex-direction:column; gap:8px; }
+#classificaPage .fc-ranking-row { display:grid; grid-template-columns:44px minmax(0,1fr) auto; align-items:center; gap:10px; padding:13px 14px; border-radius:16px; background: linear-gradient(
+  120deg,
+  #D9B264 0%,
+  #93764A 50%,
+  #211B14 100%
+); border:1px solid rgba(191,151,78,.25); }
+#classificaPage .fc-rank { font-size:19px; font-weight:900;color: #211B14; }
+#classificaPage .fc-team-name { min-width:0; overflow-wrap:anywhere; font-size:14px; }
+#classificaPage .fc-points { color:#e6bd75; white-space:nowrap; font-size:14px; }
+#classificaPage .fc-status { opacity:.8; font-size:13px; padding:14px; }
+#classificaPage .fc-list-heading { font-size:14px; margin:18px 0 10px; letter-spacing:.04em; text-transform:uppercase; }
+#classificaPage .fc-match-card { padding:14px; margin-bottom:10px; border:1px solid rgba(191,151,78,.28); background:rgba(184,145,71,.075); border-radius:16px; }
+#classificaPage .fc-match-top { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:12px; }
+#classificaPage .fc-match-date { font-size:11px; opacity:.8; text-transform:capitalize; }
+#classificaPage .fc-match-tag { font-size:10px; font-weight:800; color:#eac47f; }
+#classificaPage .fc-match-versus { display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap; font-size:12px; }
+#classificaPage .fc-match-versus strong { overflow-wrap:anywhere; }
+#classificaPage .fc-versus-label { color:#d9ae63; font-weight:900; font-size:15px; margin:0 5px; }
+#classificaPage .fc-match-crest { width:30px; height:30px; object-fit:contain; }
+#classificaPage .fc-opponent-crest { display:inline-flex; width:30px; height:30px; align-items:center; justify-content:center; }
+#classificaPage .fc-logo-fallback { color:#d9ae63; font-size:20px; }
+#classificaPage .fc-match-note { font-size:11px; opacity:.75; margin:10px 0 0; text-align:right; }
+#classificaPage .fc-refresh { border:1px solid rgba(191,151,78,.4); background:transparent; color:inherit; border-radius:20px; padding:8px 14px; cursor:pointer; font:inherit; font-size:12px; }
+@media (max-width:480px) { #classificaPage .fc-match-versus { gap:5px; font-size:11px; } #classificaPage .fc-match-crest { width:25px; height:25px; } }
+
+
+#classificaPage .fc-team-name {
+  color: #FFFFFF;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+}
+
+#classificaPage .fc-points {
+  color: #FFFFFF;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+}
+
+
+/* ========================================
+   FANTASTON - CLASSIFICA PODIO
+   ======================================== */
+
+/* 1. Margini laterali delle card */
+#classificaPage .fc-ranking-list {
+  padding: 0 14px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* 2. Effetto comune a tutte le card */
+#classificaPage .fc-ranking-row {
+  box-sizing: border-box;
+  min-width: 0;
+  border-radius: 16px;
+  overflow: hidden;
+
+  --rank-start: #9F8053;
+  --rank-mid: #584630;
+  --rank-end: #211B14;
+
+  background:
+    /* Linea diagonale bianca */
+    linear-gradient(
+      30deg,
+      transparent 0%,
+      transparent 35%,
+      rgba(255,255,255,.26) 35.4%,
+      rgba(255,255,255,.07) 36.5%,
+      transparent 39%
+    ),
+
+    /* Riflesso morbido */
+    linear-gradient(
+      110deg,
+      rgba(255,248,223,.13) 0%,
+      transparent 48%
+    ),
+
+    /* Colore principale */
+    linear-gradient(
+      110deg,
+      var(--rank-start) 0%,
+      var(--rank-mid) 45%,
+      var(--rank-end) 100%
+    );
+
+  border: 1px solid rgba(255,255,255,.22);
+}
+
+/* 3. Primo posto - ORO */
+#classificaPage .fc-ranking-row:nth-child(1) {
+  --rank-start: #D9B264;
+  --rank-mid: #93764A;
+  --rank-end: #211B14;
+}
+
+/* 4. Secondo posto - ARGENTO */
+#classificaPage .fc-ranking-row:nth-child(2) {
+  --rank-start: #D6DAE1;
+  --rank-mid: #75808A;
+  --rank-end: #25272D;
+}
+
+/* 5. Terzo posto - BRONZO */
+#classificaPage .fc-ranking-row:nth-child(3) {
+  --rank-start: #C88A63;
+  --rank-mid: #815238;
+  --rank-end: #241A16;
+}
+
+/* 6. Leggibilità testi */
+#classificaPage .fc-team-name,
+#classificaPage .fc-points {
+  color: #FFFFFF;
+  text-shadow: 0 1px 4px rgba(0,0,0,.5);
+}
+
+#classificaPage .fc-ranking-row:nth-child(-n+3) .fc-rank {
+  color: #211B14;
+}
+
+/* Dal quarto posto in poi: grigio antracite */
+#classificaPage .fc-ranking-row:nth-child(n+4) {
+  --rank-start: #343332;
+  --rank-mid: #242220;
+  --rank-end: #11100F;
+}
+/* Margini laterali della classifica */
+#classificaPage .fc-ranking-list {
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+/* Bordi delle card */
+#classificaPage .fc-ranking-row {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* PERSONALIZZAZIONE CARD CLASSIFICA */
+#classificaPage .fc-ranking-row {
+
+  /* Arrotondamento degli angoli */
+  border-radius: 20px;
+
+
+
+  /* Ombra esterna */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+
+  /* Spazio interno */
+  padding: 14px;
+
+  /* Gestione dimensioni */
+  width: 100%;
+  box-sizing: border-box;
+
+  /* Mantiene sfondo e riflessi dentro gli angoli */
+  overflow: hidden;
+}
+#classificaPage .fc-ranking-row {
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Contenitore nome squadra e allenatore */
+#classificaPage .fc-team-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+/* Nome dell'allenatore */
+#classificaPage .fc-team-coach {
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}

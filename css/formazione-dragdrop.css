@@ -8,3 +8,86 @@
 .fm-drag-ghost { position: fixed !important; z-index: 99999; pointer-events: none; transform: translate(-50%, -75%); width: 85px !important; opacity: .92; box-shadow: 0 12px 30px rgba(0,0,0,.45); }
 #formazionePage .fm-drag-toast { position: fixed; left: 50%; bottom: 90px; transform: translate(-50%,8px); z-index: 99998; max-width: min(340px,90vw); padding: 10px 14px; border-radius: 12px; background: #1d1911; border: 1px solid #c89d55; color: #f9e3b9; font-size: 12px; text-align: center; opacity: 0; pointer-events: none; transition: opacity .18s, transform .18s; }
 #formazionePage .fm-drag-toast-visible { opacity: 1; transform: translate(-50%,0); }
+
+
+/* FANTASTON_FORMATION_GHOST_UX_V1: la copia trascinata viene inserita in body,
+   quindi le regole con prefisso #formazionePage non si applicano ad essa. */
+body > .fm-drag-ghost {
+  box-sizing: border-box !important;
+  display: block !important;
+  width: 85px !important;
+  height: 113px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  overflow: visible !important;
+  transform: translate(-50%, -50%) !important;
+  transition: none !important;
+  animation: none !important;
+}
+body > .fm-drag-ghost .fm-bench-image {
+  display: block !important;
+  box-sizing: border-box !important;
+  width: 85px !important;
+  height: 113px !important;
+  border: 1px solid #9d7738;
+  border-radius: 10px;
+  background: #21180e;
+  overflow: hidden;
+}
+body > .fm-drag-ghost .fm-bench-image img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+body > .fm-drag-ghost .fm-bench-name,
+body > .fm-drag-ghost .fm-bench-price { display: none !important; }
+body > .fm-drag-ghost * { transition: none !important; animation: none !important; }
+
+/* Nessuno zoom/animazione sulla carta appena posizionata nel campo. */
+#formazionePage .fm-card-frame.fm-pick-button,
+#formazionePage .fm-card-frame.fm-pick-button img {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Cestino discreto nell'angolo superiore destro del terreno di gioco. */
+#formazionePage .fm-pitch .fm-clear-formation {
+  position: absolute;
+  top: 11px;
+  right: 11px;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  width: 35px;
+  height: 35px;
+  padding: 8px;
+  border: 1px solid rgba(244, 227, 192, .36);
+  border-radius: 10px;
+  background: rgba(9, 24, 17, .88);
+  color: #e8d5af;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+#formazionePage .fm-pitch .fm-clear-formation svg {
+  width: 18px;
+  height: 18px;
+}
+#formazionePage .fm-pitch .fm-clear-formation:hover:not(:disabled),
+#formazionePage .fm-pitch .fm-clear-formation:focus-visible {
+  background: rgba(102, 38, 31, .94);
+  border-color: #e4b97b;
+  color: #fff4de;
+}
+#formazionePage .fm-pitch .fm-clear-formation:focus-visible {
+  outline: 2px solid #f6d68b;
+  outline-offset: 2px;
+}
+#formazionePage .fm-pitch .fm-clear-formation:disabled {
+  opacity: .32;
+  cursor: not-allowed;
+}

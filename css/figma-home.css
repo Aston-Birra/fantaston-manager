@@ -1,0 +1,808 @@
+/* FANTASTON Figma V1. Le regole di tema e componenti sono qui centralizzate.
+   Solo Home + shell quando Home è visibile; il resto dell'app rimane invariato. */
+:root,
+:root[data-fantaston-theme="figma"] {
+  --fh-bg: #181928;
+  --fh-surface: #222232;
+  --fh-surface-raised: #211B14;
+  --fh-text: #f9f9ff;
+  --fh-muted: #a6a5bc;
+  --fh-line: #39384f00;
+  --fh-accent: #E4BB69;
+  --fh-blue: #4b68db;
+  --fh-purple: #af68b5;
+  --fh-gradient: linear-gradient(120deg, #E4BB69 0%, #211B14 100%);
+  --fh-radius: 12px;
+  --fh-shadow: 0 12px 32px rgba(0, 0, 0, .15);
+}
+
+:root[data-fantaston-theme="ivory"] {
+  --fh-bg: #f5f0e7;
+  --fh-surface: #fffdf8;
+  --fh-surface-raised: #e9e0d1;
+  --fh-text: #242320;
+  --fh-muted: #706b65;
+  --fh-line: #dfd5c6;
+  --fh-accent: #91682e;
+  --fh-blue: #c6a16a;
+  --fh-purple: #9880a6;
+  --fh-gradient: linear-gradient(120deg, #9f7648 0%, #ab8f82 55%, #8c7eab 100%);
+  --fh-radius: 12px;
+  --fh-shadow: 0 12px 32px rgba(43, 29, 17, .08);
+}
+
+body:has(#homePage:not([hidden])) {
+  background: var(--fh-bg);
+}
+
+#appView:has(#homePage:not([hidden])) {
+  color: var(--fh-text);
+  background: var(--fh-bg);
+  font-family: 'Poppins', sans-serif;
+}
+
+#appView:has(#homePage:not([hidden])) .app-header {
+  background: var(--fh-bg);
+  border-bottom: 1px solid var(--fh-line);
+  color: var(--fh-text);
+}
+
+#appView:has(#homePage:not([hidden])) .app-brand-crest {
+  height: 36px;
+  width: 36px;
+  background: transparent;
+}
+
+#appView:has(#homePage:not([hidden])) .app-brand-copy strong {
+  font: 700 18px/1.1 'Poppins', sans-serif;
+  letter-spacing: -.045em;
+}
+
+#appView:has(#homePage:not([hidden])) .app-brand-copy small {
+  font: 500 10px/1.3 'Poppins', sans-serif;
+  letter-spacing: 0;
+  color: var(--fh-muted);
+}
+
+#appView:has(#homePage:not([hidden])) .app-season {
+  font: 500 12px/1.2 'Poppins', sans-serif;
+  letter-spacing: 0;
+  color: var(--fh-accent);
+}
+
+#appView:has(#homePage:not([hidden])) .sidebar {
+  border-color: var(--fh-line);
+  background: var(--fh-bg);
+}
+
+#appView:has(#homePage:not([hidden])) .sidebar-title,
+#appView:has(#homePage:not([hidden])) .sidebar-footnote {
+  color: var(--fh-muted);
+}
+
+#appView:has(#homePage:not([hidden])) .sidebar .nav-item {
+  color: var(--fh-muted);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+}
+
+#appView:has(#homePage:not([hidden])) .sidebar .nav-item.is-active {
+  background: var(--fh-surface-raised);
+  color: var(--fh-accent);
+  box-shadow: inset 2px 0 var(--fh-accent);
+}
+
+#appView:has(#homePage:not([hidden])) .sidebar .nav-item:hover {
+  background: var(--fh-surface);
+  color: var(--fh-text);
+}
+
+#appView:has(#homePage:not([hidden])) .bottom-nav {
+  background: var(--fh-surface);
+  border-top: 1px solid var(--fh-line);
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, .06);
+}
+
+#appView:has(#homePage:not([hidden])) .bottom-nav .nav-item {
+  color: var(--fh-muted);
+  font: 500 10px/1.2 'Poppins', sans-serif;
+}
+
+#appView:has(#homePage:not([hidden])) .bottom-nav .nav-item.is-active {
+  color: var(--fh-text);
+}
+
+#appView:has(#homePage:not([hidden])) .bottom-nav .nav-item.is-active::before {
+  background: var(--fh-accent);
+}
+
+#homePage.fh-home {
+  color: var(--fh-text);
+  max-width: 860px;
+  font: 400 13px/1.5 'Poppins', sans-serif;
+}
+
+#homePage.fh-home h1,
+#homePage.fh-home h2,
+#homePage.fh-home h3,
+#homePage.fh-home p {
+  margin: 0;
+}
+
+#homePage .fh-page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+#homePage .fh-overline {
+  display: block;
+  color: var(--fh-accent);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .035em;
+}
+
+#homePage .fh-page-title {
+  color: var(--fh-text);
+  font: 650 clamp(23px, 4vw, 29px)/1.2 'Poppins', sans-serif;
+  margin: 4px 0 3px;
+  letter-spacing: -.04em;
+}
+
+#homePage .fh-greeting {
+  color: var(--fh-muted);
+  font-size: 12px;
+}
+
+#homePage .fh-greeting strong {
+  color: var(--fh-text);
+  font-weight: 600;
+}
+
+#homePage .fh-header-crest {
+  width: 53px;
+  height: 53px;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 10px #0003);
+}
+
+#homePage .fh-my-team {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  background: var(--fh-surface);
+  border: 1px solid var(--fh-line);
+  border-radius: var(--fh-radius);
+  padding: 13px 15px;
+  margin-bottom: 22px;
+  min-width: 0;
+}
+
+#homePage .fh-team-mark {
+  width: 47px;
+  height: 47px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--fh-surface-raised);
+  border: 1px solid var(--fh-line);
+  flex: none;
+  color: var(--fh-accent);
+  font-size: 21px;
+  font-weight: 600;
+}
+
+#homePage .fh-team-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 3px;
+}
+
+#homePage .fh-team-info {
+  min-width: 0;
+  flex: 1;
+}
+
+#homePage .fh-team-info strong {
+  display: block;
+  font-weight: 600;
+  font-size: 15px;
+  overflow-wrap: anywhere;
+  line-height: 1.35;
+}
+
+#homePage .fh-team-info p {
+  color: var(--fh-muted);
+  font-size: 10px;
+  margin-top: 3px;
+  overflow-wrap: anywhere;
+}
+
+#homePage .fh-my-team>svg {
+  width: 22px;
+  height: 22px;
+  stroke: var(--fh-accent);
+  flex: none;
+}
+
+#homePage .fh-section-title-row,
+#homePage .fh-board-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  margin: 0 0 13px;
+}
+
+#homePage .fh-section-title-row h2,
+#homePage .fh-board-header h2 {
+  font: 600 18px/1.3 'Poppins', sans-serif;
+  letter-spacing: -.027em;
+}
+
+#homePage .fh-section-title-row>span {
+  font-size: 11px;
+  color: var(--fh-accent);
+  white-space: nowrap;
+}
+
+#homePage .fh-carousel {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  scroll-padding-left: 0;
+  padding: 0 0 5px;
+}
+
+#homePage .fh-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+#homePage .fh-carousel:focus-visible {
+  outline: 2px solid var(--fh-accent);
+  outline-offset: 3px;
+}
+
+#homePage .fh-slide {
+  position: relative;
+  flex: 0 0 min(88%, 450px);
+  min-height: 282px;
+  scroll-snap-align: start;
+  border-radius: var(--fh-radius);
+  padding: 17px;
+  box-shadow: var(--fh-shadow);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+#homePage .fh-slide-match.hm-card {
+  margin: 0;
+  border: 0;
+  background: var(--fh-gradient);
+  color: #fff;
+}
+
+#homePage .fh-slide-match.hm-card:after {
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(15, 18, 44, .04), rgba(18, 20, 40, .16));
+}
+
+#homePage .fh-slide-match .hm-theme {
+  z-index: -2;
+  opacity: .19;
+}
+
+#homePage .hm-top {
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+#homePage .hm-eyebrow {
+  font: 600 13px/1.4 'Poppins', sans-serif;
+  color: #fff;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+#homePage .hm-status {
+  background: #1a194a40;
+  border: 1px solid #ffffff40;
+  color: #fff;
+  padding: 5px 8px;
+  border-radius: 999px;
+  font: 500 9px/1.25 'Poppins', sans-serif;
+  max-width: 47%;
+}
+
+#homePage .hm-versus {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  justify-content: space-between;
+  margin: 0;
+  min-height: 93px;
+}
+
+#homePage .hm-team-identity {
+  display: flex;
+  flex: 1 1 0;
+  gap: 6px;
+  align-items: center;
+  min-width: 0;
+}
+
+#homePage .hm-crest {
+  width: 47px;
+  height: 47px;
+  display: grid;
+  place-items: center;
+}
+
+#homePage .hm-crest img {
+  object-fit: contain;
+  max-height: 47px;
+  max-width: 47px;
+  filter: drop-shadow(0 4px 8px #0003);
+}
+
+#homePage .hm-logo-fallback {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #fff2;
+  border: 1px solid #fff5;
+  color: #fff;
+  font: 600 22px/1 'Poppins', sans-serif;
+}
+
+#homePage .hm-team {
+  color: #fff;
+  font: 500 10px/1.25 'Poppins', sans-serif;
+  overflow-wrap: anywhere;
+  text-transform: none;
+}
+
+#homePage .fh-center-vs {
+  flex: 1.1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-direction: column;
+  padding-top: 5px;
+}
+
+#homePage .hm-vs {
+  font: 600 20px/1 'Poppins', sans-serif;
+  color: #fff;
+  margin: 0;
+}
+
+#homePage .fh-game-time {
+  font: 400 10px/1.45 'Poppins', sans-serif;
+  text-align: center;
+  color: #f5ebff;
+  text-transform: capitalize;
+  overflow-wrap: anywhere;
+}
+
+#homePage .hm-countdown {
+  margin-top: 5px;
+  padding-top: 9px;
+  border-top: 1px solid #ffffff40;
+}
+
+#homePage .hm-countdown-label {
+  font: 500 9px/1.3 'Poppins', sans-serif;
+  letter-spacing: .035em;
+  color: #f5eeff;
+  margin-bottom: 9px;
+}
+
+#homePage .hm-countdown-grid {
+  gap: 6px;
+}
+
+#homePage .hm-time-unit {
+  background: #10113234;
+  border: 1px solid #ffffff35;
+  border-radius: 7px;
+  padding: 5px 2px;
+}
+
+#homePage .hm-time-number {
+  font: 600 clamp(18px, 5vw, 23px)/1.15 'Poppins', sans-serif;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+#homePage .hm-time-unit small {
+  font: 400 9px/1.25 'Poppins', sans-serif;
+  color: #eee3f8;
+  letter-spacing: 0;
+  margin-top: 3px;
+}
+
+#homePage .hm-action {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 9px 12px;
+  min-height: 36px;
+  border-radius: var(--fh-radius);
+  background: #fff;
+  color: #353659;
+  font: 600 11px/1.3 'Poppins', sans-serif;
+}
+
+#homePage .hm-action:disabled {
+  opacity: .65;
+  cursor: not-allowed;
+}
+
+#homePage .fh-slide-season {
+  background:  #1f1d1c;
+  color: var(--fh-text);
+  border: 1px solid var(--fh-line);
+  display: flex;
+  flex-direction: column;
+}
+
+#homePage .fh-season-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--fh-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+#homePage .fh-season-top svg {
+  width: 21px;
+  height: 21px;
+  color: var(--fh-accent);
+}
+
+#homePage .fh-total-caption {
+  display: block;
+  margin-top: 24px;
+  color: var(--fh-muted);
+  font-size: 11px;
+}
+
+#homePage .fh-total-number {
+  display: block;
+  font: 600 clamp(44px, 10vw, 60px)/1.07 'Poppins', sans-serif;
+  letter-spacing: -.055em;
+  color: var(--fh-text);
+  font-variant-numeric: tabular-nums;
+  margin-top: 2px;
+}
+
+#homePage .fh-season-rank {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 11px 13px;
+  border-radius: 8px;
+  background: var(--fh-surface-raised);
+  color: var(--fh-muted);
+  font-size: 11px;
+}
+
+#homePage .fh-season-rank strong {
+  font-size: 15px;
+  color: var(--fh-accent);
+}
+
+#homePage .fh-season-message {
+  font-size: 10px;
+  color: var(--fh-muted);
+  margin-top: 12px;
+}
+
+#homePage .fh-season-link {
+  margin-top: auto;
+  border: 0;
+  background: transparent;
+  color: var(--fh-accent);
+  font: 600 11px 'Poppins', sans-serif;
+  text-align: right;
+  padding: 9px 0 0;
+}
+
+#homePage .fh-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 14px 0 28px;
+}
+
+#homePage .fh-dots button {
+  width: 7px;
+  height: 7px;
+  border: 0;
+  border-radius: 30px;
+  padding: 0;
+  background: var(--fh-muted);
+  opacity: .5;
+}
+
+#homePage .fh-dots button.is-active {
+  width: 20px;
+  opacity: 1;
+  background: var(--fh-accent);
+}
+
+#homePage .fh-board {
+  padding-bottom: 24px;
+}
+
+#homePage .fh-board-header {
+  align-items: center;
+}
+
+#homePage .fh-board-header p {
+  margin-top: 3px;
+  color: var(--fh-muted);
+  font-size: 11px;
+}
+
+#homePage .fh-board-more {
+  border: 0;
+  background: transparent;
+  color: var(--fh-accent);
+  font: 500 11px 'Poppins', sans-serif;
+  padding: 7px 0;
+  white-space: nowrap;
+}
+
+#homePage .fh-board-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#homePage .fh-board-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: var(--fh-surface);
+  border: 1px solid var(--fh-line);
+  padding: 13px;
+  border-radius: var(--fh-radius);
+}
+
+#homePage .fh-board-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: var(--fh-surface-raised);
+  color: var(--fh-accent);
+  font-size: 24px;
+  flex: none;
+}
+
+#homePage .fh-board-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+#homePage .fh-board-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+#homePage .fh-board-item h3 {
+  font: 600 12px/1.4 'Poppins', sans-serif;
+  color: var(--fh-text);
+  overflow-wrap: anywhere;
+}
+
+#homePage .fh-board-item time {
+  font-size: 9px;
+  color: var(--fh-muted);
+  white-space: nowrap;
+}
+
+#homePage .fh-board-item p {
+  font-size: 11px;
+  line-height: 1.6;
+  margin-top: 5px;
+  color: var(--fh-muted);
+  overflow-wrap: anywhere;
+}
+
+#homePage .fh-board-cta {
+  border: 0;
+  background: transparent;
+  color: var(--fh-accent);
+  font: 500 11px/1.4 'Poppins', sans-serif;
+  margin-top: 8px;
+  padding: 3px 0;
+  text-align: left;
+}
+
+#homePage .fh-board-empty {
+  padding: 20px;
+  background: var(--fh-surface);
+  border-radius: var(--fh-radius);
+  font-size: 12px;
+  color: var(--fh-muted);
+  border: 1px solid var(--fh-line);
+}
+
+#adminPage #fhAdminEventSection {
+  margin: 24px 0;
+  padding: 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+
+#adminPage #fhAdminEventSection h2 {
+  font-size: 20px;
+  margin: 0 0 6px;
+}
+
+#adminPage #fhAdminEventSection p {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+#adminPage #fhAdminEventForm {
+  display: grid;
+  gap: 9px;
+  max-width: 700px;
+  margin-top: 15px;
+}
+
+#adminPage #fhAdminEventForm label {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+#adminPage #fhAdminEventForm input,
+#adminPage #fhAdminEventForm textarea {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  padding: 11px;
+  background: var(--bg-soft);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  font: inherit;
+}
+
+#adminPage #fhAdminEventForm textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+#adminPage #fhAdminEventForm button {
+  justify-self: start;
+}
+
+@media (min-width:860px) {
+  #homePage.fh-home {
+    padding-top: 4px;
+  }
+
+  #homePage .fh-slide {
+    flex-basis: min(77%, 500px);
+    min-height: 300px;
+    padding: 22px;
+  }
+
+  #homePage .hm-crest,
+  #homePage .hm-crest img {
+    width: 58px;
+    height: 58px;
+    max-width: 58px;
+    max-height: 58px;
+  }
+
+  #homePage .hm-versus {
+    min-height: 113px;
+  }
+}
+
+@media (max-width:850px) {
+  #appView:has(#homePage:not([hidden])) .app-content {
+    padding-top: 20px;
+  }
+
+  #homePage .fh-slide {
+    min-height: 281px;
+  }
+}
+
+@media (max-width:365px) {
+  #homePage .fh-slide {
+    flex-basis: 94%;
+    padding: 12px;
+    min-height: 283px;
+  }
+
+  #homePage .fh-game-time {
+    font-size: 9px;
+  }
+
+  #homePage .hm-crest,
+  #homePage .hm-crest img {
+    width: 38px;
+    height: 38px;
+    max-width: 38px;
+    max-height: 38px;
+  }
+
+  #homePage .hm-time-unit small {
+    font-size: 8px;
+  }
+
+  #homePage .fh-team-info strong {
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  #homePage .fh-carousel {
+    scroll-behavior: auto;
+  }
+}
+
+/* ==========================================
+   FANTASTON - COLORI CARD HOME
+   Modificare solo i valori background
+   ========================================== */
+
+/* 1. CARD FANTASQUADRA */
+#homePage .fh-team-push {
+  background: #222232;
+}
+
+/* 2. CARD PROSSIMA PARTITA */
+#homePage #fhCarousel .fh-slide-match.hm-card {
+  background: linear-gradient(120deg,
+      #D9B264 0%,
+      #93764A 50%,
+      #211B14 100%);
+}
+
+/* 3. CARD LA TUA STAGIONE */
+#homePage .fh-slide-season {
+  background: linear-gradient(120deg,
+      #D9B264 0%,
+      #93764A 50%,
+      #211B14 100%);
+}
+
+/* 4. CARD CALENDARIO */
+#homePage .fh-calendar .fh-calendar-card {
+  background: #211B14;
+}
+
+/* 5. CARD BACHECA EVENTI */
+#homePage .fh-board-item {
+  background: #222232;
+}
+
+/* 6. PANNELLO DIETRO LE CARD */
+#homePage .fh-scroll-sheet {
+  background: #FFFFFF;
+}

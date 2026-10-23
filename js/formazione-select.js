@@ -250,6 +250,10 @@
 
     if (spentLabel) spentLabel.innerHTML = `${fmt(spent)} <small>CR UTILIZZATI</small>`;
 
+    // FANTASTON_FORMAZIONE_UX_V1: tasto reset sempre coerente con lo stato dell'editor.
+    const resetButton = $('.fm-clear-formation', root);
+    if (resetButton) resetButton.disabled = saving || !SLOTS.some(slot => picks[slot]);
+
     const saveButton = $('.fm-save', root);
     if (saveButton) {
       const ready = SLOTS.every(slot => !!picks[slot]) &&
@@ -557,6 +561,20 @@
 
 
 
+  // Svuota l'editor: non cancella una formazione eventualmente inviata a Supabase.
+  function clearFormationEditor() {
+    if (saving || !SLOTS.some(slot => picks[slot])) return;
+    const message = isSaved
+      ? 'Svuotare il campo? La formazione gia salvata su Supabase rimarra valida finche non ne salvi una nuova.'
+      : 'Svuotare il campo e ripartire da zero?';
+    if (!window.confirm(message)) return;
+    picks = Object.fromEntries(SLOTS.map(slot => [slot, null]));
+    captainSlot = null;
+    isSaved = false;
+    render();
+    notify('Campo svuotato. Scegli i nuovi giocatori e premi Salva formazione.');
+  }
+
   function completeFormation() {
     return SLOTS.every(slot => !!picks[slot]) &&
       !!captainSlot && !!picks[captainSlot] && total() <= 90 &&
@@ -746,6 +764,18 @@
 
     initialized = true;
 
+    // Cestino in alto a destra del campo, senza alterare i cinque slot.
+    const pitch = $('#formazionePage .fm-pitch');
+    if (pitch && !pitch.querySelector('.fm-clear-formation')) {
+      const reset = el('button', 'fm-clear-formation');
+      reset.type = 'button';
+      reset.setAttribute('aria-label', 'Svuota la formazione');
+      reset.title = 'Svuota formazione';
+      reset.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2m3 0-1 14H6L5 6m5 4v7m4-7v7"/></svg>`;
+      pitch.append(reset);
+    }
+
+
     const modal = el('div', 'fm-select-dialog');
 
     modal.id = 'fmSelectDialog';
@@ -759,6 +789,11 @@
 
 
     document.addEventListener('click', e => {
+      if (e.target.closest('#formazionePage .fm-clear-formation')) {
+        e.preventDefault();
+        clearFormationEditor();
+        return;
+      }
       if (e.target.closest('#formazionePage .fm-save')) {
         e.preventDefault();
         void saveLineup();

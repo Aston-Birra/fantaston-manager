@@ -256,3 +256,13 @@
     font-size: 12px;
     color: #baa582;
 }
+/* Pulsante Salva formazione */
+#formazionePage .fm-save:not(:disabled) {
+  opacity: 1;
+  cursor: pointer;
+}
+
+#formazionePage .fm-save:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

@@ -1,0 +1,138 @@
+/* FANTASTON — Formazione V3: solo correzioni grafiche richieste.
+   NON cambia dimensioni/layout del campo, drag&drop, navigazione o JS.
+   Caricare DOPO formazione-figma-theme.css e formazione-hero-sticky.css.
+*/
+
+/* A. Niente banner in alto, né sfondo oro sulle card. */
+#appView:has(#formazionePage:not([hidden])) > .app-header {
+  display: none !important;
+}
+body:has(#formazionePage:not([hidden])),
+#appView:has(#formazionePage:not([hidden])),
+#appView:has(#formazionePage:not([hidden])) .app-layout,
+#appView:has(#formazionePage:not([hidden])) .app-content {
+  background: #0B0A09 !important;
+  background-image: none !important;
+}
+#appView:has(#formazionePage:not([hidden])) .app-content {
+  padding-top: 16px !important;
+}
+#formazionePage {
+  position: relative;
+  isolation: isolate;
+  animation: none !important;
+  transform: none !important;
+  background: transparent !important;
+  background-image: none !important;
+}
+
+/* B. Logo alle STESSE coordinate della Home:
+   area Home 48svh, logo centrato in orizzontale e verticale.
+   fixed = sfondo decorativo SENZA spazio occupato nel flusso. */
+#formazionePage .fm-hero {
+  position: fixed !important;
+  display: flex !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100vw !important;
+  height: 48svh !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  z-index: 0 !important;
+  pointer-events: none;
+}
+#formazionePage .fm-hero-crest {
+  display: block !important;
+  width: clamp(125px, 42vw, 205px) !important;
+  max-height: min(31svh, 230px) !important;
+  aspect-ratio: 1;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 24px rgba(0,0,0,.27));
+}
+@media (min-width: 851px) {
+  #formazionePage .fm-hero {
+    left: 238px !important;
+    right: 0 !important;
+    width: calc(100vw - 238px) !important;
+  }
+}
+
+/* C. La formazione parte SUBITO in alto, senza metà schermo vuota.
+   Vecchie background-image sul #formazionePage e padding dei wrapper annullati. */
+#formazionePage .fm-scroll-sheet {
+  position: relative !important;
+  z-index: 1 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+#formazionePage .fm-formazione {
+  position: relative;
+  z-index: 1;
+  background: transparent !important;
+  background-image: none !important;
+}
+
+/* D. Nascondi SOLO il riquadro informazioni Prossima partita.
+   Se generato via JavaScript, la logica rimane invariata. */
+#formazionePage .fm-match-info {
+  display: none !important;
+}
+
+/* E. CARD CREDITI: riprende il fondo multilineare della card
+   Prossima partita in Home. Mantiene griglia, padding e altezza esistenti. */
+#formazionePage .fm-budget-panel {
+  --match-oro: #DCA941;
+  --match-centrale: #886D44;
+  --match-scuro: #211B14;
+  --match-linea: rgba(255, 255, 255, .22);
+  --match-riflesso: rgba(255, 248, 223, .13);
+
+  background-color: var(--match-scuro) !important;
+  background-image:
+    linear-gradient(30deg,
+      transparent 0%, transparent 35%,
+      var(--match-linea) 35.4%,
+      rgba(255,255,255,.06) 36.5%,
+      transparent 39%),
+    linear-gradient(110deg,
+      var(--match-riflesso) 0%, transparent 48%),
+    linear-gradient(110deg,
+      var(--match-oro) 0%,
+      var(--match-centrale) 45%,
+      var(--match-scuro) 100%) !important;
+  border: 0 !important;
+  box-shadow: var(--fh-shadow, 0 12px 32px rgba(0,0,0,.15)) !important;
+  color: #fff;
+}
+/* Elimina la vecchia striscia decorativa della card crediti V2. */
+#formazionePage .fm-budget-panel::before {
+  display: none !important;
+}
+#formazionePage .fm-budget-panel .fm-label,
+#formazionePage .fm-budget-panel strong,
+#formazionePage .fm-budget-panel strong small {
+  color: #fff !important;
+}
+
+/* =====================================
+   PERSONALIZZAZIONE CARD PANCHINA
+   ===================================== */
+
+#formazionePage .fm-bench {
+  background: #1F1D1C !important; /* Sfondo */
+  border: none !important;        /* Rimuove bordo dorato */
+  box-shadow: none !important;    /* Rimuove ombra */
+}

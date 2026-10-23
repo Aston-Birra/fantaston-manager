@@ -1,0 +1,61 @@
+
+/* ============================================
+   FANTASTON - SFONDO PAGINA FORMAZIONE
+   Senza banner e senza spazio hero
+   ============================================ */
+
+/* 1. ELIMINA IL BANNER SUPERIORE */
+body:has(#formazionePage:not([hidden]))
+#appView > .app-header {
+  display: none !important;
+}
+
+/* 2. SFONDO GENERALE DELLA FORMAZIONE */
+#appView:has(#formazionePage:not([hidden]))
+.app-content {
+  background: #0B0A09 !important;
+  background-image: none !important;
+
+  /* Solo un piccolo margine iniziale */
+  padding-top: 16px !important;
+}
+
+/* 3. RIMUOVE COMPLETAMENTE LA ZONA LOGO
+      CREATA NEL PRECEDENTE PASSAGGIO */
+#formazionePage .fm-hero {
+  display: none !important;
+}
+
+/* 4. RIMUOVE LO SPAZIO DEL PANNELLO SCORREVOLE */
+#formazionePage .fm-scroll-sheet {
+  position: static !important;
+  padding: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* 5. SFONDO NERO E ORO CON LOGO DECORATIVO */
+#formazionePage {
+  background-image:
+
+    /* Logo Aston Birra sullo sfondo */
+    url('../assets/aston-birra-logo.png'),
+
+    /* Gradiente nero e oro originale */
+    linear-gradient(
+      180deg,
+      #302719 0px,
+      #181511 250px,
+      #0B0A09 520px
+    );
+
+  background-repeat: no-repeat, no-repeat;
+
+  background-size:
+    180px auto,
+    100% 100%;
+
+  background-position:
+    center 30px,
+    center top;
+}

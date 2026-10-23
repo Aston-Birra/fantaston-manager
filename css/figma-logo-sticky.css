@@ -1,0 +1,588 @@
+/* FANTASTON — Logo fisso e contenuti a scorrimento, Home V4.
+   Si applica SOLO alla Home Figma V2, sopra al menu Waterdrop V3.
+   Il logo resta fermo finché il pannello "In primo piano" gli scorre davanti.
+   Lo sfondo immagine resta configurabile con --fh-hero-image in figma-hero.css.
+*/
+#homePage.fh-home {
+  isolation: isolate;
+}
+
+/* La zona hero rimane agganciata in alto mentre scorre il documento.
+   "sticky" e' volutamente preferito a "fixed": non invade le altre pagine,
+   rispetta il layout desktop e non interferisce con il menu Waterdrop. */
+#homePage .fh-hero {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  margin-bottom: 0;
+  pointer-events: none;
+}
+
+/* Un unico foglio opaco che sale davanti allo stemma, senza spazi tra
+   carosello, indicatori e bacheca da cui filtrerebbe lo sfondo. */
+
+/* PANNELLO SCORREVOLE TRASPARENTE */
+#homePage .fh-scroll-sheet {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+#homePage .fh-scroll-sheet::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  transform: translateX(-50%);
+  width: 33px;
+  height: 3px;
+  border-radius: 99px;
+  background: var(--fh-line);
+}
+
+/* Il titolo entra subito sotto la maniglietta. Le card conservano
+   lo scorrimento orizzontale e i pulsanti Waterdrop restano fixed. */
+#homePage .fh-scroll-sheet .fh-section-title-row {margin-top:0;}
+
+@media (max-width:850px) {
+  #homePage .fh-hero {
+    /* Stesso spazio dedicato al logo nella V2: circa mezza schermata. */
+    min-height: 0;
+  }
+  #homePage .fh-scroll-sheet {
+    /* Bordo a bordo dello smartphone, ma contenuti con margini originari. */
+    width: calc(100% + 36px);
+    margin-left: -18px;
+    margin-right: -18px;
+    padding: 24px 18px calc(45px + env(safe-area-inset-bottom));
+  }
+}
+@media (max-width:360px) {
+  #homePage .fh-scroll-sheet {
+    width: calc(100% + 28px);
+    margin-left: -14px;
+    margin-right: -14px;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}
+@media (min-width:851px) {
+  #homePage .fh-hero {top:0;}
+  #homePage .fh-scroll-sheet {padding:25px 22px 40px;}
+}
+
+/* Pannello "In primo piano" completamente trasparente */
+#homePage .fh-scroll-sheet {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+}
+
+/* Rimuove la piccola maniglia decorativa */
+#homePage .fh-scroll-sheet::before {
+    display: none !important;
+}
+
+/* CALENDARIO HOME */
+
+#homePage .fh-calendar {
+  margin-bottom: 28px;
+}
+
+#homePage .fh-calendar h2 {
+  font: 600 18px/1.3 'Poppins', sans-serif;
+  margin: 0 0 13px;
+}
+
+/* Stesse dimensioni della card Prossima partita */
+#homePage .fh-calendar .fh-calendar-card {
+  box-sizing: border-box;
+  width: min(100%, 450px);
+  min-height: 282px;
+  padding: 17px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Intestazione */
+#homePage .fh-calendar-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  font-size: 13px;
+}
+
+#homePage .fh-calendar-top span {
+  font-size: 11px;
+  opacity: .8;
+}
+
+/* Elenco partite */
+#homePage .fh-calendar-list {
+  flex: 1;
+  color: white;
+  font-size: 12px;
+}
+
+/* Pulsante in fondo */
+#homePage .fh-calendar-open {
+  margin-top: auto;
+}
+
+@media (min-width: 860px) {
+  #homePage .fh-calendar .fh-calendar-card {
+    width: min(100%, 500px);
+    min-height: 300px;
+    padding: 22px;
+  }
+}
+
+/* CARD FANTASQUADRA - PUSH AWAY */
+
+#homePage.fh-home {
+  animation: none !important;
+  transform: none !important;
+}
+
+#homePage .fh-team-push {
+  --fh-team-shift: 0px;
+
+  position: fixed;
+  z-index: 8;
+  top: calc(12px + env(safe-area-inset-top));
+  left: 50%;
+  transform: translate3d(-50%, var(--fh-team-shift), 0);
+
+  width: min(450px, calc(100vw - 32px));
+  box-sizing: border-box;
+  padding: 11px 15px;
+
+  background: #1f1d1c;
+  color: var(--fh-text);
+  border-radius: var(--fh-radius);
+  box-shadow: var(--fh-shadow);
+
+  font-family: 'Poppins', sans-serif;
+  pointer-events: none;
+}
+
+#homePage .fh-team-push-welcome {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 10px;
+  color: var(--fh-muted);
+}
+
+#homePage .fh-team-push-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+#homePage .fh-team-push-row > strong {
+  font-size: 15px;
+  line-height: 1.25;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+#homePage .fh-team-push-rank {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: none;
+  color: var(--fh-muted);
+  font-size: 10px;
+}
+
+#homePage .fh-team-push-rank strong {
+  color: var(--fh-accent);
+  font-size: 25px;
+}
+
+@media (min-width: 851px) {
+  #homePage .fh-team-push {
+    left: calc(50% + 119px);
+  }
+}
+
+/* ==========================================
+   HOME - CARD PROSSIMA PARTITA
+   Personalizzazione sfondo Figma
+   ========================================== */
+
+#homePage #fhCarousel .fh-slide-match.hm-card {
+
+  /* COLORI PRINCIPALI */
+  --match-oro: #DCA941;
+  --match-centrale: #886D44;
+  --match-scuro: #211B14;
+
+  /* EFFETTO LUCE */
+  --match-linea: rgba(255, 255, 255, 0.22);
+  --match-riflesso: rgba(255, 248, 223, 0.13);
+
+  background:
+
+    /* 1. Linea luminosa diagonale */
+    linear-gradient(
+      30deg,
+      transparent 0%,
+      transparent 35%,
+      var(--match-linea) 35.4%,
+      rgba(255,255,255,0.06) 36.5%,
+      transparent 39%
+    ),
+
+    /* 2. Riflesso morbido */
+    linear-gradient(
+      110deg,
+      var(--match-riflesso) 0%,
+      transparent 48%
+    ),
+
+    /* 3. Sfondo principale */
+    linear-gradient(
+      110deg,
+      var(--match-oro) 0%,
+      var(--match-centrale) 45%,
+      var(--match-scuro) 100%
+    );
+}
+
+/* Overlay leggero per mantenere leggibili i testi */
+#homePage #fhCarousel .fh-slide-match.hm-card::after {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0,0,0,0.12) 100%
+  );
+}
+
+/* ============================================
+   FANTASTON — SFONDO HOME BIANCO PURO
+   ============================================ */
+
+/* 1. Sfondo generale della pagina Home */
+body:has(#homePage:not([hidden])),
+#appView:has(#homePage:not([hidden])),
+#appView:has(#homePage:not([hidden])) .app-layout,
+#appView:has(#homePage:not([hidden])) .app-content,
+#homePage.fh-home {
+ background: #211B14 !important;
+}
+
+/* 2. Zona del logo: bianco, nessuna sfumatura */
+
+/* ========================================
+   SFONDO DIETRO IL LOGO ASTON BIRRA
+   ======================================== */
+
+#homePage .fh-hero {
+
+  /* COLORE SUPERIORE */
+  --hero-top: #DCA941;
+
+  /* COLORE CENTRALE */
+  --hero-middle: #886D44;
+
+  /* COLORE INFERIORE */
+  --hero-bottom: #211B14;
+
+  /* INCLINAZIONE DELLA SFUMATURA */
+  --hero-angle: 180deg;
+
+  background: linear-gradient(
+    var(--hero-angle),
+    var(--hero-top) 0%,
+    var(--hero-middle) 50%,
+    var(--hero-bottom) 100%
+  ) !important;
+}
+
+
+/* 3. Elimina eventuali immagini e gradienti sovrapposti */
+#homePage .fh-hero::before,
+#homePage .fh-hero::after {
+  display: none !important;
+}
+
+/* 4. Pannello scorrevole: completamente bianco */
+#homePage .fh-scroll-sheet {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* 5. Elimina la maniglietta decorativa */
+#homePage .fh-scroll-sheet::before {
+  display: none !important;
+}
+
+/* 6. Titoli leggibili sul nuovo sfondo bianco */
+#homePage .fh-section-title-row h2,
+#homePage .fh-board-header h2,
+#homePage .fh-calendar h2 {
+  color: #1f1d1c !important;
+}
+
+/* 7. Testi secondari esterni alle card */
+#homePage .fh-section-title-row > span,
+#homePage .fh-board-header p {
+  color: #1f1d1c !important;
+}
+
+/* ========================================
+   FANTASTON - FONT ORIGINALI
+   ======================================== */
+
+/* Testi generali della Home */
+#homePage,
+#homePage * {
+  font-family: "Manrope", sans-serif !important;
+}
+
+/* Titoli principali */
+#homePage h1,
+#homePage h2,
+#homePage h3,
+#homePage .fh-team-push-row > strong {
+  font-family: "Barlow Condensed", sans-serif !important;
+}
+
+/* Menu Waterdrop */
+#appView:has(#homePage:not([hidden]))
+.bottom-nav .nav-item {
+  font-family: "Manrope", sans-serif !important;
+}
+/* CARD LA TUA STAGIONE */
+#homePage .fh-slide-season {
+  background: #1f1d1c;
+}
+/* CARD EVENTI */
+#homePage .fh-board-item {
+  background: #1f1d1c;
+}
+
+/* =====================================
+   CARD BACHECA EVENTI - STATO VUOTO
+   ===================================== */
+
+#homePage .fh-board-empty {
+  background: #211B14;  /* Sfondo */
+  color: #AAA398;       /* Colore testo */
+  border: none;         /* Bordo */
+  border-radius: 12px;  /* Arrotondamento */
+  box-shadow: none;     /* Ombra */
+}
+
+
+/* ============================================
+   FANTASTON - SFONDO NERO & ORO
+   ============================================ */
+
+/* 1. Sfondo generale della Home */
+body:has(#homePage:not([hidden])),
+#appView:has(#homePage:not([hidden])),
+#appView:has(#homePage:not([hidden])) .app-layout,
+#appView:has(#homePage:not([hidden])) .app-content,
+#homePage.fh-home {
+  background: #0B0A09 !important;
+}
+
+/* 2. Sfondo dietro il logo Aston Birra */
+#homePage .fh-hero {
+  background: linear-gradient(
+    180deg,
+    #302719 0%,    /* Marrone/oro superiore */
+    #181511 50%,   /* Nero caldo centrale */
+    #0B0A09 100%   /* Nero profondo inferiore */
+  ) !important;
+
+  background-image: linear-gradient(
+    180deg,
+    #302719 0%,
+    #181511 50%,
+    #0B0A09 100%
+  ) !important;
+}
+
+/* 3. Rimuove gli overlay precedenti */
+#homePage .fh-hero::before,
+#homePage .fh-hero::after {
+  display: none !important;
+}
+
+/* 4. Pannello di scorrimento trasparente */
+#homePage .fh-scroll-sheet {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* 5. Titoli esterni alle card */
+#homePage .fh-section-title-row h2,
+#homePage .fh-board-header h2,
+#homePage .fh-calendar h2 {
+  color: #F6F2E9 !important;
+}
+
+/* 6. Testi secondari */
+#homePage .fh-section-title-row > span,
+#homePage .fh-board-header p {
+  color: #AAA398 !important;
+}
+
+/* ==========================================
+   CALENDARIO HOME - RIGHE PARTITE
+   ========================================== */
+
+#homePage .fh-calendar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#homePage .fh-cal-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+
+  background: rgba(0, 0, 0, 0.20);
+  border-radius: 9px;
+}
+
+/* Data e orario */
+#homePage .fh-cal-date {
+  width: 83px;
+  flex-shrink: 0;
+  color: #F6F2E9;
+  font-size: 11px;
+}
+
+/* Logo avversario */
+#homePage .fh-cal-row img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+/* Nome avversario */
+#homePage .fh-cal-opponent {
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* =====================================
+   CALENDARIO HOME - RIGHE PARTITE
+   ===================================== */
+
+#homePage .fh-cal-row {
+  display: grid;
+
+  /* DATA | CASA/TRASFERTA | LOGO | AVVERSARIO */
+  grid-template-columns: 76px 22px 30px minmax(0, 1fr);
+
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.20);
+  border-radius: 10px;
+}
+
+/* DATA E ORARIO */
+#homePage .fh-cal-date {
+  width: auto;
+  flex-shrink: initial;
+  color: #F6F2E9;
+  font-size: 10px;
+}
+
+/* ICONA CASA / TRASFERTA */
+#homePage .fh-cal-venue {
+  width: 22px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #E4BB69;
+}
+
+#homePage .fh-cal-venue svg {
+  width: 19px;
+  height: 19px;
+}
+
+/* CONTENITORE LOGO AVVERSARIO */
+#homePage .fh-cal-logo {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+
+  color: #AAA398;
+  font-size: 14px;
+}
+
+/* IMMAGINE LOGO */
+#homePage .fh-cal-logo img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
+/* NOME AVVERSARIO */
+#homePage .fh-cal-opponent {
+  min-width: 0;
+  overflow-wrap: anywhere;
+
+  color: #F6F2E9;
+  font-size: 12px;
+  font-weight: 700;
+}
+/* Card calendario: serve per posizionare l'icona decorativa */
+#homePage .fh-calendar .fh-calendar-card {
+  position: relative;
+  overflow: hidden;
+
+}
+
+/* Icona calendario quasi invisibile in basso a destra */
+
+/* Icona decorativa calendario */
+#homePage .fh-calendar .fh-calendar-card {
+  position: relative;
+  overflow: hidden;
+}
+
+#homePage .fh-calendar .fh-calendar-card > .fh-calendar-watermark {
+  position: absolute;
+  right: 20px;
+  bottom: 18px;
+
+  font-size: 105px;
+  line-height: 1;
+
+  color: #D9B264;
+  opacity: 0.18;
+
+  z-index: 0;
+  pointer-events: none;
+}

@@ -1,0 +1,71 @@
+/* FANTASTON MANAGER - PAGELLE ADMIN - Nero & Oro */
+#adminVotesSection { margin-top: 24px; scroll-margin-top: 24px; }
+#adminVotesSection .fav-container { max-width: 1100px; margin: 0 auto; }
+#adminVotesSection .fav-top {
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;
+  gap:12px; margin-bottom:16px;
+}
+#adminVotesSection .fav-top h3 { margin:0 0 4px; font:800 25px/1.15 var(--font-title, sans-serif); color:#F6F2E9; }
+#adminVotesSection .fav-card {
+  background:#211B14; border:1px solid #3D3325; border-radius:17px;
+  padding:16px; margin-bottom:15px;
+}
+#adminVotesSection .fav-match-form { display:flex; gap:12px; flex-wrap:wrap; align-items:end; }
+#adminVotesSection .fav-match-form label { display:flex; flex-direction:column; gap:5px; color:#AAA398; font-size:11px; }
+#adminVotesSection .fav-match-form input {
+  width:120px; height:43px; padding:8px 12px; border-radius:10px;
+  border:1px solid #655232; background:#302719; color:#F6F2E9;
+}
+#adminVotesSection .fav-tip { font-size:12px; color:#AAA398; margin:10px 0 0; }
+#adminVotesSection .fav-warning { color:#F4D78B; border:1px solid #816434; padding:12px; border-radius:10px; margin-top:12px; }
+#adminVotesSection .fav-list { display:flex; flex-direction:column; gap:12px; }
+#adminVotesSection .fav-player {
+  background:#211B14; border:1px solid #3D3325; border-radius:15px; padding:13px;
+}
+#adminVotesSection .fav-player-head { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:12px; }
+#adminVotesSection .fav-avatar {
+  width:45px; height:45px; background:#302719; border-radius:11px; overflow:hidden;
+  flex:none; display:grid; place-items:center; color:#E4BB69;
+  font-size:18px; font-weight:900; position:relative;
+}
+#adminVotesSection .fav-avatar img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+#adminVotesSection .fav-identity { min-width:135px; flex:1; display:flex; flex-direction:column; gap:2px; }
+#adminVotesSection .fav-identity strong { font-size:13px; color:#F6F2E9; }
+#adminVotesSection .fav-identity small { font-size:10px; color:#AAA398; }
+#adminVotesSection .fav-presence-wrap { display:flex; flex-direction:column; gap:5px; color:#AAA398; font-size:10px; }
+#adminVotesSection .fav-presence-wrap select {
+  height:39px; min-width:140px; border:1px solid #675331;
+  border-radius:10px; background:#302719; color:#F6F2E9;
+  padding:0 8px; font-size:12px;
+}
+#adminVotesSection .fav-stat-grid { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:9px; }
+#adminVotesSection .fav-stat-field { min-width:0; display:flex; flex-direction:column; gap:5px; }
+#adminVotesSection .fav-stat-field span { color:#AAA398; font-size:10px; line-height:1.3; min-height:26px; display:flex; align-items:end; }
+#adminVotesSection .fav-stat-input {
+  width:100%; min-width:0; height:40px; padding:7px 8px;
+  border:1px solid #5C4A31; border-radius:9px;
+  background:#302719; color:#F6F2E9; font-size:13px;
+}
+#adminVotesSection .fav-red-label {
+  display:flex; align-items:center; gap:7px; background:#302719; border-radius:9px;
+  padding:7px 10px; color:#AAA398; font-size:11px; margin-top:26px; min-height:40px;
+}
+#adminVotesSection .fav-red-label input { width:17px; height:17px; accent-color:#E4BB69; }
+#adminVotesSection .fav-player.fav-unset { border-color:#4D3A24; }
+#adminVotesSection .fav-player.fav-not-played { opacity:.72; }
+#adminVotesSection .fav-stat-input:disabled,
+#adminVotesSection .fav-red-card:disabled { opacity:.40; }
+#adminVotesSection .fav-actions { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:16px 0 10px; }
+#adminVotesSection .fav-actions button { min-height:43px; border-radius:20px; }
+#adminVotesSection .fav-status { font-size:12px; color:#E4BB69; margin:0; }
+#adminVotesSection .fav-status.is-error, #adminVotesSection .fav-error { color:#FFB6A5; }
+#adminVotesSection .fav-preview { background:#211B14; border-radius:14px; padding:14px; margin-top:13px; }
+#adminVotesSection .fav-preview h4 { margin:0 0 10px; color:#F4D78B; }
+#adminVotesSection .fav-preview-item { padding:8px 0; border-top:1px solid #3D3325; color:#F6F2E9; font-size:12px; }
+@media (max-width:600px) {
+  #adminVotesSection .fav-stat-grid { grid-template-columns:repeat(3, minmax(0,1fr)); }
+  #adminVotesSection .fav-player-head { gap:9px; }
+  #adminVotesSection .fav-presence-wrap { flex-basis:100%; }
+  #adminVotesSection .fav-presence-wrap select { width:100%; }
+  #adminVotesSection .fav-card { padding:13px; }
+}
