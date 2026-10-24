@@ -10,6 +10,7 @@
   let activeUserId = null;
   let matchCheckFailed = false;
   const SLOTS = ['POR', 'DIF', 'CC', 'ATT', 'JOLLY'];
+  const MAX_BUDGET = 95;
 
   const LABEL = { POR: 'PORTIERE', DIF: 'DIFENSORE', CC: 'CENTROCAMPISTA', ATT: 'ATTACCANTE', JOLLY: 'JOLLY' };
 
@@ -62,7 +63,7 @@
 
   const fits = (player, slot) => !!player && SLOTS.includes(slot) && (slot === 'JOLLY' || player.role === slot);
 
-  const budgetFits = (player, slot) => total() - (Number(picks[slot]?.price) || 0) + Number(player.price) <= 90;
+  const budgetFits = (player, slot) => total() - (Number(picks[slot]?.price) || 0) + Number(player.price) <= MAX_BUDGET;
 
   const findPlayer = id => players.find(player => String(player.id) === String(id));
 
@@ -232,13 +233,13 @@
 
       const strong = budget.querySelectorAll('strong');
 
-      if (strong[0]) strong[0].innerHTML = `${fmt(90 - spent)} <small>/ 90</small>`;
+      if (strong[0]) strong[0].innerHTML = `${fmt(MAX_BUDGET - spent)} <small>/ ${MAX_BUDGET}</small>`;
 
       if (strong[1]) strong[1].innerHTML = `${count} <small>/ 5</small>`;
 
       const bar = $('.fm-track span', budget);
 
-      if (bar) bar.style.width = `${Math.min(100, 100 * spent / 90)}%`;
+      if (bar) bar.style.width = `${Math.min(100, 100 * spent / MAX_BUDGET)}%`;
 
     }
 
@@ -257,7 +258,7 @@
     const saveButton = $('.fm-save', root);
     if (saveButton) {
       const ready = SLOTS.every(slot => !!picks[slot]) &&
-        !!captainSlot && !!picks[captainSlot] && spent <= 90;
+        !!captainSlot && !!picks[captainSlot] && spent <= MAX_BUDGET;
       saveButton.disabled = saving || !ready || !activeMatch || matchCheckFailed;
       saveButton.textContent = saving ? 'Salvataggio...' : 'Salva formazione';
     }
@@ -386,7 +387,7 @@
 
         button.disabled = true;
 
-        button.title = 'Budget massimo di 90 crediti superato';
+        button.title = `Budget massimo di ${MAX_BUDGET} crediti superato`;
 
         button.append(el('small', '', 'Budget insufficiente'));
 
@@ -412,7 +413,7 @@
 
     }
 
-    if (!budgetFits(player, slot)) { notify('Budget insufficiente: massimo 90 crediti.'); return false; }
+    if (!budgetFits(player, slot)) { notify(`Budget insufficiente: massimo ${MAX_BUDGET} crediti.`); return false; }
 
     isSaved = false;
     // Se il capitano viene sostituito, la fascia torna disponibile.
@@ -577,7 +578,7 @@
 
   function completeFormation() {
     return SLOTS.every(slot => !!picks[slot]) &&
-      !!captainSlot && !!picks[captainSlot] && total() <= 90 &&
+      !!captainSlot && !!picks[captainSlot] && total() <= MAX_BUDGET &&
       new Set(SLOTS.map(slot => String(picks[slot].id))).size === 5 &&
       SLOTS.every(slot => fits(picks[slot], slot));
   }
@@ -658,7 +659,7 @@
   async function saveLineup() {
     if (saving) return;
     if (!completeFormation()) {
-      notify('Servono cinque titolari distinti, un capitano e massimo 90 crediti.');
+      notify(`Servono cinque titolari distinti, un capitano e massimo ${MAX_BUDGET} crediti.`);
       return;
     }
     saving = true;
