@@ -71,7 +71,18 @@
               <p class="fam-muted">Calcolo di prova. Nessun punteggio viene pubblicato o aggiunto alla classifica.</p>
               <div id="famPreviewButtonHost"></div>
               <div id="famPreviewHost"></div>
-              <div class="fam-publish-note">Pubblicazione ufficiale non ancora abilitata. I punteggi rimangono in bozza.</div>
+            
+
+<div class="fam-publish-note" id="famPublishNote">
+  Verifica le pagelle e l'anteprima prima di pubblicare.
+</div>
+
+<button type="button"
+        id="famPublishButton"
+        class="fam-outline">
+  Pubblica giornata
+</button>
+
             </div>
           </section>
         </div>
