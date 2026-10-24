@@ -62,7 +62,7 @@
     standings.replaceChildren(make('p', 'fc-status', 'Caricamento fantasquadre…'));
     calendar.replaceChildren(make('p', 'fc-status', 'Caricamento calendario…'));
     try {
-  const [standingsResult, matchesResult, coachesResult] = await Promise.all([
+  const [standingsResult, coachesResult, matchesResult] = await Promise.all([
         client.rpc('get_fantaston_standings_with_logos'),
         client.rpc('get_fantaston_coaches'),
         client.from('matches')
@@ -116,7 +116,7 @@ teamInfo.append(
 );
 
 row.append(
-  make('span', 'fc-rank', `${rank}°`),
+  make('span', 'fc-rank', score === 0 ? '-' : `${rank}°`),
   logoBox,
   teamInfo,
   make(
