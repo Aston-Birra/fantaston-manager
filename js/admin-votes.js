@@ -1,3 +1,5 @@
+
+
 /* FANTASTON MANAGER - Pagelle ufficiali: gestione bozze (Admin)
    Utilizza le tabelle player_match_stats e matches e la RPC
    admin_save_match_vote_draft. La pubblicazione NON è implementata qui. */
@@ -318,7 +320,32 @@
       }
     });
   }
-  window.FANTASTON_VOTES = Object.freeze({ open, canLeave: () => { if (!dirty) return true; if (!window.confirm('Ci sono modifiche alle pagelle non salvate. Vuoi uscire senza salvarle?')) return false; dirty = false; return true; } });
+ 
+  window.FANTASTON_VOTES = Object.freeze({
+    open,
+
+    // Controlla se ci sono modifiche non salvate
+    // oppure un salvataggio ancora in corso.
+    hasUnsavedChanges: () => dirty || busy,
+
+    // Protegge dall'uscita con modifiche non salvate.
+    canLeave: () => {
+      if (!dirty) return true;
+
+      if (!window.confirm(
+        'Ci sono modifiche alle pagelle non salvate. Vuoi uscire senza salvarle?'
+      )) {
+        return false;
+      }
+
+      dirty = false;
+      return true;
+    }
+  });
+
+
+
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();
+
