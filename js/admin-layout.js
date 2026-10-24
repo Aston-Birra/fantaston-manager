@@ -1,6 +1,8 @@
 /* FANTASTON — Admin Nero & Oro: dashboard e scheda partita.
    Presentazione/navigazione, nessuna scrittura al database.
-   Riutilizza Admin Giocatori, Gestione Partite e Pagelle v1. */
+   Riutilizza Admin Giocatori, Gestione Partite e Pagelle 
+
+v1. */
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
@@ -298,7 +300,121 @@
       return;
     }
     showMatchSummary(data);
+
+$('famPublishButton').disabled =
+  Boolean(data.votes_published_at);
+
+$('famPublishNote').textContent =
+  data.votes_published_at
+    ? 'Risultati pubblicati ufficialmente.'
+    : 'Verifica le pagelle e l’anteprima prima di pubblicare.';
+
   }
+
+   
+async function publishMatch() {
+  const id = currentMatch;
+  const button = $('famPublishButton');
+  const note = $('famPublishNote');
+
+  if (!id || !api || button.disabled) return;
+
+  if (window.FANTASTON_VOTES?.hasUnsavedChanges?.()) {
+    note.textContent = 'Salva prima le modifiche alle pagelle.';
+    return;
+  }
+
+  button.disabled = true;
+  let published = false;
+
+  try {
+    if (!await isAdmin()) {
+      throw new Error('Accesso non autorizzato.');
+    }
+
+    // Controlla lo stato aggiornato della partita.
+    const { data: match, error: matchError } = await api
+      .from('matches')
+      .select('opponent,kickoff_at,votes_published_at')
+      .eq('id', id)
+      .single();
+
+    if (matchError) throw matchError;
+
+    if (match.votes_published_at) {
+      published = true;
+      throw new Error('Questa giornata è già pubblicata.');
+    }
+
+    if (Date.now() < new Date(match.kickoff_at).getTime()) {
+      throw new Error('La partita non è ancora iniziata.');
+    }
+
+    // Verifica tutte le formazioni inviate.
+    const { data: scores, error: previewError } =
+      await api.rpc('admin_preview_match_scores', {
+        p_match_id: id
+      });
+
+    if (previewError) throw previewError;
+
+    if (!Array.isArray(scores) || !scores.length) {
+      throw new Error('Non risultano formazioni inviate.');
+    }
+
+    const missing = scores.find(
+      s => s.ready !== true || s.total_points == null
+    );
+
+    if (missing) {
+      throw new Error(
+        `Formazione #${missing.lineup_id} incompleta: controlla le pagelle.`
+      );
+    }
+
+    // Riepilogo prima della conferma.
+    const detail = scores.map(s =>
+      `#${s.lineup_id}: ${Number(s.total_points)
+        .toLocaleString('it-IT')} punti`
+    ).join('\n');
+
+    const confirmed = window.confirm(
+      `PUBBLICARE DEFINITIVAMENTE la partita #${id}` +
+      ` contro ${match.opponent}?\n\n` +
+      `${detail}\n\n` +
+      'La classifica sarà aggiornata. ' +
+      'La correzione di una giornata pubblicata ' +
+      'non è ancora disponibile.'
+    );
+
+    if (!confirmed) return;
+
+    note.textContent = 'Pubblicazione in corso…';
+
+    // Pubblicazione atomica lato database.
+    const { data, error } = await api.rpc(
+      'admin_publish_match_scores',
+      { p_match_id: id }
+    );
+
+    if (error) throw error;
+
+    published = true;
+
+    // Ricarica lo stato ufficiale della partita.
+    await openMatch(id, 'risultati');
+
+    note.textContent =
+      `Giornata pubblicata. ${data.fantasquadre} ` +
+      'fantasquadre aggiornate.';
+
+  } catch (error) {
+    note.textContent =
+      `Pubblicazione non riuscita: ${error.message}`;
+  } finally {
+    button.disabled = published;
+  }
+}
 
   function init() {
     const page = $('adminPage');
@@ -336,6 +452,12 @@
     const preview = votes.querySelector('.fav-preview');
     if (preview) $('famPreviewHost').append(preview);
     root.addEventListener('click', event => {
+
+if (event.target.closest('#famPublishButton')) {
+  void publishMatch();
+  return;
+}
+
       const card = event.target.closest('[data-fam-area]');
       if (card) {
         const area = card.dataset.famArea;
