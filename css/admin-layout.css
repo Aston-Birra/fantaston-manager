@@ -70,3 +70,23 @@
 #adminPage #famBackHome,
 #adminPage #famMatchBack,
 #adminPage #famEventsBack { display: none !important; }
+
+/* Pubblicazione ufficiale */
+#adminPage #famPublishButton {
+  margin-top: 16px;
+  background: #D9B264;
+  color: #211B14;
+  border: 1px solid #D9B264;
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#adminPage #famPublishButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+
+
