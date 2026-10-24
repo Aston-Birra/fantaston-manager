@@ -251,7 +251,7 @@ data.forEach(match => {
           const points = Number(myTeam.total_points) || 0;
           const better = ordered.filter(t => Number(t.total_points) > points).length;
           pointsNode.textContent = num(points);
-          $('homeRanking').textContent = `${better + 1}°`;
+          $('homeRanking').textContent = points === 0 ? '-' : `${better + 1}°`;
           $('fhSeasonMessage').textContent = points === 0 ? 'In attesa dei primi risultati ufficiali.' : 'Classifica a somma di fantapunti.';
         } else $('fhSeasonMessage').textContent = 'La tua fantasquadra non compare ancora in classifica.';
       }
