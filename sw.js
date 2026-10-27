@@ -1,7 +1,7 @@
 
 /* FANTASTON MANAGER - SERVICE WORKER */
 
-const CACHE_NAME = "fantaston-static-v14";
+const CACHE_NAME = "fantaston-static-v15";
 
 const CORE_FILES = [
   "./index.html",
@@ -81,5 +81,39 @@ self.addEventListener("fetch", (event) => {
 
       return Response.error();
     }
+  })());
+});
+
+/* Background Web Push: browser displays notification even when app is closed. */
+self.addEventListener("push", event => {
+  let payload = {};
+  try { payload = event.data ? event.data.json() : {}; } catch { payload = {}; }
+  const routes = new Set(["home","formazione","classifica","profilo"]);
+  const route = routes.has(payload.route) ? payload.route : "home";
+  const title = String(payload.title || "FANTASTON").slice(0,90);
+  const body = String(payload.body || "").slice(0,280);
+  event.waitUntil(self.registration.showNotification(title,{
+    body,
+    icon: new URL("./assets/icons/icon-192.png",self.registration.scope).href,
+    badge: new URL("./assets/icons/icon-192.png",self.registration.scope).href,
+    tag: "fantaston-"+route+"-"+Date.now(),
+    data:{route}
+  }));
+});
+self.addEventListener("notificationclick",event=>{
+  event.notification.close();
+  const allowed = new Set(["home","formazione","classifica","profilo"]);
+  const route = allowed.has(event.notification.data?.route) ? event.notification.data.route : "home";
+  const dest = new URL("./?push_route="+encodeURIComponent(route),self.registration.scope).href;
+  event.waitUntil((async()=>{
+    const windows=await self.clients.matchAll({type:"window",includeUncontrolled:true});
+    for(const windowClient of windows){
+      if(new URL(windowClient.url).origin===self.location.origin){
+        await windowClient.focus();
+        windowClient.postMessage({type:"fantaston:open-page",page:route});
+        return;
+      }
+    }
+    await self.clients.openWindow(dest);
   })());
 });
