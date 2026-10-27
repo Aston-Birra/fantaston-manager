@@ -312,8 +312,20 @@ data.forEach(match => {
         const {error} = await lastClient.from('fantaston_board_events')
           .insert({event_type:'manual', title, body, author_id:user.id});
         if (error) throw error;
+        // La comunicazione è stata pubblicata: il suo salvataggio non
+        // dipende dal successo della successiva notifica push.
         $('fhAdminEventForm').reset();
-        result.textContent = 'Comunicazione pubblicata.';
+        result.textContent = 'Comunicazione pubblicata. Invio notifiche…';
+        try {
+          if (!window.FANTASTON_NOTIFICATIONS?.announceBoardMessage) {
+            throw Error('Servizio notifiche non disponibile');
+          }
+          await window.FANTASTON_NOTIFICATIONS.announceBoardMessage(title,body);
+          result.textContent = 'Comunicazione pubblicata e notifica push programmata.';
+        } catch(pushError) {
+          console.warn('[FANTASTON bacheca push]',pushError);
+          result.textContent = 'Comunicazione pubblicata in bacheca, ma notifica push non inviata: '+(pushError.message||'errore');
+        }
         await refresh(lastClient);
       } catch(e) {result.textContent = `Errore: ${e.message}`;}
       finally {button.disabled = false;}
