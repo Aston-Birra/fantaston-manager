@@ -429,5 +429,10 @@ if (playerCountEl) {
     }
   }
 
+  window.addEventListener("message", event => {
+    if (event.origin !== window.location.origin) return;
+    if (event.data?.type !== "fantaston:open-page") return;
+    if (["home","formazione","classifica","profilo"].includes(event.data.page)) setPage(event.data.page);
+  });
   init();
 })();
