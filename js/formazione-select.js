@@ -681,6 +681,7 @@
       if (!data?.success) throw Error('Supabase non ha confermato il salvataggio.');
       isSaved = true;
       notify('Formazione salvata correttamente!');
+      window.dispatchEvent(new Event('fantaston:lineup-saved'));
     } catch (error) {
       console.error('[Fantaston salvataggio]', error);
       notify('Salvataggio non riuscito: ' + error.message);
