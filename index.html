@@ -37,6 +37,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/player-stats.css?v=20261027-1">
+  <link rel="stylesheet" href="./css/notifications.css?v=20261027-1">
   <link rel="stylesheet" href="./css/public-lineups.css?v=20261027-4">
    <link rel="stylesheet" href="./css/formazione-select.css">
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -343,6 +344,33 @@
               </div>
               <p id="teamLogoMessage" role="status" aria-live="polite" hidden></p>
             </section>
+<section id="pushPanel" aria-label="Notifiche FANTASTON">
+              <div class="push-heading"><i class="bi bi-bell" aria-hidden="true"></i><h3>Notifiche push</h3></div>
+              <p>Ricevi gli avvisi di FANTASTON anche quando l'app è chiusa. Le notifiche sono facoltative e puoi cambiarle quando vuoi.</p>
+              <div class="push-actions">
+                <button type="button" id="pushEnable">Attiva notifiche</button>
+                <button type="button" id="pushDisable" hidden>Disattiva notifiche</button>
+                <button type="button" id="pushTest" disabled>Invia notifica di prova</button>
+              </div>
+              <p id="pushStatus" role="status" aria-live="polite">Verifica disponibilità notifiche…</p>
+              <fieldset id="pushPrefs">
+                <legend>QUALI NOTIFICHE VUOI RICEVERE?</legend>
+                <label><input type="checkbox" id="pushPref_formations_open" data-push-preference="formations_open" checked> Formazioni aperte</label>
+                <label><input type="checkbox" id="pushPref_lineup_reminder" data-push-preference="lineup_reminder" checked> Promemoria formazione (3 ore prima)</label>
+                <label><input type="checkbox" id="pushPref_scores_published" data-push-preference="scores_published" checked> Voti e fantapunti pubblicati</label>
+                <label><input type="checkbox" id="pushPref_match_soon" data-push-preference="match_soon" checked> Partita imminente (1 ora prima)</label>
+                <label><input type="checkbox" id="pushPref_admin_news" data-push-preference="admin_news" checked> Comunicazioni dell'admin</label>
+              </fieldset>
+              <section id="pushAdminPanel" hidden>
+                <h4>Invia una comunicazione push</h4>
+                <p>Solo amministratori. Le notifiche sono inviate agli iscritti che le hanno attivate.</p>
+                <form id="pushAdminForm">
+                  <label for="pushNewsTitle">TITOLO<input id="pushNewsTitle" type="text" maxlength="90" minlength="3" required placeholder="Avviso FANTASTON"></label>
+                  <label for="pushNewsBody">MESSAGGIO<textarea id="pushNewsBody" maxlength="240" minlength="5" required placeholder="Scrivi il messaggio per tutti gli iscritti"></textarea></label>
+                  <button id="pushAdminSend" type="submit" class="push-send">Invia comunicazione</button>
+                </form>
+              </section>
+            </section>
             <div id="adminBadge" class="admin-badge" hidden>✓ Account amministratore abilitato</div>
             <button id="gotoAdmin" type="button" class="action admin-open" data-nav="admin" hidden><svg aria-hidden="true"><use href="#i-settings"></use></svg>Apri pannello amministratore<svg aria-hidden="true"><use href="#i-arrow"></use></svg></button>
             <button id="logoutButton" class="action action-secondary" type="button">Esci dall'account</button>
@@ -567,6 +595,7 @@
   <script defer src="./js/figma-home.js?v=20261025-1"></script>
 <script defer src="./js/fh-team-push.js"></script>
 <script defer src="./js/fh-team-push.js"></script>
+<script defer src="./js/notifications.js?v=20261027-1"></script>
 <script defer src="./js/pwa.js"></script>
 </body>
 </html>
