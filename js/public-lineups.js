@@ -110,31 +110,33 @@
     teams.forEach(team=>list.append(teamCard(team)));
   }
   async function loadMatches(clientInstance) {
-    const {data,error} = await clientInstance.from('matches')
-      .select('id,opponent,kickoff_at,status')
-      .order('kickoff_at',{ascending:false}).limit(50);
+    // Stesse identiche condizioni usate da Schiera la formazione:
+    // una sola prossima partita, programmata, consegne aperte, oltre 2h al via.
+    const now = new Date();
+    const closingThreshold = new Date(now.getTime() + 2 * 60 * 60 * 1000).toISOString();
+    const { data, error } = await clientInstance.from('matches')
+      .select('id,opponent,kickoff_at,lineup_opened_at,status')
+      .eq('status', 'scheduled')
+      .not('lineup_opened_at', 'is', null)
+      .lte('lineup_opened_at', now.toISOString())
+      .gt('kickoff_at', closingThreshold)
+      .order('kickoff_at', { ascending: true })
+      .limit(1);
     if (error) throw error;
-    matches = data||[];
-    const select=$('flMatchSelect');
-    select.replaceChildren();
-    if (!matches.length) {
-      selectedMatch=null;
-      select.disabled=true;
-      select.append(new Option('Nessuna partita',''));
-      return;
+    const next = data?.[0] || null;
+    matches = next ? [next] : [];
+    selectedMatch = next?.id ?? null;
+    const label = $('flCurrentMatch');
+    if (label) {
+      label.textContent = next
+        ? 'Aston Birra vs ' + next.opponent + ' · ' +
+          new Intl.DateTimeFormat('it-IT', {
+            day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit',
+            timeZone: 'Europe/Rome'
+          }).format(new Date(next.kickoff_at))
+        : '';
     }
-    for (const match of matches) {
-      const d=new Date(match.kickoff_at);
-      const date=isNaN(d.getTime())?'':new Intl.DateTimeFormat('it-IT',{day:'numeric',month:'short',timeZone:'Europe/Rome'}).format(d);
-      select.append(new Option(date+' · '+match.opponent,String(match.id)));
-    }
-    if (!matches.some(m=>String(m.id)===String(selectedMatch))) {
-      const future=matches.filter(m=>m.status==='scheduled'&&new Date(m.kickoff_at)>new Date())
-        .sort((a,b)=>new Date(a.kickoff_at)-new Date(b.kickoff_at));
-      selectedMatch=(future[0]||matches[0]).id;
-    }
-    select.disabled=false;
-    select.value=String(selectedMatch);
+    return next;
   }
   async function refresh(reloadMatches=false,quiet=false) {
     if (!visible()||loading) return;
@@ -148,22 +150,42 @@
       const supabase=client();
       const {data:auth,error:authError}=await supabase.auth.getUser();
       if (authError||!auth?.user) throw new Error('Effettua il login per vedere le formazioni.');
-      if (reloadMatches||!matches.length) await loadMatches(supabase);
-      if (selectedMatch===null) {
-        lastPayload={total_teams:0,submitted_count:0,teams:[]};
-        render();
-        list.replaceChildren(el('p','fl-empty','Nessuna partita disponibile.'));
+      const match = await loadMatches(supabase);
+      if (!match) {
+        // Niente partita in programma con consegna aperta: niente sezione.
+        lastPayload=null;
+        expandedTeam=null;
+        lastUpdated=Date.now();
+        list.replaceChildren();
+        if ($('flCount')) $('flCount').textContent='—';
+        $('flPublicLineups').hidden=true;
         return;
       }
-      const id=selectedMatch;
+      if (!lastPayload || String(lastPayload.match_id)!==String(match.id)) {
+        lastPayload=null;
+        expandedTeam=null;
+        list.replaceChildren(el('p','fl-empty','Caricamento formazioni…'));
+      }
+      const id=match.id;
       const {data,error}=await supabase.rpc('get_public_lineups',{p_match_id:id});
       if (error) throw error;
       if (request!==version||String(id)!==String(selectedMatch)) return;
       lastPayload=data;
       lastUpdated=Date.now();
+      $('flPublicLineups').hidden=false;
       render();
     } catch(error) {
       console.error('[Fantaston formazioni condivise]',error);
+      // Non mantenere vecchi dati se la verifica o i permessi falliscono.
+      lastPayload=null;
+      expandedTeam=null;
+      if (error?.code === '42501' || error?.code === '22023') {
+        $('flPublicLineups').hidden=true;
+        list.replaceChildren();
+        if ($('flCount')) $('flCount').textContent='—';
+        return;
+      }
+      $('flPublicLineups').hidden=false;
       if (!quiet||!lastPayload) {
         list.replaceChildren(el('p','fl-empty','Impossibile caricare le formazioni: '+(error.message||'riprova')));
         if ($('flCount')) $('flCount').textContent='—';
@@ -174,14 +196,7 @@
     }
   }
   function init() {
-    const select=$('flMatchSelect');
-    if (!select) return;
-    select.addEventListener('change',()=>{
-      selectedMatch=select.value;
-      expandedTeam=null;
-      lastPayload=null;
-      void refresh(false,false);
-    });
+    if (!$('flPublicLineups')) return;
     $('flRefresh')?.addEventListener('click',()=>void refresh(true,false));
     document.addEventListener('click',event=>{
       if (event.target.closest('[data-nav="formazione"]'))
@@ -194,7 +209,7 @@
       if (visible()) void refresh(true,false);
     });
     setInterval(()=>{
-      if (visible() && !loading && Date.now()-lastUpdated>12000) void refresh(false,true);
+      if (visible() && !loading && Date.now()-lastUpdated>12000) void refresh(true,true);
     },15000);
     if (visible()) void refresh(true,false);
   }
