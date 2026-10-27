@@ -3,7 +3,7 @@
   "use strict";
   const $ = id => document.getElementById(id);
   const kinds = ["formations_open","lineup_reminder","scores_published","match_soon","admin_news"];
-  let api, busy=false, loadedFor=null, pushEnabled=false;
+  let api, busy=false, loadedFor=null, loadGeneration=0, adminAllowedFor=null;
 
   function client() {
     if (api) return api;
@@ -25,9 +25,9 @@
   }
   function setBusy(v) {
     busy=v;
-    for(const id of ["pushEnable","pushDisable","pushTest","pushAdminSend"]){
+    for(const id of ["pushEnable","pushDisable","pushAdminSend"]){
       const el=$(id);
-      if(el)el.disabled=v || (id==='pushTest' && !pushEnabled);
+      if(el)el.disabled=v;
     }
   }
   async function user() {
@@ -66,15 +66,20 @@
     return await registration.pushManager.getSubscription();
   }
   function buttons(active) {
-    pushEnabled=active;
     if($("pushEnable"))$("pushEnable").hidden=active;
     if($("pushDisable"))$("pushDisable").hidden=!active;
-    if($("pushTest"))$("pushTest").disabled=!active;
   }
   async function load() {
     if(!$("pushPanel"))return;
+    const generation=++loadGeneration;
+    // Default privato: nascondere subito le funzioni admin a ogni accesso.
+    const admin=$("pushAdminPanel");
+    if(admin)admin.hidden=true;
+    adminAllowedFor=null;
     try {
       const account=await user();
+      await setAdminView(account.id,generation);
+      if(generation!==loadGeneration)return;
       if(!available()){
         buttons(false);
         $("pushEnable").disabled=true;
@@ -103,15 +108,21 @@
         }
         loadedFor=account.id;
       }
-      await setAdminView(account.id);
-    }catch(e){announce(e.message||"Errore caricamento preferenze",true);}
+    }catch(e){
+      if(generation===loadGeneration)announce(e.message||"Errore caricamento preferenze",true);
+    }
   }
-  async function setAdminView(uid) {
+  async function setAdminView(uid,generation) {
     const admin=$("pushAdminPanel");
     if(!admin)return;
+    admin.hidden=true;
     const {data,error}=await client().from("profiles").select("role").eq("id",uid).single();
-    if(error)return;
-    admin.hidden=data?.role!=="admin";
+    if(error || data?.role!=="admin" || generation!==loadGeneration)return;
+    // Protezione da risultati asincroni obsoleti se l'account cambia.
+    const {data:auth,error:authError}=await client().auth.getUser();
+    if(authError || auth?.user?.id!==uid || generation!==loadGeneration)return;
+    adminAllowedFor=uid;
+    admin.hidden=false;
   }
   async function enable() {
     if(busy)return;
@@ -137,7 +148,7 @@
       }
       await invoke("subscribe",{subscription:sub.toJSON()});
       buttons(true);
-      announce("Notifiche attive! Usa «Invia prova» per verificarle.");
+      announce("Notifiche attive su questo dispositivo.");
     }catch(e){
       announce("Attivazione non riuscita: "+(e.message||"errore"),true);
     }finally{setBusy(false);await load();}
@@ -155,16 +166,6 @@
       if(!silent)announce("Notifiche disattivate su questo dispositivo.");
     }catch(e){if(!silent)announce("Impossibile disattivare: "+(e.message||"errore"),true);}
     finally{if(!silent){setBusy(false);await load();}}
-  }
-  async function test() {
-    if(busy)return;
-    setBusy(true);
-    announce("Invio della notifica di prova…");
-    try {
-      const result=await invoke("test");
-      announce("Test inviato a "+result.delivered+" dispositivo/i. Controlla le notifiche!");
-    }catch(e){announce("Test non riuscito: "+(e.message||"errore"),true);}
-    finally{setBusy(false);}
   }
   async function preference(event) {
     const checkbox=event.target;
@@ -191,6 +192,8 @@
     if(!title||!body)return;
     setBusy(true);
     try{
+      const account=await user();
+      if(adminAllowedFor!==account.id)throw Error("Funzione riservata agli amministratori.");
       const result=await invoke("admin_news",{title,body});
       $("pushAdminForm").reset();
       announce("Comunicazione inserita nella coda per "+result.queued+" utenti.");
@@ -201,7 +204,6 @@
     if(!$("pushPanel"))return;
     $("pushEnable")?.addEventListener("click",()=>void enable());
     $("pushDisable")?.addEventListener("click",()=>void disable());
-    $("pushTest")?.addEventListener("click",()=>void test());
     $("pushAdminForm")?.addEventListener("submit",event=>void sendNews(event));
     $("pushPrefs")?.addEventListener("change",event=>void preference(event));
     document.addEventListener("click",event=>{
@@ -213,5 +215,14 @@
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);
   else init();
-  window.FANTASTON_NOTIFICATIONS=Object.freeze({load,disableForSignout:()=>disable(true)});
+  window.FANTASTON_NOTIFICATIONS=Object.freeze({
+    load,
+    disableForSignout:()=>{
+      ++loadGeneration;
+      loadedFor=null;
+      adminAllowedFor=null;
+      if($("pushAdminPanel"))$("pushAdminPanel").hidden=true;
+      return disable(true);
+    }
+  });
 })();
