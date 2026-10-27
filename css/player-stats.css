@@ -1,5 +1,10 @@
 /* FANTASTON — Scheda giocatore, stile nero e oro. */
 #giocatoriPage .public-player {
+  appearance: none;
+  width: 100%;
+  text-align: left;
+  color: inherit;
+  font: inherit;
   cursor: pointer;
   transition: border-color .18s ease, transform .18s ease, background .18s ease;
   -webkit-tap-highlight-color: transparent;
