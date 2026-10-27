@@ -12,8 +12,8 @@
 .fl-summary{width:100%;padding:13px;display:flex;align-items:center;gap:12px;background:transparent;border:0;text-align:left;color:#f5eee2;cursor:pointer}
 .fl-summary:disabled{opacity:.65;cursor:default}
 .fl-summary:focus-visible{outline:2px solid #f6d083;outline-offset:-3px}
-.fl-logo{width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;border-radius:12px;background:#483119;color:#eec780;font-size:20px;font-weight:800;overflow:hidden}
-.fl-logo img{width:100%;height:100%;object-fit:cover}
+.fl-logo{position:relative;width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;border-radius:12px;background:#483119;color:#eec780;font-size:20px;font-weight:800;overflow:hidden}
+.fl-logo img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;z-index:1}
 .fl-title{display:flex;flex:1;flex-direction:column;gap:3px;min-width:0}
 .fl-title strong{overflow-wrap:anywhere;font-size:13px}
 .fl-title small{font-size:10px;color:#c1b3a0}
@@ -23,8 +23,8 @@
 .fl-meta{display:flex;justify-content:space-between;gap:10px;border-top:1px solid #5b452e;padding:10px 0;font-size:10px;color:#eac786}
 .fl-pick{display:flex;align-items:center;gap:10px;padding:9px;background:#2c251e;border:1px solid #4c3b27;border-radius:12px;margin:6px 0}
 .fl-pick.captain{border-color:#cf9d4f;background:#3b2d1d}
-.fl-portrait{width:36px;height:43px;flex:0 0 36px;border-radius:9px;background:#49331c;color:#edd095;display:grid;place-items:center;overflow:hidden}
-.fl-portrait img{width:100%;height:100%;object-fit:cover}
+.fl-portrait{position:relative;width:36px;height:43px;flex:0 0 36px;border-radius:9px;background:#49331c;color:#edd095;display:grid;place-items:center;overflow:hidden}
+.fl-portrait img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;z-index:1}
 .fl-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 .fl-info small{font-size:9px;color:#bea17c}
 .fl-info strong{font-size:12px;color:#fff3e1;overflow-wrap:anywhere}
