@@ -37,7 +37,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/player-stats.css?v=20261027-1">
-  <link rel="stylesheet" href="./css/public-lineups.css?v=20261027-3">
+  <link rel="stylesheet" href="./css/public-lineups.css?v=20261027-4">
    <link rel="stylesheet" href="./css/formazione-select.css">
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -46,7 +46,7 @@
   <script defer src="./js/app.js?v=20261027-1"></script>
   <script defer src="./js/player-stats.js?v=20261027-1"></script>
   <script src="./js/formazione-select.js"></script>
-  <script defer src="./js/public-lineups.js?v=20261027-2"></script>
+  <script defer src="./js/public-lineups.js?v=20261027-4"></script>
   <link rel="stylesheet" href="./css/home-match.css">
   <link rel="stylesheet" href="./css/calendario-classifica.css">
   <link rel="stylesheet" href="./css/team-logo.css">
@@ -289,13 +289,13 @@
 
     <div class="fm-bottom-actions"><div><strong>18 <small>CR UTILIZZATI</small></strong><span>Simulazione · nessun dato salvato</span></div><button class="fm-save" disabled>Salva formazione</button></div>
   </div>
-  <section class="fl-panel" id="flPublicLineups" aria-labelledby="flHeading">
+  <section class="fl-panel" id="flPublicLineups" aria-labelledby="flHeading" hidden>
     <div class="fl-bar">
       <h2 id="flHeading">Altre formazioni</h2>
       <span class="fl-count" id="flCount">—</span>
     </div>
     <div class="fl-controls">
-      <select id="flMatchSelect" aria-label="Seleziona la partita"><option>Caricamento partite…</option></select>
+      <span id="flCurrentMatch" class="fl-current-match" aria-live="polite"></span>
       <button type="button" id="flRefresh" aria-label="Aggiorna le formazioni">Aggiorna</button>
     </div>
     <div class="fl-list" id="flTeamList" aria-live="polite">
