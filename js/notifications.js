@@ -3,7 +3,7 @@
   "use strict";
   const $ = id => document.getElementById(id);
   const kinds = ["formations_open","lineup_reminder","scores_published","match_soon","admin_news"];
-  let api, busy=false, loadedFor=null;
+  let api, busy=false, loadedFor=null, pushEnabled=false;
 
   function client() {
     if (api) return api;
@@ -27,7 +27,7 @@
     busy=v;
     for(const id of ["pushEnable","pushDisable","pushTest","pushAdminSend"]){
       const el=$(id);
-      if(el)el.disabled=v;
+      if(el)el.disabled=v || (id==='pushTest' && !pushEnabled);
     }
   }
   async function user() {
@@ -66,6 +66,7 @@
     return await registration.pushManager.getSubscription();
   }
   function buttons(active) {
+    pushEnabled=active;
     if($("pushEnable"))$("pushEnable").hidden=active;
     if($("pushDisable"))$("pushDisable").hidden=!active;
     if($("pushTest"))$("pushTest").disabled=!active;
