@@ -417,6 +417,8 @@ if (playerCountEl) {
       const { data, error } = await client.auth.getUser();
       if (error && !/session missing/i.test(error.message)) console.warn("Supabase Auth:", error.message);
       await renderUser(data?.user || null);
+      const route = new URLSearchParams(location.search).get("push_route");
+      if (["home","formazione","classifica","profilo"].includes(route)) setPage(route);
       const params = new URLSearchParams(window.location.search);
       if (params.has("error_description")) reportError("Google OAuth: " + params.get("error_description"));
     } catch (error) {
