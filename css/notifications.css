@@ -1,0 +1,24 @@
+/* FANTASTON - Impostazioni Web Push */
+#pushPanel{margin:18px 0;padding:17px;background:linear-gradient(140deg,#261e14,#13110f);border:1px solid #715530;border-radius:20px;color:#f4e8d7}
+#pushPanel .push-heading{display:flex;align-items:center;gap:11px;margin-bottom:12px}
+#pushPanel .push-heading i{font-size:26px;color:#dfb66d}
+#pushPanel h3{margin:0;font:800 24px/1.1 'Barlow Condensed',sans-serif;color:#f3cb83}
+#pushPanel p{font-size:12px;line-height:1.5;color:#bfb09b;margin:7px 0 15px}
+#pushPanel .push-actions{display:flex;flex-wrap:wrap;gap:9px}
+#pushPanel .push-actions button,#pushPanel .push-send{border-radius:20px;min-height:41px;padding:11px 14px;font-weight:800;font-size:12px;cursor:pointer;border:1px solid #937249;background:#332719;color:#f1d09a}
+#pushPanel .push-actions #pushEnable{background:#edc77e;color:#23180b;border-color:#edc77e}
+#pushPanel button[hidden],#pushPanel section[hidden]{display:none!important}
+#pushPanel button:disabled{opacity:.45;cursor:not-allowed}
+#pushPanel button:focus-visible,#pushPanel input:focus-visible,#pushPanel textarea:focus-visible{outline:2px solid #f6d28a;outline-offset:2px}
+#pushStatus{color:#d0bd9d!important;margin:12px 0!important;font-size:12px!important}
+#pushStatus.push-error{color:#f1a4a4!important}
+#pushPrefs{border-top:1px solid #59442e;margin-top:13px;padding-top:12px;display:grid;gap:8px}
+#pushPrefs legend{font-size:11px;color:#d4b379;font-weight:800;margin-bottom:9px}
+#pushPrefs label{display:flex;align-items:center;gap:12px;padding:9px 7px;background:#2c231a;border-radius:12px;color:#e9dccb;font-size:12px}
+#pushPrefs input{accent-color:#e5ba71;width:18px;height:18px;flex:0 0 18px}
+#pushAdminPanel{margin-top:16px;padding-top:14px;border-top:1px solid #715530}
+#pushAdminPanel h4{font:800 20px 'Barlow Condensed',sans-serif;color:#f3cb83;margin:0 0 6px}
+#pushAdminPanel label{display:grid;gap:6px;font-size:12px;color:#d4b68c;margin:10px 0}
+#pushAdminPanel input,#pushAdminPanel textarea{width:100%;box-sizing:border-box;border:1px solid #775d38;border-radius:13px;background:#171411;color:#f6ede0;padding:11px;font:inherit;font-size:13px}
+#pushAdminPanel textarea{min-height:90px;resize:vertical}
+#pushAdminPanel .push-send{background:#ebc77c;color:#24190b}
