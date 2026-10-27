@@ -1,7 +1,7 @@
 
 /* FANTASTON MANAGER - SERVICE WORKER */
 
-const CACHE_NAME = "fantaston-static-v15";
+const CACHE_NAME = "fantaston-static-v16";
 
 const CORE_FILES = [
   "./index.html",
