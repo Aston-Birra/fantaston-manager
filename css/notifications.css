@@ -12,7 +12,7 @@
 #pushPanel button:focus-visible,#pushPanel input:focus-visible,#pushPanel textarea:focus-visible{outline:2px solid #f6d28a;outline-offset:2px}
 #pushStatus{color:#d0bd9d!important;margin:12px 0!important;font-size:12px!important}
 #pushStatus.push-error{color:#f1a4a4!important}
-#pushPrefs{border-top:1px solid #59442e;margin-top:13px;padding-top:12px;display:grid;gap:8px}
+#pushPrefs{min-width:0;border:0;border-top:1px solid #59442e;margin-top:13px;padding:12px 0 0;display:grid;gap:8px}
 #pushPrefs legend{font-size:11px;color:#d4b379;font-weight:800;margin-bottom:9px}
 #pushPrefs label{display:flex;align-items:center;gap:12px;padding:9px 7px;background:#2c231a;border-radius:12px;color:#e9dccb;font-size:12px}
 #pushPrefs input{accent-color:#e5ba71;width:18px;height:18px;flex:0 0 18px}
@@ -22,3 +22,6 @@
 #pushAdminPanel input,#pushAdminPanel textarea{width:100%;box-sizing:border-box;border:1px solid #775d38;border-radius:13px;background:#171411;color:#f6ede0;padding:11px;font:inherit;font-size:13px}
 #pushAdminPanel textarea{min-height:90px;resize:vertical}
 #pushAdminPanel .push-send{background:#ebc77c;color:#24190b}
+
+/* La sezione di invio resta invisibile senza autorizzazione admin. */
+#pushAdminPanel[hidden]{display:none!important}
