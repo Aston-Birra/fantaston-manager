@@ -60,6 +60,7 @@
   function setPage(name, { scroll = true } = {}) {
     if (!currentUserId || !pages.has(name)) return;
     if (name === "admin" && !isAdmin) return;
+    window.FANTASTON_PLAYER_STATS?.close();
     currentPage = name;
     for (const [key, page] of pages) {
     if (page) {
@@ -108,6 +109,7 @@
     window.FANTASTON_ADMIN?.hide();
 
     if (!user) {
+      window.FANTASTON_PLAYER_STATS?.close();
       teamSetupForm.reset();
       showView("landing");
       loginButton.disabled = false;
@@ -214,7 +216,10 @@ if ($("homeAverage")) {
 
 
 function playerRow(player) {
-  const row = make("article", "public-player");
+  const row = make("button", "public-player");
+  row.type = "button";
+  row.setAttribute("aria-label", "Statistiche di " + (player.name || "calciatore"));
+  row.addEventListener("click", () => window.FANTASTON_PLAYER_STATS?.open(client, player.id));
 
   // FOTO GIOCATORE
   const avatar = make("div", "public-player-avatar");
