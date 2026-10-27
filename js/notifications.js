@@ -200,6 +200,15 @@
     }catch(e){announce("Comunicazione non inviata: "+(e.message||"errore"),true);}
     finally{setBusy(false);}
   }
+  async function announceBoardMessage(title, body) {
+    // Il server verifica nuovamente il ruolo admin: il frontend non concede privilegi.
+    const preparedTitle=String(title||"").trim();
+    const preparedBody=String(body||"").trim();
+    return await invoke("admin_news",{
+      title:(preparedTitle.length>=3?preparedTitle:"Avviso FANTASTON").slice(0,90),
+      body:(preparedBody.length>=5?preparedBody:"Nuova comunicazione in bacheca.").slice(0,240)
+    });
+  }
   function init(){
     if(!$("pushPanel"))return;
     $("pushEnable")?.addEventListener("click",()=>void enable());
@@ -217,6 +226,7 @@
   else init();
   window.FANTASTON_NOTIFICATIONS=Object.freeze({
     load,
+    announceBoardMessage,
     disableForSignout:()=>{
       ++loadGeneration;
       loadedFor=null;
