@@ -1,0 +1,33 @@
+/* Formazioni condivise - stile FANTASTON */
+.fl-panel{margin:22px 0;padding:16px;background:#171410;border:1px solid #70542e;border-radius:20px;color:#f5eee2}
+.fl-bar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.fl-bar h2{color:#e9bf75;font:800 26px 'Barlow Condensed',sans-serif;margin:0}
+.fl-count{font-size:12px;color:#e9bf75;font-weight:800}
+.fl-controls{display:flex;gap:8px;margin:12px 0}
+.fl-controls select{flex:1;min-width:0;color:#f5eee2;border:1px solid #665031;border-radius:18px;background:#292018;padding:11px}
+.fl-controls button{border:1px solid #b48951;border-radius:20px;background:#342719;color:#edcb92;padding:10px 14px;cursor:pointer}
+.fl-match{font-size:10px;letter-spacing:.06em;color:#a99c8b;margin:4px 0 12px}
+.fl-list{display:grid;gap:9px}
+.fl-card{border:1px solid #55412b;border-radius:16px;background:#241e18;overflow:hidden}
+.fl-summary{width:100%;padding:13px;display:flex;align-items:center;gap:12px;background:transparent;border:0;text-align:left;color:#f5eee2;cursor:pointer}
+.fl-summary:disabled{opacity:.65;cursor:default}
+.fl-summary:focus-visible{outline:2px solid #f6d083;outline-offset:-3px}
+.fl-logo{width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;border-radius:12px;background:#483119;color:#eec780;font-size:20px;font-weight:800;overflow:hidden}
+.fl-logo img{width:100%;height:100%;object-fit:cover}
+.fl-title{display:flex;flex:1;flex-direction:column;gap:3px;min-width:0}
+.fl-title strong{overflow-wrap:anywhere;font-size:13px}
+.fl-title small{font-size:10px;color:#c1b3a0}
+.fl-status{font-size:11px;color:#e1b878;white-space:nowrap}
+.fl-detail{padding:0 12px 12px}
+.fl-detail[hidden]{display:none!important}
+.fl-meta{display:flex;justify-content:space-between;gap:10px;border-top:1px solid #5b452e;padding:10px 0;font-size:10px;color:#eac786}
+.fl-pick{display:flex;align-items:center;gap:10px;padding:9px;background:#2c251e;border:1px solid #4c3b27;border-radius:12px;margin:6px 0}
+.fl-pick.captain{border-color:#cf9d4f;background:#3b2d1d}
+.fl-portrait{width:36px;height:43px;flex:0 0 36px;border-radius:9px;background:#49331c;color:#edd095;display:grid;place-items:center;overflow:hidden}
+.fl-portrait img{width:100%;height:100%;object-fit:cover}
+.fl-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.fl-info small{font-size:9px;color:#bea17c}
+.fl-info strong{font-size:12px;color:#fff3e1;overflow-wrap:anywhere}
+.fl-price{font-size:10px;font-weight:800;color:#efc787;white-space:nowrap}
+.fl-empty{padding:14px;font-size:12px;color:#c9b9a4}
+@media(min-width:720px){.fl-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
