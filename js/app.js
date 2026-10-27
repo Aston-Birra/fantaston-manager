@@ -76,6 +76,7 @@
       else button.removeAttribute("aria-current");
     });
     if (name === "giocatori") void loadPublicPlayers();
+    if (name === "profilo") window.FANTASTON_NOTIFICATIONS?.load();
     if (name === "profilo") window.FANTASTON_TEAM_LOGO?.refresh(client);
     if (name === "classifica") window.FANTASTON_PUBLIC?.refresh(client);
     if (name === "home") {
@@ -402,6 +403,8 @@ if (playerCountEl) {
         clearError();
         logoutButton.disabled = true;
         try {
+          // Revoca la sottoscrizione locale prima di uscire: nessun avviso al prossimo utente del dispositivo.
+          await window.FANTASTON_NOTIFICATIONS?.disableForSignout?.();
           const { error } = await client.auth.signOut();
           if (error) throw error;
           await renderUser(null);
