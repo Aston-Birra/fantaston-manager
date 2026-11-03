@@ -440,123 +440,170 @@ body:has(#homePage:not([hidden])),
   color: #AAA398 !important;
 }
 
-/* ==========================================
-   CALENDARIO HOME - RIGHE PARTITE
-   ========================================== */
-
+/* CALENDARIO HOME: stemmi principali, maglie ai lati, nomi senza iniziali */
 #homePage .fh-calendar-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-}
-
-#homePage .fh-cal-row {
-  display: flex;
-  align-items: center;
   gap: 10px;
-  padding: 10px;
-
-  background: rgba(0, 0, 0, 0.20);
-  border-radius: 9px;
+  position: relative;
+  z-index: 1;
 }
-
-/* Data e orario */
-#homePage .fh-cal-date {
-  width: 83px;
-  flex-shrink: 0;
-  color: #F6F2E9;
-  font-size: 11px;
-}
-
-/* Logo avversario */
-#homePage .fh-cal-row img {
-  width: 28px;
-  height: 28px;
-  object-fit: contain;
-}
-
-/* Nome avversario */
-#homePage .fh-cal-opponent {
-  color: #FFFFFF;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-/* =====================================
-   CALENDARIO HOME - RIGHE PARTITE
-   ===================================== */
 
 #homePage .fh-cal-row {
-  display: grid;
-
-  /* DATA | CASA/TRASFERTA | LOGO | AVVERSARIO */
-  grid-template-columns: 76px 22px 30px minmax(0, 1fr);
-
-  align-items: center;
-  gap: 8px;
-
-  padding: 10px;
-  background: rgba(0, 0, 0, 0.20);
-  border-radius: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 13px;
+  padding: 13px 12px 15px;
+  background: rgba(0, 0, 0, 0.23);
+  border: 1px solid rgba(232, 187, 105, 0.11);
+  border-radius: 14px;
+  min-width: 0;
 }
 
-/* DATA E ORARIO */
+#homePage .fh-cal-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
 #homePage .fh-cal-date {
   width: auto;
-  flex-shrink: initial;
+  min-width: 0;
   color: #F6F2E9;
-  font-size: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
-/* ICONA CASA / TRASFERTA */
 #homePage .fh-cal-venue {
-  width: 22px;
-  height: 28px;
-
-  display: flex;
+  width: auto;
+  height: auto;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-
+  justify-content: flex-end;
+  gap: 5px;
   color: #E4BB69;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  white-space: nowrap;
 }
 
 #homePage .fh-cal-venue svg {
-  width: 19px;
-  height: 19px;
+  display: block;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
 }
 
-/* CONTENITORE LOGO AVVERSARIO */
-#homePage .fh-cal-logo {
-  width: 30px;
-  height: 30px;
+#homePage .fh-cal-matchup {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr);
+  align-items: start;
+  gap: 4px;
+  min-width: 0;
+}
 
+#homePage .fh-cal-side {
+  min-width: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-
-  color: #AAA398;
-  font-size: 14px;
+  gap: 7px;
 }
 
-/* IMMAGINE LOGO */
+#homePage .fh-cal-brand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 57px;
+}
+
+#homePage .fh-cal-logo {
+  box-sizing: border-box;
+  width: 57px;
+  height: 57px;
+  flex: 0 0 57px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
 #homePage .fh-cal-logo img {
-  width: 26px;
-  height: 26px;
+  display: block;
+  width: 94%;
+  height: 94%;
   object-fit: contain;
 }
 
-/* NOME AVVERSARIO */
-#homePage .fh-cal-opponent {
-  min-width: 0;
-  overflow-wrap: anywhere;
+#homePage .fh-cal-logo svg {
+  width: 31px;
+  height: 31px;
+  color: #A8A099;
+}
 
+#homePage .fh-cal-kit {
+  box-sizing: border-box;
+  flex: 0 0 28px;
+  width: 28px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#homePage .fh-cal-kit img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+#homePage .fh-cal-kit--missing svg {
+  width: 25px;
+  height: 31px;
+  color: #B1A79A;
+}
+
+#homePage .fh-cal-team-name {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
   color: #F6F2E9;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+#homePage .fh-cal-vs {
+  display: block;
+  align-self: center;
+  padding-top: 1px;
+  color: #E4BB69;
   font-size: 12px;
   font-weight: 700;
+  text-align: center;
 }
+
+@media (max-width: 375px) {
+  #homePage .fh-cal-row { padding-inline: 9px; }
+  #homePage .fh-cal-brand { gap: 3px; }
+  #homePage .fh-cal-logo { width: 46px; height: 46px; flex-basis: 46px; }
+  #homePage .fh-cal-kit { width: 23px; height: 34px; flex-basis: 23px; }
+  #homePage .fh-cal-team-name { font-size: 10px; }
+}
+
 /* Card calendario: serve per posizionare l'icona decorativa */
 #homePage .fh-calendar .fh-calendar-card {
   position: relative;
