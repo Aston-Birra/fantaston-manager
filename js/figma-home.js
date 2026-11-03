@@ -91,128 +91,145 @@
     }
   }
 
-/* CALENDARIO HOME - PROSSIME 3 PARTITE */
+/* CALENDARIO HOME - PROSSIME 3 PARTITE: stemmi centrali e maglie laterali */
 async function loadHomeCalendar(client) {
-
   const container = document.getElementById('fhCalendarPreview');
   if (!container || !client) return;
-
   container.textContent = 'Caricamento calendario...';
+
+  const validImage = url =>
+    typeof url === 'string' && /^https:\/\/[^\s]+$/i.test(url.trim()) ? url.trim() : null;
+
+  const make = (tag, cls, value) => {
+    const el = document.createElement(tag);
+    if (cls) el.className = cls;
+    if (value !== undefined) el.textContent = value;
+    return el;
+  };
+
+  const svgPath = (pathData, viewBox = '0 0 24 24') => {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', viewBox);
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('stroke-width', '1.8');
+    svg.setAttribute('stroke-linecap', 'round');
+    svg.setAttribute('stroke-linejoin', 'round');
+    svg.setAttribute('aria-hidden', 'true');
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', pathData);
+    svg.append(path);
+    return svg;
+  };
+
+  const makeCrest = (url, teamName, isLocal) => {
+    const box = make('span', 'fh-cal-logo');
+    box.setAttribute('aria-label', 'Stemma ' + teamName);
+    const img = make('img');
+    const source = isLocal ? './assets/aston-birra-logo.png' : validImage(url);
+    const showFallback = () => {
+      box.replaceChildren(svgPath('M12 2 4 5v6c0 5.3 3.3 9 8 11 4.7-2 8-5.7 8-11V5l-8-3zM8 12l3 3 5-6'));
+    };
+    if (!source) {
+      showFallback();
+    } else {
+      img.src = source;
+      img.alt = 'Stemma ' + teamName;
+      img.loading = 'lazy';
+      img.onerror = showFallback;
+      box.append(img);
+    }
+    return box;
+  };
+
+  const makeKit = (url, teamName, isAston) => {
+    const box = make('span', 'fh-cal-kit');
+    box.title = 'Maglia ' + teamName;
+    const source = isAston ? './assets/aston-birra-kit.svg' : validImage(url);
+    const showFallback = () => {
+      box.replaceChildren(svgPath('m8 3 4 2 4-2 5 4-3 4-2-1v11H8V10l-2 1-3-4z'));
+      box.classList.add('fh-cal-kit--missing');
+    };
+    if (!source) {
+      showFallback();
+    } else {
+      const img = make('img');
+      img.src = source;
+      img.alt = 'Maglia ' + teamName;
+      img.loading = 'lazy';
+      img.onerror = showFallback;
+      box.append(img);
+    }
+    return box;
+  };
 
   try {
     const { data, error } = await client
       .from('matches')
-.select('id, opponent, kickoff_at, opponent_logo_url, is_home')
+      .select('id, opponent, kickoff_at, opponent_logo_url, opponent_theme_image_url, is_home')
       .eq('status', 'scheduled')
       .gt('kickoff_at', new Date().toISOString())
       .order('kickoff_at', { ascending: true })
       .limit(3);
 
     if (error) throw error;
-
     container.replaceChildren();
 
-    if (!data || data.length === 0) {
+    if (!data || !data.length) {
       container.textContent = 'Nessuna partita futura in calendario.';
       return;
     }
 
     const formatter = new Intl.DateTimeFormat('it-IT', {
-      day: '2-digit',
-      month: 'short',
-      hour: '2-digit',
-      minute: '2-digit',
+      day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit',
       timeZone: 'Europe/Rome'
     });
 
+    data.forEach(match => {
+      const opponentName = match.opponent || 'Da definire';
+      const row = make('article', 'fh-cal-row');
+      row.setAttribute('aria-label', 'Aston Birra contro ' + opponentName);
 
-data.forEach(match => {
+      const meta = make('div', 'fh-cal-meta');
+      const date = make('time', 'fh-cal-date', formatter.format(new Date(match.kickoff_at)));
+      date.dateTime = match.kickoff_at;
+      const isHome = match.is_home;
+      const venueText = isHome === true ? 'CASA' : isHome === false ? 'TRASFERTA' : 'DA DEFINIRE';
+      const venue = make('span', 'fh-cal-venue');
+      venue.title = isHome === true ? 'In casa' : isHome === false ? 'In trasferta' : 'Campo da definire';
+      venue.setAttribute('aria-label', venue.title);
+      if (isHome !== null && isHome !== undefined) {
+        venue.append(svgPath(isHome
+          ? 'm3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z'
+          : 'M17.5 21H21v-3.5L14 11V3.5a2 2 0 0 0-4 0V11l-7 6.5V21h3.5l5.5-4 5.5 4Z'));
+      }
+      venue.append(make('span', 'fh-cal-venue-label', venueText));
+      meta.append(date, venue);
 
-  const row = document.createElement('div');
-  row.className = 'fh-cal-row';
+      const matchUp = make('div', 'fh-cal-matchup');
+      const aston = make('div', 'fh-cal-side fh-cal-side--aston');
+      const astonBrand = make('div', 'fh-cal-brand');
+      astonBrand.append(
+        makeKit(null, 'Aston Birra', true),
+        makeCrest(null, 'Aston Birra', true)
+      );
+      aston.append(astonBrand, make('strong', 'fh-cal-team-name', 'Aston Birra'));
 
-  // DATA E ORA
-  const date = document.createElement('span');
-  date.className = 'fh-cal-date';
-  date.textContent = formatter.format(
-    new Date(match.kickoff_at)
-  );
+      const versus = make('span', 'fh-cal-vs', 'VS');
+      versus.setAttribute('aria-hidden', 'true');
 
-  // ICONA CASA / TRASFERTA
-  const venue = document.createElement('span');
-  venue.className = 'fh-cal-venue';
+      const opponent = make('div', 'fh-cal-side fh-cal-side--opponent');
+      const opponentBrand = make('div', 'fh-cal-brand');
+      opponentBrand.append(
+        makeCrest(match.opponent_logo_url, opponentName, false),
+        makeKit(match.opponent_theme_image_url, opponentName, false)
+      );
+      opponent.append(opponentBrand, make('strong', 'fh-cal-team-name', opponentName));
 
-  const isHome = match.is_home;
-
-  venue.title = isHome === true
-    ? 'In casa'
-    : isHome === false
-      ? 'In trasferta'
-      : 'Da definire';
-
-  venue.setAttribute('aria-label', venue.title);
-
-  if (isHome === null || isHome === undefined) {
-    venue.textContent = '—';
-  } else {
-    const svg = document.createElementNS(
-      'http://www.w3.org/2000/svg', 'svg'
-    );
-
-    svg.setAttribute('viewBox', '0 0 24 24');
-    svg.setAttribute('fill', 'none');
-    svg.setAttribute('stroke', 'currentColor');
-    svg.setAttribute('stroke-width', '1.8');
-    svg.setAttribute('stroke-linecap', 'round');
-    svg.setAttribute('stroke-linejoin', 'round');
-
-    const path = document.createElementNS(
-      'http://www.w3.org/2000/svg', 'path'
-    );
-
-    path.setAttribute('d', isHome
-      ? 'm3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z'
-      : 'M17.5 21H21v-3.5L14 11V3.5a2 2 0 0 0-4 0V11l-7 6.5V21h3.5l5.5-4 5.5 4Z'
-    );
-
-    svg.append(path);
-    venue.append(svg);
-  }
-
-  // CONTENITORE LOGO AVVERSARIO
-  const logoBox = document.createElement('span');
-  logoBox.className = 'fh-cal-logo';
-
-  const logoUrl = match.opponent_logo_url;
-
-  if (logoUrl && /^https:\/\//i.test(logoUrl)) {
-    const img = document.createElement('img');
-    img.src = logoUrl;
-    img.alt = `Logo ${match.opponent}`;
-    img.loading = 'lazy';
-
-    img.onerror = () => {
-      img.remove();
-      logoBox.textContent = '?';
-    };
-
-    logoBox.append(img);
-  } else {
-    logoBox.textContent = '?';
-  }
-
-  // NOME AVVERSARIO
-  const opponent = document.createElement('strong');
-  opponent.className = 'fh-cal-opponent';
-  opponent.textContent = match.opponent || 'Da definire';
-
-  // ORDINE ELEMENTI
-  row.append(date, venue, logoBox, opponent);
-
-  container.append(row);
-});
-
-
+      matchUp.append(aston, versus, opponent);
+      row.append(meta, matchUp);
+      container.append(row);
+    });
   } catch (error) {
     console.error('[FANTASTON Calendario Home]', error);
     container.textContent = 'Impossibile caricare il calendario.';
