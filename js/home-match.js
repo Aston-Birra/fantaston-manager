@@ -57,7 +57,6 @@
     put('homeMatchCountdownLabel', 'MANCANO AL CALCIO D’INIZIO');
     for (const unit of ['Days','Hours','Minutes','Seconds']) put('homeMatch' + unit, '--');
     image('homeMatchOpponentLogo', null);
-    image('homeMatchThemeImage', null);
     setStatus('Verifica in corso'); setButton(false, 'Apri formazione');
     try {
       const { data: authData, error: authError } = await client.auth.getUser();
@@ -65,7 +64,7 @@
       if (!authData?.user || request !== generation) return;
       const now = new Date();
       const { data: matches, error: matchError } = await client.from('matches')
-        .select('id,opponent,kickoff_at,lineup_opened_at,status,opponent_logo_url,opponent_theme_image_url')
+        .select('id,opponent,kickoff_at,lineup_opened_at,status,opponent_logo_url')
         .eq('status','scheduled').gt('kickoff_at',now.toISOString())
         .order('kickoff_at',{ascending:true}).limit(1);
       if (matchError) throw matchError;
@@ -80,7 +79,6 @@
       put('homeMatchOpponent', match.opponent);
       put('homeMatchKickoff', fmtDate(match.kickoff_at));
       image('homeMatchOpponentLogo', match.opponent_logo_url);
-      image('homeMatchThemeImage', match.opponent_theme_image_url);
       startTicker(match.kickoff_at);
       const deadline = new Date(match.kickoff_at).getTime() - 7200000;
       const opened = match.lineup_opened_at && new Date(match.lineup_opened_at).getTime() <= Date.now();
