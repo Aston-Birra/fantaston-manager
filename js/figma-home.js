@@ -130,15 +130,18 @@ async function loadHomeCalendar(client) {
       box.replaceChildren(svgPath('m8 3 4 2 4-2 5 4-3 4-2-1v11H8V10l-2 1-3-4z'));
       box.classList.add('fh-cal-kit--missing');
     };
-    if (!source) {
-      showFallback();
-    } else {
+    // Una sagoma resta visibile anche se l'immagine remota fallisce.
+    showFallback();
+    if (source) {
       const img = make('img');
-      img.src = source;
       img.alt = 'Maglia ' + teamName;
-      img.loading = 'lazy';
-      img.onerror = showFallback;
-      box.append(img);
+      img.decoding = 'async';
+      img.onload = () => {
+        box.classList.remove('fh-cal-kit--missing');
+        box.replaceChildren(img);
+      };
+      img.onerror = () => console.warn('[Fantaston Calendario] Maglia non caricata:', teamName);
+      img.src = source;
     }
     return box;
   };
