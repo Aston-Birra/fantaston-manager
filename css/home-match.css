@@ -42,3 +42,6 @@
 #adminPage .am-media-preview {display:flex;gap:10px;align-items:center;margin:9px 0;}
 #adminPage .am-media-preview img {width:60px;height:55px;object-fit:contain;}
 #adminPage .am-media-preview .am-kit-preview {width:95px;object-fit:cover;border-radius:6px;}
+
+/* FANTASTON - nessuna maglia avversaria in trasparenza nella prossima partita */
+#homePage #fhCarousel .fh-slide-match.hm-card > .hm-theme { display: none !important; }
