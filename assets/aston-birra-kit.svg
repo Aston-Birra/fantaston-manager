@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 232" role="img" aria-labelledby="shirtTitle">
+  <title id="shirtTitle">Maglia Aston Birra nera e oro</title>
+  <defs>
+    <clipPath id="cut">
+      <path d="M74 3 57 14 29 27C14 33 8 45 0 96l35 13 8-20 2 130c14 11 96 11 110 0l2-130 8 20 35-13c-8-51-14-63-29-69L143 14 126 3c-13 9-39 9-52 0Z"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#cut)">
+    <rect width="100" height="232" fill="#141414"/>
+    <rect x="100" width="100" height="232" fill="#D3AD2A"/>
+    <path d="M0 96 35 109 43 89 45 219 0 232Z" fill="#171717"/>
+    <path d="M200 96 165 109 157 89 155 219 200 232Z" fill="#D3AD2A"/>
+    <path d="M100 26v199" stroke="#705918" stroke-opacity=".2" stroke-width=".65"/>
+  </g>
+  <path d="M74 3 57 14 29 27C14 33 8 45 0 96l35 13 8-20 2 130c14 11 96 11 110 0l2-130 8 20 35-13c-8-51-14-63-29-69L143 14 126 3c-13 9-39 9-52 0Z" fill="none" stroke="#AD8B24" stroke-width="1.2"/>
+  <path d="M72 2C76 22 88 29 100 29s24-7 28-27" fill="none" stroke="#D3AD2A" stroke-width="15" stroke-linecap="round"/>
+  <path d="M74 4C79 19 88 24 100 24s21-5 26-20" fill="none" stroke="#171717" stroke-width="4" stroke-linecap="round"/>
+</svg>
