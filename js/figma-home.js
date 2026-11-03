@@ -91,7 +91,7 @@
     }
   }
 
-/* CALENDARIO HOME - PROSSIME 3 PARTITE: stemmi centrali e maglie laterali */
+/* CALENDARIO HOME - PROSSIME 3 PARTITE: maglie compatte senza stemmi */
 async function loadHomeCalendar(client) {
   const container = document.getElementById('fhCalendarPreview');
   if (!container || !client) return;
@@ -122,26 +122,6 @@ async function loadHomeCalendar(client) {
     return svg;
   };
 
-  const makeCrest = (url, teamName, isLocal) => {
-    const box = make('span', 'fh-cal-logo');
-    box.setAttribute('aria-label', 'Stemma ' + teamName);
-    const img = make('img');
-    const source = isLocal ? './assets/aston-birra-logo.png' : validImage(url);
-    const showFallback = () => {
-      box.replaceChildren(svgPath('M12 2 4 5v6c0 5.3 3.3 9 8 11 4.7-2 8-5.7 8-11V5l-8-3zM8 12l3 3 5-6'));
-    };
-    if (!source) {
-      showFallback();
-    } else {
-      img.src = source;
-      img.alt = 'Stemma ' + teamName;
-      img.loading = 'lazy';
-      img.onerror = showFallback;
-      box.append(img);
-    }
-    return box;
-  };
-
   const makeKit = (url, teamName, isAston) => {
     const box = make('span', 'fh-cal-kit');
     box.title = 'Maglia ' + teamName;
@@ -166,7 +146,7 @@ async function loadHomeCalendar(client) {
   try {
     const { data, error } = await client
       .from('matches')
-      .select('id, opponent, kickoff_at, opponent_logo_url, opponent_theme_image_url, is_home')
+      .select('id, opponent, kickoff_at, opponent_theme_image_url, is_home')
       .eq('status', 'scheduled')
       .gt('kickoff_at', new Date().toISOString())
       .order('kickoff_at', { ascending: true })
@@ -208,23 +188,19 @@ async function loadHomeCalendar(client) {
 
       const matchUp = make('div', 'fh-cal-matchup');
       const aston = make('div', 'fh-cal-side fh-cal-side--aston');
-      const astonBrand = make('div', 'fh-cal-brand');
-      astonBrand.append(
+      aston.append(
         makeKit(null, 'Aston Birra', true),
-        makeCrest(null, 'Aston Birra', true)
+        make('strong', 'fh-cal-team-name', 'Aston Birra')
       );
-      aston.append(astonBrand, make('strong', 'fh-cal-team-name', 'Aston Birra'));
 
       const versus = make('span', 'fh-cal-vs', 'VS');
       versus.setAttribute('aria-hidden', 'true');
 
       const opponent = make('div', 'fh-cal-side fh-cal-side--opponent');
-      const opponentBrand = make('div', 'fh-cal-brand');
-      opponentBrand.append(
-        makeCrest(match.opponent_logo_url, opponentName, false),
+      opponent.append(
+        make('strong', 'fh-cal-team-name', opponentName),
         makeKit(match.opponent_theme_image_url, opponentName, false)
       );
-      opponent.append(opponentBrand, make('strong', 'fh-cal-team-name', opponentName));
 
       matchUp.append(aston, versus, opponent);
       row.append(meta, matchUp);
