@@ -1,7 +1,7 @@
 
 /* FANTASTON MANAGER - SERVICE WORKER */
 
-const CACHE_NAME = "fantaston-static-v21";
+const CACHE_NAME = "fantaston-static-v22";
 
 const CORE_FILES = [
   "./index.html",
@@ -12,6 +12,7 @@ const CORE_FILES = [
 
 // Installazione: salva i file essenziali
 self.addEventListener("install", (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(CORE_FILES);
@@ -21,6 +22,7 @@ self.addEventListener("install", (event) => {
 
 // Attivazione: elimina le vecchie cache FANTASTON
 self.addEventListener("activate", (event) => {
+  event.waitUntil(Promise.resolve(self.clients.claim()));
   event.waitUntil(
     caches.keys().then((names) => {
       return Promise.all(
