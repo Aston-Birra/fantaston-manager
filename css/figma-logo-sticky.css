@@ -440,12 +440,8 @@ body:has(#homePage:not([hidden])),
   color: #AAA398 !important;
 }
 
-/* CALENDARIO HOME: righe sottili, solo maglie piccole e nomi */
-#homePage .fh-calendar .fh-calendar-card {
-  min-height: 0;
-  padding: 13px;
-}
-
+/* CALENDARIO HOME: card esterna a dimensione intera, righe sottili all'interno.
+   min-height e padding riprendono le regole responsive sopra (282px / 300px). */
 #homePage .fh-calendar-list {
   display: flex;
   flex-direction: column;
